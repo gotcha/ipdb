@@ -17,6 +17,7 @@ setup(name='ipdb',
       zip_safe=True,
       install_requires=[
           # -*- Extra requirements: -*-
+          'ipython',
       ],
       entry_points="""
       # -*- Entry points: -*-
