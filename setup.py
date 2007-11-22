@@ -1,5 +1,4 @@
 from setuptools import setup, find_packages
-import sys, os
 
 version = '0.1'
 
@@ -11,7 +10,7 @@ setup(name='ipdb',
       keywords='pdb ipython',
       author='Godefroid Chapelle',
       author_email='gotcha@bubblenet.be',
-      url='',
+      url='http://trac.gotcha.python-hosting.com/file/bubblenet/pythoncode/ipdb/README.txt?format=txt',
       license='GPL',
       packages=find_packages(exclude=['ez_setup', 'examples', 'tests']),
       include_package_data=True,
