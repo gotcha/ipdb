@@ -1,10 +1,13 @@
+Changelog
+=========
+
 0.2 (unreleased)
 ----------------
 
-- Nothing changed yet.
+- Added ``pm()`` 
 
 
 0.1 (2010-04-26)
 ----------------
 
-* first non dev release
+- First "non dev" release

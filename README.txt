@@ -1,17 +1,25 @@
-IPython pdb
------------
+IPython `pdb`
+=============
 
-allows to use 
+Use 
 
 ::
 
         from ipdb import set_trace; set_trace()
 
-You then get all the nice stuff from IPython (tab completion, nice tracebacks)
-right in pdb.
+or
+
+::
+
+        from ipdb import pm; pm()
+
+You then get all IPython features (tab completion, nice tracebacks)
+right in `pdb`.
 
 
 Credits
--------
+=======
 
-   * patch from Jean Jordaan for correct setup of colors
+   * orginal first lines: Godefroid Chapelle http://bubblenet.be
+   * correct colors setup: patch by Jean Jordaan
+   * ``pm()``: patch by Paulo Benedict Ang 
