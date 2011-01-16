@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 version = '0.3dev'
 
-long_description = (file('README.txt').read() +
+long_description = (file('README.rst').read() +
     '\n\n' + file('HISTORY.txt').read())
 
 
@@ -14,7 +14,7 @@ setup(name='ipdb',
       keywords='pdb ipython',
       author='Godefroid Chapelle',
       author_email='gotcha@bubblenet.be',
-      url='https://trac.bubblenet.be/browser/bubblenet/ipdb/trunk',
+      url='https://gotcha@github.com/gotcha/ipdb.git',
       license='GPL',
       packages=find_packages(exclude=['ez_setup', 'examples', 'tests']),
       include_package_data=True,

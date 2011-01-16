@@ -12,9 +12,15 @@ def set_trace():
     Pdb(def_colors).set_trace(sys._getframe().f_back)
 
 
-def pm():
+def post_mortem(tb):
     ip = ipapi.get()
     def_colors = ip.options.colors
     p = Pdb(def_colors)
     p.reset()
-    p.interaction(None, sys.last_traceback)
+    while tb.tb_next is not None:
+        tb = tb.tb_next
+    p.interaction(tb.tb_frame, tb)
+
+
+def pm():
+    post_mortem(sys.last_traceback)

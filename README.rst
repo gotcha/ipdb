@@ -16,10 +16,7 @@ or
 You then get all IPython features (tab completion, nice tracebacks)
 right in `pdb`.
 
+PDBDebugMode support
+--------------------
 
-Credits
-=======
-
-   * orginal first lines: Godefroid Chapelle http://bubblenet.be
-   * correct colors setup: patch by Jean Jordaan
-   * ``pm()``: patch by Paulo Benedict Ang 
+``ipdb`` support is integrated in Zope 2 ``Products.PDBDebugMode``. 

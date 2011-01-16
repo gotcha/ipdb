@@ -4,16 +4,20 @@ Changelog
 0.3 (unreleased)
 ----------------
 
-- Nothing changed yet.
+- Add ``post_mortem()`` for ``Products.PDBDebugMode`` support.
+  [Jean Jordaan]
+
+- Moved to github.com.
 
 
 0.2 (2010-10-20)
 ----------------
 
-- Added ``pm()`` 
+- Added ``pm()``.
+  [Paulo Benedict Ang]
 
 
 0.1 (2010-04-26)
 ----------------
 
-- First "non dev" release
+- First "non dev" release.
