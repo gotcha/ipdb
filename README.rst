@@ -21,3 +21,8 @@ PDBDebugMode support
 
 ``ipdb`` support is integrated in Zope 2 ``Products.PDBDebugMode``. 
 If ``ipdb`` is available, it is used in place of ``pdb``.
+
+Development
+===========
+
+``ipdb`` source code and tracker are at https://github.com/gotcha/ipdb.
