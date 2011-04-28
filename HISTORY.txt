@@ -4,7 +4,8 @@ Changelog
 0.4 (unreleased)
 ----------------
 
-- Nothing changed yet.
+- Fixed post_mortem when the traceback is None.
+  [maurits]
 
 
 0.3 (2011-01-16)
