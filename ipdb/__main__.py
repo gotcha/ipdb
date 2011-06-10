@@ -1,7 +1,12 @@
 import sys
 import os
 import traceback
-from pdb import Restart
+try:
+    from pdb import Restart
+except ImportError:
+    class Restart(Exception):
+        pass
+
 from IPython.Debugger import Pdb
 from IPython.Shell import IPShell
 from IPython import ipapi
