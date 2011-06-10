@@ -4,7 +4,12 @@ Changelog
 0.4 (unreleased)
 ----------------
 
-- Nothing changed yet.
+- Allow use of python -m ipdb mymodule.py
+  Python 2.7 only
+  [gotcha]
+
+- Fixed post_mortem when the traceback is None.
+  [maurits]
 
 
 0.3 (2011-01-16)

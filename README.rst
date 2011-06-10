@@ -16,6 +16,12 @@ or
 You then get all IPython features (tab completion, nice tracebacks)
 right in `pdb`.
 
+With Python 2.7 only, you can also use
+
+::
+
+        $> python -m ipdb mymodule.py
+
 PDBDebugMode support
 --------------------
 

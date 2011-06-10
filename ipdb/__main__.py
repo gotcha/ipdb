@@ -25,6 +25,8 @@ def post_mortem(tb):
     def_colors = ip.options.colors
     p = Pdb(def_colors)
     p.reset()
+    if tb is None:
+        return
     while tb.tb_next is not None:
         tb = tb.tb_next
     p.interaction(tb.tb_frame, tb)
