@@ -20,7 +20,7 @@ With Python 2.7 only, you can also use
 
 ::
 
-        $> python -m ipdb mymodule.py
+        $ python -m ipdb mymodule.py
 
 PDBDebugMode support
 --------------------
