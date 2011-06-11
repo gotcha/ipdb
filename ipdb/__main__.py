@@ -1,6 +1,7 @@
 import sys
 import os
 import traceback
+
 try:
     from pdb import Restart
 except ImportError:
@@ -8,21 +9,25 @@ except ImportError:
         pass
 
 from IPython.Debugger import Pdb
-from IPython.Shell import IPShell
+from IPython.Debugger import BdbQuit_excepthook
 from IPython import ipapi
 
-shell = IPShell(argv=[''])
+ipapi.make_session()
+ip = ipapi.get()
+def_colors = ip.options.colors
 
 
-def set_trace():
-    ip = ipapi.get()
-    def_colors = ip.options.colors
-    Pdb(def_colors).set_trace(sys._getframe().f_back)
+def set_trace(frame=None):
+    BdbQuit_excepthook.excepthook_ori = sys.excepthook
+    sys.excepthook = BdbQuit_excepthook
+    if frame is None:
+        frame = sys._getframe().f_back
+    Pdb(def_colors).set_trace(frame)
 
 
 def post_mortem(tb):
-    ip = ipapi.get()
-    def_colors = ip.options.colors
+    BdbQuit_excepthook.excepthook_ori = sys.excepthook
+    sys.excepthook = BdbQuit_excepthook
     p = Pdb(def_colors)
     p.reset()
     if tb is None:
@@ -55,8 +60,6 @@ def main():
     # modified by the script being debugged. It's a bad idea when it was
     # changed by the user from the command line. There is a "restart" command
     # which allows explicit specification of command line arguments.
-    ip = ipapi.get()
-    def_colors = ip.options.colors
     pdb = Pdb(def_colors)
     while 1:
         try:
