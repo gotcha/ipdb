@@ -9,11 +9,15 @@ except ImportError:
         pass
 
 from IPython.Debugger import Pdb
+from IPython.Shell import IPShell
+
 from IPython.Debugger import BdbQuit_excepthook
 from IPython import ipapi
 
-ipapi.make_session()
 ip = ipapi.get()
+if ip is None:
+    IPShell(argv=[''])
+    ip = ipapi.get()
 def_colors = ip.options.colors
 
 
