@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.4 (unreleased)
+0.4 (2011-06-13)
 ----------------
 
 - When used from IPython, use its colors.
