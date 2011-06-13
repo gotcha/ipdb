@@ -5,7 +5,7 @@ Changelog
 ----------------
 
 - When used from IPython, use its colors.
-  Closes https://github.com/gotcha/ipdb/issues/2 
+  Closes https://github.com/gotcha/ipdb/issues/1
   [gotcha]
 
 - Fixed errors when exiting with "q". 
