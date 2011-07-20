@@ -17,9 +17,10 @@ if IPython.__version__ > '0.10.2':
     except NameError:
         from IPython.frontend.terminal.embed import InteractiveShellEmbed    
         ipshell = InteractiveShellEmbed()
+        def_colors = ipshell.colors
     else:
         def ipshell(): pass
-    def_colors = ipshell.colors
+        def_colors = get_ipython.im_self.colors
 else:
     from IPython.Debugger import Pdb, BdbQuit_excepthook
     from IPython.Shell import IPShell
