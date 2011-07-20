@@ -8,26 +8,35 @@ except ImportError:
     class Restart(Exception):
         pass
 
-from IPython.Debugger import Pdb
-from IPython.Shell import IPShell
+import IPython
 
-from IPython.Debugger import BdbQuit_excepthook
-from IPython import ipapi
+if IPython.__version__ > '0.10.2':
+    from IPython.core.debugger import Pdb, BdbQuit_excepthook
+    try:
+        get_ipython
+    except NameError:
+        from IPython.frontend.terminal.embed import InteractiveShellEmbed    
+        ipshell = InteractiveShellEmbed()
+    else:
+        def ipshell(): pass
+    def_colors = ipshell.colors
+else:
+    from IPython.Debugger import Pdb, BdbQuit_excepthook
+    from IPython.Shell import IPShell
+    from IPython import ipapi
 
-ip = ipapi.get()
-if ip is None:
-    IPShell(argv=[''])
     ip = ipapi.get()
-def_colors = ip.options.colors
-
-
+    if ip is None:
+        IPShell(argv=[''])
+        ip = ipapi.get()
+    def_colors = ip.options.colors
+                
 def set_trace(frame=None):
     BdbQuit_excepthook.excepthook_ori = sys.excepthook
     sys.excepthook = BdbQuit_excepthook
     if frame is None:
         frame = sys._getframe().f_back
     Pdb(def_colors).set_trace(frame)
-
 
 def post_mortem(tb):
     BdbQuit_excepthook.excepthook_ori = sys.excepthook
@@ -39,7 +48,6 @@ def post_mortem(tb):
     while tb.tb_next is not None:
         tb = tb.tb_next
     p.interaction(tb.tb_frame, tb)
-
 
 def pm():
     post_mortem(sys.last_traceback)
@@ -86,7 +94,6 @@ def main():
             pdb.interaction(None, t)
             print "Post mortem debugger finished. The " + mainpyfile + \
                   " will be restarted"
-
 
 if __name__ == '__main__':
     main()
