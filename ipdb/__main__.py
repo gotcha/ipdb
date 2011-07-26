@@ -18,8 +18,7 @@ if IPython.__version__ > '0.10.2':
         from IPython.frontend.terminal.embed import InteractiveShellEmbed    
         ipshell = InteractiveShellEmbed()
         def_colors = ipshell.colors
-    else:
-        def ipshell(): pass
+    else:  
         def_colors = get_ipython.im_self.colors
 else:
     from IPython.Debugger import Pdb, BdbQuit_excepthook
@@ -39,6 +38,7 @@ def set_trace(frame=None):
         frame = sys._getframe().f_back
     Pdb(def_colors).set_trace(frame)
 
+
 def post_mortem(tb):
     BdbQuit_excepthook.excepthook_ori = sys.excepthook
     sys.excepthook = BdbQuit_excepthook
@@ -49,6 +49,7 @@ def post_mortem(tb):
     while tb.tb_next is not None:
         tb = tb.tb_next
     p.interaction(tb.tb_frame, tb)
+
 
 def pm():
     post_mortem(sys.last_traceback)
