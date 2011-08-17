@@ -13,8 +13,8 @@ or
 
         from ipdb import pm; pm()
 
-You then get all IPython features (tab completion, nice tracebacks)
-right in `pdb`.
+You then get all IPython features (tab completion, syntax highlighting, better tracebacks, 
+better introspection) right in `pdb`.
 
 With Python 2.7 only, you can also use
 
