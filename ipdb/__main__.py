@@ -15,11 +15,15 @@ if IPython.__version__ > '0.10.2':
     try:
         get_ipython
     except NameError:
-        from IPython.frontend.terminal.embed import InteractiveShellEmbed    
+        from IPython.frontend.terminal.embed import InteractiveShellEmbed
         ipshell = InteractiveShellEmbed()
         def_colors = ipshell.colors
-    else:  
+    else:
         def_colors = get_ipython.im_self.colors
+
+    # setup stdout to ensure output is available with nose
+    from IPython.utils import io
+    io.stdout = sys.stdout = sys.__stdout__
 else:
     from IPython.Debugger import Pdb, BdbQuit_excepthook
     from IPython.Shell import IPShell
@@ -30,7 +34,12 @@ else:
         IPShell(argv=[''])
         ip = ipapi.get()
     def_colors = ip.options.colors
-                
+
+    # setup stdout to ensure output is available with nose
+    from IPython.Shell import Term
+    Term.cout = sys.stdout = sys.__stdout__
+
+
 def set_trace(frame=None):
     BdbQuit_excepthook.excepthook_ori = sys.excepthook
     sys.excepthook = BdbQuit_excepthook
