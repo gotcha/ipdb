@@ -21,9 +21,11 @@ if IPython.__version__ > '0.10.2':
     else:
         def_colors = get_ipython.im_self.colors
 
-    # setup stdout to ensure output is available with nose
     from IPython.utils import io
-    io.stdout = sys.stdout = sys.__stdout__
+
+    def update_stdout():
+        # setup stdout to ensure output is available with nose
+        io.stdout = sys.stdout = sys.__stdout__
 else:
     from IPython.Debugger import Pdb, BdbQuit_excepthook
     from IPython.Shell import IPShell
@@ -35,12 +37,15 @@ else:
         ip = ipapi.get()
     def_colors = ip.options.colors
 
-    # setup stdout to ensure output is available with nose
     from IPython.Shell import Term
-    Term.cout = sys.stdout = sys.__stdout__
+
+    def update_stdout():
+        # setup stdout to ensure output is available with nose
+        Term.cout = sys.stdout = sys.__stdout__
 
 
 def set_trace(frame=None):
+    update_stdout()
     BdbQuit_excepthook.excepthook_ori = sys.excepthook
     sys.excepthook = BdbQuit_excepthook
     if frame is None:
@@ -49,6 +54,7 @@ def set_trace(frame=None):
 
 
 def post_mortem(tb):
+    update_stdout()
     BdbQuit_excepthook.excepthook_ori = sys.excepthook
     sys.excepthook = BdbQuit_excepthook
     p = Pdb(def_colors)
