@@ -22,7 +22,7 @@ setup(name='ipdb',
       install_requires=[
           'ipython',
       ],
-      entry_points="""
-      # -*- Entry points: -*-
-      """,
-      )
+      entry_points={
+          'console_scripts': ['ipdb = ipdb.main']
+      },
+)

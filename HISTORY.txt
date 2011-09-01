@@ -4,6 +4,9 @@ Changelog
 0.6 (unreleased)
 ----------------
 
+- Add setuptools ``console_scripts`` entry point.
+  [akrito] 
+
 - Nose support.
   Closes https://github.com/gotcha/ipdb/issues/8
   [akaihola, gotcha]
