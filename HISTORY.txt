@@ -4,13 +4,14 @@ Changelog
 0.6 (unreleased)
 ----------------
 
-- Nothing changed yet.
-
+- Nose support.
+  Closes https://github.com/gotcha/ipdb/issues/8
+  [akaihola, gotcha]
 
 0.5 (2011-08-05)
 ----------------
 
-- IPython 0.11 support
+- IPython 0.11 support.
   [lebedov]
 
 
