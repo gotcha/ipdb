@@ -32,6 +32,6 @@ setup(name='ipdb',
           'ipython',
       ],
       entry_points={
-          'console_scripts': ['ipdb = ipdb.main']
+          'console_scripts': ['ipdb = ipdb.__main__.main']
       },
 )
