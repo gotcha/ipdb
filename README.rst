@@ -13,8 +13,15 @@ or
 
         from ipdb import pm; pm()
 
-You then get all IPython features (tab completion, syntax highlighting, better tracebacks, 
-better introspection) right in `pdb`.
+You then get all IPython features (tab completion, syntax highlighting, better
+tracebacks, better introspection) right in `pdb`.
+
+If you install ``ipdb`` with a tool which supports ``setuptools`` entry points,
+an ``ipdb`` script is made for you. You can use it to debug your scripts like
+
+::
+
+        $ bin/ipdb mymodule.py
 
 With Python 2.7 only, you can also use
 
