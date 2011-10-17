@@ -4,7 +4,8 @@ Changelog
 0.7 (unreleased)
 ----------------
 
-- Nothing changed yet.
+- State dependency on IPython later or equal to 0.10.
+  [gotcha]
 
 
 0.6 (2011-09-01)
@@ -16,6 +17,7 @@ Changelog
 - Nose support.
   Closes https://github.com/gotcha/ipdb/issues/8
   [akaihola, gotcha]
+
 
 0.5 (2011-08-05)
 ----------------
