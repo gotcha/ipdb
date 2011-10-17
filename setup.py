@@ -29,7 +29,7 @@ setup(name='ipdb',
       include_package_data=True,
       zip_safe=True,
       install_requires=[
-          'ipython',
+          'ipython >= 0.10',
       ],
       entry_points={
           'console_scripts': ['ipdb = ipdb.__main__:main']
