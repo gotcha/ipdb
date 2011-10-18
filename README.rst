@@ -60,5 +60,5 @@ ipdbplugin
 ipdbplugin_ is a nose_ test runner plugin that also uses the IPython debugger
 instead of ``pdb``. (It does not depend on ``ipdb`` anymore).
 
-.. _ipdbplugin: http://pypi.python.org/pypi/iw.debug
+.. _ipdbplugin: http://pypi.python.org/pypi/ipdbplugin
 .. _nose: http://readthedocs.org/docs/nose
