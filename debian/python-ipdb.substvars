@@ -1,0 +1,4 @@
+python:Versions=2.6
+python:Provides=python2.6-ipdb
+python:Depends=python (<< 2.7), python (>= 2.6), python-support (>= 0.90.0)
+misc:Depends=
