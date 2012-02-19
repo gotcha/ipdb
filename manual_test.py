@@ -1,5 +1,5 @@
 def output(arg):
-    print "MANUAL: arg=", arg
+    print("MANUAL: arg=", arg)
 
 
 def main():
