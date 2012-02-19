@@ -2,8 +2,8 @@ from setuptools import setup, find_packages
 
 version = '0.7dev'
 
-long_description = (file('README.rst').read() +
-    '\n\n' + file('HISTORY.txt').read())
+long_description = (open('README.rst').read() +
+    '\n\n' + open('HISTORY.txt').read())
 
 
 setup(name='ipdb',
