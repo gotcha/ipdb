@@ -4,7 +4,8 @@ Changelog
 0.7 (unreleased)
 ----------------
 
-- Nothing changed yet.
+- Python 3 support.
+  [Piet Delport]
 
 
 0.6.1 (2011-10-17)
