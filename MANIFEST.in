@@ -1,0 +1,3 @@
+include HISTORY.txt
+include README.rst
+include manual_test.py

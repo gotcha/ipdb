@@ -1,4 +1,13 @@
 bin
 lib
 include
-dist
+
+# Python
+*.pyc
+/__pycache__/
+
+# setuptools / distribute
+/*.egg-info/
+/*.egg/
+/build/
+/dist/
