@@ -1,4 +1,4 @@
-from __main__ import set_trace, post_mortem, pm
+from ipdb.__main__ import set_trace, post_mortem, pm
 
 pm           # please pyflakes
 post_mortem  # please pyflakes
