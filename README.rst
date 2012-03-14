@@ -1,20 +1,25 @@
 IPython `pdb`
 =============
 
-Use 
+Use
+---
 
+ipdb exports functions to access the IPython_ debugger, which features 
+tab completion, syntax highlighting, better tracebacks, better introspection
+with the same interface as the `pdb` module.
+
+Example usage:
 ::
 
-        from ipdb import set_trace; set_trace()
+        import ipdb
+        ipdb.set_trace()
+        ipdb.pm()
+        ipdb.run('x[0] = 3')
+        result = ipdb.runcall(function, arg0, arg1, kwarg='foo')
+        result = ipdb.runeval('f(1,2) - 3')
 
-or
-
-::
-
-        from ipdb import pm; pm()
-
-You then get all IPython_ features (tab completion, syntax highlighting, better
-tracebacks, better introspection) right in `pdb`.
+The post-mortem function, ``ipdb.pm()``, is equivalent to the magic function 
+``%debug``.
 
 .. _IPython: http://ipython.org
 

@@ -4,7 +4,8 @@ Changelog
 0.7 (unreleased)
 ----------------
 
-- Nothing changed yet.
+- Added the functions ``runcall``, ``runeval`` and ``run``.
+  [dimasad]
 
 
 0.6.1 (2011-10-17)
