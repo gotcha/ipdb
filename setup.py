@@ -2,8 +2,8 @@ from setuptools import setup, find_packages
 
 version = '0.7dev'
 
-long_description = (file('README.rst').read() +
-    '\n\n' + file('HISTORY.txt').read())
+long_description = (open('README.rst').read() +
+    '\n\n' + open('HISTORY.txt').read())
 
 
 setup(name='ipdb',
@@ -15,6 +15,8 @@ setup(name='ipdb',
         'Programming Language :: Python :: 2.5',
         'Programming Language :: Python :: 2.6',
         'Programming Language :: Python :: 2.7',
+        'Programming Language :: Python :: 3',
+        'Programming Language :: Python :: 3.2',
         'Operating System :: MacOS :: MacOS X',
         'Operating System :: POSIX :: Linux',
         'Operating System :: Microsoft :: Windows',
@@ -34,4 +36,5 @@ setup(name='ipdb',
       entry_points={
           'console_scripts': ['ipdb = ipdb.__main__:main']
       },
+      use_2to3=True,
 )

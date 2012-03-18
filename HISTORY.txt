@@ -4,7 +4,8 @@ Changelog
 0.7 (unreleased)
 ----------------
 
-- Nothing changed yet.
+- Python 3 support.
+  [Piet Delport]
 - Added the functions ``runcall``, ``runeval`` and ``run``.
   [dimasad]
 
