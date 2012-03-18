@@ -70,6 +70,18 @@ def pm():
     post_mortem(sys.last_traceback)
 
 
+def run(statement, globals=None, locals=None):
+    Pdb(def_colors).run(statement, globals, locals)
+
+
+def runcall(*args, **kwargs):
+    return Pdb(def_colors).runcall(*args, **kwargs)
+
+
+def runeval(expression, globals=None, locals=None):
+    return Pdb(def_colors).runeval(expression, globals, locals)
+
+
 def main():
     if not sys.argv[1:] or sys.argv[1] in ("--help", "-h"):
         print "usage: ipdb.py scriptfile [arg] ..."

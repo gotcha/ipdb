@@ -6,6 +6,8 @@ Changelog
 
 - Python 3 support.
   [Piet Delport]
+- Added the functions ``runcall``, ``runeval`` and ``run``.
+  [dimasad]
 
 
 0.6.1 (2011-10-17)
