@@ -36,6 +36,15 @@ With Python 2.7 only, you can also use
 
         $ python -m ipdb mymodule.py
 
+You can also enclose code with the ``with`` statement to launch ipdb if an exception is raised:
+
+::
+
+        from ipdb import launch_ipdb_on_exception
+
+        with launch_ipdb_on_exception():
+            [...]
+
 Development
 -----------
 
