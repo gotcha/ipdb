@@ -15,6 +15,8 @@ import sys
 import os
 import traceback
 
+from contextlib import contextmanager
+
 try:
     from pdb import Restart
 except ImportError:
@@ -93,6 +95,18 @@ def runcall(*args, **kwargs):
 
 def runeval(expression, globals=None, locals=None):
     return Pdb(def_colors).runeval(expression, globals, locals)
+
+
+@contextmanager
+def launch_ipdb_on_exception():
+    try:
+        yield
+    except Exception:
+        e, m, tb = sys.exc_info()
+        print >>sys.stderr, m.__repr__()
+        post_mortem(tb)
+    finally:
+        pass
 
 
 def main():
