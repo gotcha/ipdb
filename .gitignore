@@ -11,3 +11,6 @@ include
 /*.egg/
 /build/
 /dist/
+
+# tox
+.tox
