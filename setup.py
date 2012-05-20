@@ -30,6 +30,7 @@ setup(name='ipdb',
       packages=find_packages(exclude=['ez_setup', 'examples', 'tests']),
       include_package_data=True,
       zip_safe=True,
+      test_suite='tests',
       install_requires=[
           'ipython >= 0.10',
       ],
