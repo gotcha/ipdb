@@ -43,11 +43,16 @@ else:
         # setup stdout to ensure output is available with nose
         Term.cout = sys.stdout = sys.__stdout__
 
+def wrap_sys_excepthook():
+    # make sure we wrap it only once or we would end up with a cycle
+    #  BdbQuit_excepthook.excepthook_ori == BdbQuit_excepthook
+    if sys.excepthook != BdbQuit_excepthook:
+        BdbQuit_excepthook.excepthook_ori = sys.excepthook
+        sys.excepthook = BdbQuit_excepthook
 
 def set_trace(frame=None):
     update_stdout()
-    BdbQuit_excepthook.excepthook_ori = sys.excepthook
-    sys.excepthook = BdbQuit_excepthook
+    wrap_sys_excepthook()
     if frame is None:
         frame = sys._getframe().f_back
     Pdb(def_colors).set_trace(frame)
@@ -55,8 +60,7 @@ def set_trace(frame=None):
 
 def post_mortem(tb):
     update_stdout()
-    BdbQuit_excepthook.excepthook_ori = sys.excepthook
-    sys.excepthook = BdbQuit_excepthook
+    wrap_sys_excepthook()
     p = Pdb(def_colors)
     p.reset()
     if tb is None:
