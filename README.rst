@@ -50,6 +50,8 @@ Development
 
 ``ipdb`` source code and tracker are at https://github.com/gotcha/ipdb.
 
+Pull requests should take care of updating the changelog ``HISTORY.txt``.
+
 Third-party support
 -------------------
 

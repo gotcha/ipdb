@@ -4,8 +4,21 @@ Changelog
 0.7 (unreleased)
 ----------------
 
+- Add ``launch_ipdb_on_exception`` context manager.
+  [Psycojoker]
+
+- Wrap sys.excepthook only once.
+  [marciomazza]
+
+- Add GPL file and refer in headers.
+  [stan3]
+
 - Python 3 support.
   [Piet Delport]
+
+- Basic tests.
+  [msabramo]
+
 - Added the functions ``runcall``, ``runeval`` and ``run``.
   [dimasad]
 
