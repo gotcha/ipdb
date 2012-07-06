@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.7 (unreleased)
+0.7 (2012-07-06)
 ----------------
 
 - Add ``launch_ipdb_on_exception`` context manager.
