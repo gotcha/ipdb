@@ -1,12 +1,12 @@
 # Copyright (c) 2007, 2010, 2011, 2012 Godefroid Chapelle
-# 
+#
 # This file is part of ipdb.
 # GNU package is free software: you can redistribute it and/or modify it under
-# the terms of the GNU General Public License as published by the Free 
-# Software Foundation, either version 2 of the License, or (at your option) 
+# the terms of the GNU General Public License as published by the Free
+# Software Foundation, either version 2 of the License, or (at your option)
 # any later version.
 #
-# GNU package is distributed in the hope that it will be useful, but 
+# GNU package is distributed in the hope that it will be useful, but
 # WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
 # or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
 # for more details.
@@ -24,7 +24,6 @@ setup(name='ipdb',
       description="IPython-enabled pdb",
       long_description=long_description,
       classifiers=[
-        'Programming Language :: Python :: 2.4',
         'Programming Language :: Python :: 2.5',
         'Programming Language :: Python :: 2.6',
         'Programming Language :: Python :: 2.7',
