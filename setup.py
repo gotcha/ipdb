@@ -13,7 +13,7 @@
 
 from setuptools import setup, find_packages
 
-version = '0.7'
+version = '0.7.1dev'
 
 long_description = (open('README.rst').read() +
     '\n\n' + open('HISTORY.txt').read())
