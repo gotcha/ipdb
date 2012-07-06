@@ -45,6 +45,11 @@ You can also enclose code with the ``with`` statement to launch ipdb if an excep
         with launch_ipdb_on_exception():
             [...]
 
+.. warning::
+   Context managers were introduced in Python 2.5.
+   Adding a context manager implies dropping Python 2.4 support.
+   Use ``ipdb==0.6`` with 2.4.
+
 Development
 -----------
 
