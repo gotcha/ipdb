@@ -11,12 +11,14 @@
 # or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
 # for more details.
 
-You should have received a copy of the GNU General Public License along with this program. If not, see http://www.gnu.org/licenses/.
-from ipdb.__main__ import set_trace, post_mortem, pm, run, runcall, runeval
+# You should have received a copy of the GNU General Public License along with this program. If not, see http://www.gnu.org/licenses/.
 
-pm           # please pyflakes
-post_mortem  # please pyflakes
-run          # please pyflakes
-runcall      # please pyflakes
-runeval      # please pyflakes
-set_trace    # please pyflakes
+from ipdb.__main__ import set_trace, post_mortem, pm, run, runcall, runeval, launch_ipdb_on_exception
+
+pm                       # please pyflakes
+post_mortem              # please pyflakes
+run                      # please pyflakes
+runcall                  # please pyflakes
+runeval                  # please pyflakes
+set_trace                # please pyflakes
+launch_ipdb_on_exception # please pyflakes
