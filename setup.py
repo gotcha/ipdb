@@ -12,11 +12,18 @@
 # for more details.
 
 from setuptools import setup, find_packages
+from sys import version_info
 
 version = '0.7.1dev'
 
 long_description = (open('README.rst').read() +
     '\n\n' + open('HISTORY.txt').read())
+
+
+if version_info.major == 2:
+    console_script = 'ipdb'
+else:
+    console_script = 'ipdb%d' % version_info.major
 
 
 setup(name='ipdb',
@@ -47,7 +54,7 @@ setup(name='ipdb',
           'ipython >= 0.10',
       ],
       entry_points={
-          'console_scripts': ['ipdb = ipdb.__main__:main']
+          'console_scripts': ['%s = ipdb.__main__:main' % console_script]
       },
       use_2to3=True,
 )

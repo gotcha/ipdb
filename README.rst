@@ -24,13 +24,19 @@ The post-mortem function, ``ipdb.pm()``, is equivalent to the magic function
 .. _IPython: http://ipython.org
 
 If you install ``ipdb`` with a tool which supports ``setuptools`` entry points,
-an ``ipdb`` script is made for you. You can use it to debug your scripts like
+an ``ipdb`` script is made for you. You can use it to debug your python3 scripts like
+
+::
+
+        $ bin/ipdb3 mymodule.py
+
+And for python2
 
 ::
 
         $ bin/ipdb mymodule.py
 
-With Python 2.7 only, you can also use
+Alternatively with Python 2.7 only, you can also use
 
 ::
 
