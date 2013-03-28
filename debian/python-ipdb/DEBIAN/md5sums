@@ -1,0 +1,14 @@
+4ade0228e46b7101e0d7e9877e79f4ee  usr/bin/ipdb
+2fddca19e48c6c5f3f9873dad2463731  usr/share/doc/python-ipdb/changelog.Debian.gz
+5ee3d256774b1218fc3b2dad217c4183  usr/share/doc/python-ipdb/changelog.gz
+d41d8cd98f00b204e9800998ecf8427e  usr/share/doc/python-ipdb/copyright
+e12b5ba17bff7029011e2e473ec08cc5  usr/share/pyshared/ipdb-0.7dev.egg-info/PKG-INFO
+5d044b09a24c0aff71ad5772a5219c91  usr/share/pyshared/ipdb-0.7dev.egg-info/SOURCES.txt
+68b329da9893e34099c7d8ad5cb9c940  usr/share/pyshared/ipdb-0.7dev.egg-info/dependency_links.txt
+2f7f059f6abd2370c0bd3eecd9510a07  usr/share/pyshared/ipdb-0.7dev.egg-info/entry_points.txt
+303699763fd4a62a459e70ca59e8f640  usr/share/pyshared/ipdb-0.7dev.egg-info/requires.txt
+158bca524ca255871e8af499a765096d  usr/share/pyshared/ipdb-0.7dev.egg-info/top_level.txt
+68b329da9893e34099c7d8ad5cb9c940  usr/share/pyshared/ipdb-0.7dev.egg-info/zip-safe
+e429a33382830fe6a4bc82e1d499dbd7  usr/share/pyshared/ipdb/__init__.py
+fd9cb1cfd57792659bd0fe4e8d070bc1  usr/share/pyshared/ipdb/__main__.py
+a421faa7b3b3a85536a50a86f202d811  usr/share/python-support/python-ipdb.public

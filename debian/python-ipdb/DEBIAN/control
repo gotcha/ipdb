@@ -1,0 +1,20 @@
+Package: python-ipdb
+Source: ipdb
+Version: 0.7dev-1
+Architecture: all
+Maintainer: Javier Ubillos <jav@spotify.com>
+Installed-Size: 112
+Depends: python (<< 2.7), python (>= 2.6), python-support (>= 0.90.0), ipython (>= 0.10)
+Provides: python2.6-ipdb
+Section: python
+Priority: optional
+Description: IPython-enabled pdb
+ IPython 'pdb'
+ Use
+         from ipdb import set_trace; set_trace()
+ or
+         from ipdb import pm; pm()
+ You then get all IPython_ features (tab completion, syntax highlighting, better
+ tracebacks, better introspection) right in `pdb`.
+ IPython: http://ipython.org
+Python-Version: 2.6

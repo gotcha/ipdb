@@ -1,0 +1,10 @@
+setup.py
+ipdb/__init__.py
+ipdb/__main__.py
+ipdb.egg-info/PKG-INFO
+ipdb.egg-info/SOURCES.txt
+ipdb.egg-info/dependency_links.txt
+ipdb.egg-info/entry_points.txt
+ipdb.egg-info/requires.txt
+ipdb.egg-info/top_level.txt
+ipdb.egg-info/zip-safe
