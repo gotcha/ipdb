@@ -41,9 +41,9 @@ if IPython.__version__ > '0.10.2':
                 embed = __import__(module, fromlist=["InteractiveShellEmbed"])
                 InteractiveShellEmbed = embed.InteractiveShellEmbed
             except ImportError:
+                count -= 1
                 if count == 0:
                     raise
-                count -= 1
 
         ipshell = InteractiveShellEmbed()
         def_colors = ipshell.colors
