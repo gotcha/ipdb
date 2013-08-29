@@ -30,15 +30,20 @@ if IPython.__version__ > '0.10.2':
     try:
         get_ipython
     except NameError:
-        try:
-            # Older versions of ipython
-            from IPython.frontend.terminal.embed import InteractiveShellEmbed
-        except ImportError:
+        # Make it more resilient to different versions of IPython and try to
+        # find a module.
+        possible_modules = ['IPython.frontend.terminal.embed',  # Older IPython
+                            'IPython.terminal.embed']           # Newer IPython
+
+        count = len(possible_modules)
+        for module in possible_modules:
             try:
-                # Newer versions of ipython
-                from IPython.terminal.embed import InteractiveShellEmbed
+                embed = __import__(module, fromlist=["InteractiveShellEmbed"])
+                InteractiveShellEmbed = embed.InteractiveShellEmbed
             except ImportError:
-                raise
+                if count == 0:
+                    raise
+                count -= 1
 
         ipshell = InteractiveShellEmbed()
         def_colors = ipshell.colors
