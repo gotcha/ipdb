@@ -30,7 +30,16 @@ if IPython.__version__ > '0.10.2':
     try:
         get_ipython
     except NameError:
-        from IPython.terminal.embed import InteractiveShellEmbed
+        try:
+            # Older versions of ipython
+            from IPython.frontend.terminal.embed import InteractiveShellEmbed
+        except ImportError:
+            try:
+                # Newer versions of ipython
+                from IPython.terminal.embed import InteractiveShellEmbed
+            except ImportError:
+                raise
+
         ipshell = InteractiveShellEmbed()
         def_colors = ipshell.colors
     else:
