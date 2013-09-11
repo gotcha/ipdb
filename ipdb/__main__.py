@@ -32,8 +32,8 @@ if IPython.__version__ > '0.10.2':
     except NameError:
         # Make it more resilient to different versions of IPython and try to
         # find a module.
-        possible_modules = ['IPython.frontend.terminal.embed',  # Older IPython
-                            'IPython.terminal.embed']           # Newer IPython
+        possible_modules = ['IPython.terminal.embed',           # Newer IPython
+                            'IPython.frontend.terminal.embed']  # Older IPython
 
         count = len(possible_modules)
         for module in possible_modules:
