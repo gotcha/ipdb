@@ -44,6 +44,8 @@ if IPython.__version__ > '0.10.2':
                 count -= 1
                 if count == 0:
                     raise
+            else:
+                break
 
         ipshell = InteractiveShellEmbed()
         def_colors = ipshell.colors
