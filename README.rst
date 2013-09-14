@@ -1,6 +1,9 @@
 IPython `pdb`
 =============
 
+.. image:: https://travis-ci.org/gotcha/ipdb.png?branch=master
+  :target: https://travis-ci.org/gotcha/ipdb
+
 Use
 ---
 

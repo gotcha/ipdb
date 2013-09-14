@@ -4,7 +4,7 @@ Changelog
 0.7.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Add Travis CI configuration.
 
 
 0.7 (2012-07-06)
