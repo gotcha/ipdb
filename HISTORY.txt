@@ -4,7 +4,7 @@ Changelog
 0.7.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Index into version_info in setup.py for Python 2.6 compatibility.
 
 
 0.7 (2012-07-06)
