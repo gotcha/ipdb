@@ -20,7 +20,7 @@ long_description = (open('README.rst').read() +
     '\n\n' + open('HISTORY.txt').read())
 
 
-if version_info.major == 2:
+if version_info[0] == 2:
     console_script = 'ipdb'
 else:
     console_script = 'ipdb%d' % version_info.major
