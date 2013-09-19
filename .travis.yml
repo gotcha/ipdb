@@ -9,6 +9,6 @@ env:
   - IPYTHON_VERSION=">0.10,<1.0"
   - IPYTHON_VERSION=">1.0"
 install:
-  - pip install -q ipython$IPYTHON_VERSION
+  - pip install ipython$IPYTHON_VERSION
 # command to run tests
 script: python setup.py test
