@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.7.1 (unreleased)
+0.7.1 (2013-09-19)
 ------------------
 
 - IPython 1.0 compatibility
