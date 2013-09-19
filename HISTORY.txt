@@ -4,13 +4,16 @@ Changelog
 0.7.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- More Python 3 compatibility; implies dropping Python 2.5 support.
+  Closes https://github.com/gotcha/ipdb/issues/37
+  [gotcha]
 
 
 0.7.1 (2013-09-19)
 ------------------
 
-- IPython 1.0 compatibility
+- IPython 1.0 compatibility.
+  Closes https://github.com/gotcha/ipdb/issues/44
   [pgularski]
 
 - Index into version_info in setup.py for Python 2.6 compatibility.
@@ -22,7 +25,7 @@ Changelog
 0.7 (2012-07-06)
 ----------------
 
-- Add ``launch_ipdb_on_exception`` context manager.
+- Add ``launch_ipdb_on_exception`` context manager. Implies dropping Python 2.4 support.
   [Psycojoker]
 
 - Wrap sys.excepthook only once.

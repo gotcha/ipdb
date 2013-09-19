@@ -1,16 +1,17 @@
 # Copyright (c) 2011, 2012 Godefroid Chapelle
-# 
+#
 # This file is part of ipdb.
 # GNU package is free software: you can redistribute it and/or modify it under
-# the terms of the GNU General Public License as published by the Free 
-# Software Foundation, either version 2 of the License, or (at your option) 
+# the terms of the GNU General Public License as published by the Free
+# Software Foundation, either version 2 of the License, or (at your option)
 # any later version.
 #
-# GNU package is distributed in the hope that it will be useful, but 
+# GNU package is distributed in the hope that it will be useful, but
 # WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
 # or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
 # for more details.
 
+from __future__ import print_function
 import sys
 import os
 import traceback
@@ -74,12 +75,14 @@ else:
         # setup stdout to ensure output is available with nose
         Term.cout = sys.stdout = sys.__stdout__
 
+
 def wrap_sys_excepthook():
     # make sure we wrap it only once or we would end up with a cycle
     #  BdbQuit_excepthook.excepthook_ori == BdbQuit_excepthook
     if sys.excepthook != BdbQuit_excepthook:
         BdbQuit_excepthook.excepthook_ori = sys.excepthook
         sys.excepthook = BdbQuit_excepthook
+
 
 def set_trace(frame=None):
     update_stdout()
@@ -123,7 +126,7 @@ def launch_ipdb_on_exception():
         yield
     except Exception:
         e, m, tb = sys.exc_info()
-        print >>sys.stderr, m.__repr__()
+        print(m.__repr__(), file=sys.stderr)
         post_mortem(tb)
     finally:
         pass
@@ -131,12 +134,12 @@ def launch_ipdb_on_exception():
 
 def main():
     if not sys.argv[1:] or sys.argv[1] in ("--help", "-h"):
-        print "usage: ipdb.py scriptfile [arg] ..."
+        print("usage: ipdb.py scriptfile [arg] ...")
         sys.exit(2)
 
     mainpyfile = sys.argv[1]     # Get script filename
     if not os.path.exists(mainpyfile):
-        print 'Error:', mainpyfile, 'does not exist'
+        print('Error:', mainpyfile, 'does not exist')
         sys.exit(1)
 
     del sys.argv[0]         # Hide "pdb.py" from argument list
@@ -154,22 +157,22 @@ def main():
             pdb._runscript(mainpyfile)
             if pdb._user_requested_quit:
                 break
-            print "The program finished and will be restarted"
+            print("The program finished and will be restarted")
         except Restart:
-            print "Restarting", mainpyfile, "with arguments:"
-            print "\t" + " ".join(sys.argv[1:])
+            print("Restarting", mainpyfile, "with arguments:")
+            print("\t" + " ".join(sys.argv[1:]))
         except SystemExit:
             # In most cases SystemExit does not warrant a post-mortem session.
-            print "The program exited via sys.exit(). Exit status: ",
-            print sys.exc_info()[1]
+            print("The program exited via sys.exit(). Exit status: ", end='')
+            print(sys.exc_info()[1])
         except:
             traceback.print_exc()
-            print "Uncaught exception. Entering post mortem debugging"
-            print "Running 'cont' or 'step' will restart the program"
+            print("Uncaught exception. Entering post mortem debugging")
+            print("Running 'cont' or 'step' will restart the program")
             t = sys.exc_info()[2]
             pdb.interaction(None, t)
-            print "Post mortem debugger finished. The " + mainpyfile + \
-                  " will be restarted"
+            print("Post mortem debugger finished. The " + mainpyfile +
+                  " will be restarted")
 
 if __name__ == '__main__':
     main()
