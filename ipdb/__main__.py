@@ -57,7 +57,8 @@ if IPython.__version__ > '0.10.2':
 
     def update_stdout():
         # setup stdout to ensure output is available with nose
-        io.stdout = sys.stdout = sys.__stdout__
+        if not sys.platform.startswith('win'):
+            io.stdout = sys.stdout = sys.__stdout__
 else:
     from IPython.Debugger import Pdb, BdbQuit_excepthook
     from IPython.Shell import IPShell
