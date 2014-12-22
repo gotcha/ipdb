@@ -4,6 +4,11 @@ Changelog
 0.8.1 (unreleased)
 ------------------
 
+- Make Nose support less invasive.
+  Closes https://github.com/gotcha/ipdb/issues/52
+  Closes https://github.com/gotcha/ipdb/issues/31
+  [blink1073, gotcha]
+
 - Fix for post_mortem in context manager.
   Closes https://github.com/gotcha/ipdb/issues/20
   [omergertel]

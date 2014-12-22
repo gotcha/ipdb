@@ -55,9 +55,13 @@ if IPython.__version__ > '0.10.2':
 
     from IPython.utils import io
 
-    def update_stdout():
-        # setup stdout to ensure output is available with nose
-        io.stdout = sys.stdout = sys.__stdout__
+    if 'nose' in sys.modules.keys():
+        def update_stdout():
+            # setup stdout to ensure output is available with nose
+            io.stdout = sys.stdout = sys.__stdout__
+    else:
+        def update_stdout():
+            pass
 else:
     from IPython.Debugger import Pdb, BdbQuit_excepthook
     from IPython.Shell import IPShell
@@ -71,9 +75,13 @@ else:
 
     from IPython.Shell import Term
 
-    def update_stdout():
-        # setup stdout to ensure output is available with nose
-        Term.cout = sys.stdout = sys.__stdout__
+    if 'nose' in sys.modules.keys():
+        def update_stdout():
+            # setup stdout to ensure output is available with nose
+            Term.cout = sys.stdout = sys.__stdout__
+    else:
+        def update_stdout():
+            pass
 
 
 def wrap_sys_excepthook():
