@@ -4,7 +4,9 @@ Changelog
 0.8.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fix for post_mortem in context manager.
+  Closes https://github.com/gotcha/ipdb/issues/20
+  [omergertel]
 
 
 0.8 (2013-09-19)
