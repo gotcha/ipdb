@@ -7,8 +7,8 @@ python:
   - "3.4"
   - "pypy"
 env:
-  - IPYTHON_VERSION=>1.0,<2.0
-  - IPYTHON_VERSION=>2.0
+  - IPYTHON_VERSION=">1.0,<2.0"
+  - IPYTHON_VERSION=">2.0"
 install:
   - pip install ipython$IPYTHON_VERSION
 script: 
