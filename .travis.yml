@@ -16,7 +16,7 @@ script:
 matrix:
   exclude:
     - python: 2.6
-      env: IPYTHON_VERSION=>2.0
+      env: IPYTHON_VERSION=">2.0"
     - python: 3.2
-      env: IPYTHON_VERSION=>2.0
+      env: IPYTHON_VERSION=">2.0"
 
