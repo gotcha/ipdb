@@ -99,9 +99,7 @@ def post_mortem(tb):
     p.reset()
     if tb is None:
         return
-    while tb.tb_next is not None:
-        tb = tb.tb_next
-    p.interaction(tb.tb_frame, tb)
+    p.interaction(None, tb)
 
 
 def pm():
