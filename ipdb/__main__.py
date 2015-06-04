@@ -29,8 +29,8 @@ import IPython
 if IPython.__version__ > '0.10.2':
     from IPython.core.debugger import Pdb, BdbQuit_excepthook
     try:
-        get_ipython
-    except NameError:
+        def_colors = get_ipython.im_self.colors
+    except (NameError, AttributeError):
         # Make it more resilient to different versions of IPython and try to
         # find a module.
         possible_modules = ['IPython.terminal.embed',           # Newer IPython
@@ -50,8 +50,6 @@ if IPython.__version__ > '0.10.2':
 
         ipshell = InteractiveShellEmbed()
         def_colors = ipshell.colors
-    else:
-        def_colors = get_ipython.im_self.colors
 
     from IPython.utils import io
 
