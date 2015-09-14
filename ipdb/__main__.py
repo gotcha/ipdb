@@ -15,6 +15,7 @@ from __future__ import print_function
 import sys
 import os
 import traceback
+from IPython.terminal.ipapp import load_default_config
 
 from contextlib import contextmanager
 
@@ -26,32 +27,61 @@ except ImportError:
 
 import IPython
 
+
+def import_module(possible_modules, needed_module):
+    """Make it more resilient to different versions of IPython and try to
+    find a module."""
+    count = len(possible_modules)
+    for module in possible_modules:
+        try:
+            return __import__(module, fromlist=[needed_module])
+        except ImportError:
+            count -= 1
+            if count == 0:
+                raise
+
 if IPython.__version__ > '0.10.2':
     from IPython.core.debugger import Pdb, BdbQuit_excepthook
+
+    possible_modules = ['IPython.terminal.ipapp',           # Newer IPython
+                        'IPython.frontend.terminal.ipapp']  # Older IPython
+
+    app = import_module(possible_modules, "TerminalIPythonApp")
+    TerminalIPythonApp = app.TerminalIPythonApp
+
+    possible_modules = ['IPython.terminal.embed',           # Newer IPython
+                        'IPython.frontend.terminal.embed']  # Older IPython
+    embed = import_module(possible_modules, "InteractiveShellEmbed")
+    InteractiveShellEmbed = embed.InteractiveShellEmbed
     try:
         get_ipython
     except NameError:
-        # Make it more resilient to different versions of IPython and try to
-        # find a module.
-        possible_modules = ['IPython.terminal.embed',           # Newer IPython
-                            'IPython.frontend.terminal.embed']  # Older IPython
-
-        count = len(possible_modules)
-        for module in possible_modules:
-            try:
-                embed = __import__(module, fromlist=["InteractiveShellEmbed"])
-                InteractiveShellEmbed = embed.InteractiveShellEmbed
-            except ImportError:
-                count -= 1
-                if count == 0:
-                    raise
-            else:
-                break
-
-        ipshell = InteractiveShellEmbed()
-        def_colors = ipshell.colors
+        # Build a terminal app in order to force ipython to load the
+        # configuration
+        ipapp = TerminalIPythonApp()
+        # Avoid output (banner, prints)
+        ipapp.interact = False
+        ipapp.initialize()
+        def_colors = ipapp.shell.colors
     else:
-        def_colors = get_ipython.im_self.colors
+        # If an instance of IPython is already running try to get an instance
+        # of the application. If there is no TerminalIPythonApp instanciated
+        # the instance method will create a new one without loading the config.
+        # i.e: if we are in an embed instance we do not want to load the config.
+        ipapp = TerminalIPythonApp.instance()
+        shell = get_ipython()
+        def_colors = shell.colors
+
+        # Detect if embed shell or not and display a message
+        if isinstance(shell, InteractiveShellEmbed):
+            shell.write_err(
+                "\nYou are currently into an embedded ipython shell,\n"
+                "the configuration will not be loaded.\n\n"
+            )
+
+
+
+    def_exec_lines = [line + '\n' for line in ipapp.exec_lines]
 
     from IPython.utils import io
 
@@ -72,6 +102,7 @@ else:
         IPShell(argv=[''])
         ip = ipapi.get()
     def_colors = ip.options.colors
+    def_exec_lines = []
 
     from IPython.Shell import Term
 
@@ -83,6 +114,10 @@ else:
         def update_stdout():
             pass
 
+def _init_pdb():
+    p = Pdb(def_colors)
+    p.rcLines += def_exec_lines
+    return p
 
 def wrap_sys_excepthook():
     # make sure we wrap it only once or we would end up with a cycle
@@ -97,13 +132,13 @@ def set_trace(frame=None):
     wrap_sys_excepthook()
     if frame is None:
         frame = sys._getframe().f_back
-    Pdb(def_colors).set_trace(frame)
+    _init_pdb().set_trace(frame)
 
 
 def post_mortem(tb):
     update_stdout()
     wrap_sys_excepthook()
-    p = Pdb(def_colors)
+    p = _init_pdb()
     p.reset()
     if tb is None:
         return
@@ -115,15 +150,15 @@ def pm():
 
 
 def run(statement, globals=None, locals=None):
-    Pdb(def_colors).run(statement, globals, locals)
+    _init_pdb().run(statement, globals, locals)
 
 
 def runcall(*args, **kwargs):
-    return Pdb(def_colors).runcall(*args, **kwargs)
+    return _init_pdb().runcall(*args, **kwargs)
 
 
 def runeval(expression, globals=None, locals=None):
-    return Pdb(def_colors).runeval(expression, globals, locals)
+    return _init_pdb().runeval(expression, globals, locals)
 
 
 @contextmanager
@@ -157,7 +192,7 @@ def main():
     # modified by the script being debugged. It's a bad idea when it was
     # changed by the user from the command line. There is a "restart" command
     # which allows explicit specification of command line arguments.
-    pdb = Pdb(def_colors)
+    pdb = _init_pdb()
     while 1:
         try:
             pdb._runscript(mainpyfile)
