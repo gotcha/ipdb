@@ -27,27 +27,32 @@ except ImportError:
 
 import IPython
 
-if IPython.__version__ > '0.10.2':
-    from IPython.core.debugger import Pdb, BdbQuit_excepthook
 
-    # Make it more resilient to different versions of IPython and try to
-    # find a module.
-    possible_modules = ['IPython.terminal.ipapp',           # Newer IPython
-                        'IPython.frontend.terminal.ipapp']  # Older IPython
-
+def import_module(possible_modules, needed_module):
+    """Make it more resilient to different versions of IPython and try to
+    find a module."""
     count = len(possible_modules)
     for module in possible_modules:
         try:
-            app = __import__(module, fromlist=["TerminalIPythonApp"])
-            TerminalIPythonApp = app.TerminalIPythonApp
-
+            return __import__(module, fromlist=[needed_module])
         except ImportError:
             count -= 1
             if count == 0:
                 raise
-        else:
-            break
 
+if IPython.__version__ > '0.10.2':
+    from IPython.core.debugger import Pdb, BdbQuit_excepthook
+
+    possible_modules = ['IPython.terminal.ipapp',           # Newer IPython
+                        'IPython.frontend.terminal.ipapp']  # Older IPython
+
+    app = import_module(possible_modules, "TerminalIPythonApp")
+    TerminalIPythonApp = app.TerminalIPythonApp
+
+    possible_modules = ['IPython.terminal.embed',           # Newer IPython
+                        'IPython.frontend.terminal.embed']  # Older IPython
+    embed = import_module(possible_modules, "InteractiveShellEmbed")
+    InteractiveShellEmbed = embed.InteractiveShellEmbed
     try:
         get_ipython
     except NameError:
@@ -64,7 +69,17 @@ if IPython.__version__ > '0.10.2':
         # the instance method will create a new one without loading the config.
         # i.e: if we are in an embed instance we do not want to load the config.
         ipapp = TerminalIPythonApp.instance()
-        def_colors = get_ipython().im_self.colors
+        shell = get_ipython()
+        def_colors = shell.colors
+
+        # Detect if embed shell or not and display a message
+        if isinstance(shell, InteractiveShellEmbed):
+            shell.write_err(
+                "\nYou are currently into an embedded ipython shell,\n"
+                "the configuration will not be loaded.\n\n"
+            )
+
+
 
     def_exec_lines = [line + '\n' for line in ipapp.exec_lines]
 
