@@ -12,11 +12,12 @@
 # for more details.
 
 from __future__ import print_function
-import sys
+from inspect import getargspec
 import os
+import sys
 import traceback
-from IPython.terminal.ipapp import load_default_config
 
+from IPython.terminal.ipapp import load_default_config
 from contextlib import contextmanager
 
 try:
@@ -114,8 +115,11 @@ else:
         def update_stdout():
             pass
 
-def _init_pdb():
-    p = Pdb(def_colors)
+def _init_pdb(context=3):
+    if 'context' in getargspec(Pdb.__init__)[0]:
+        p = Pdb(def_colors, context=context)
+    else:
+        p = Pdb(def_colors)
     p.rcLines += def_exec_lines
     return p
 
@@ -127,12 +131,12 @@ def wrap_sys_excepthook():
         sys.excepthook = BdbQuit_excepthook
 
 
-def set_trace(frame=None):
+def set_trace(frame=None, context=3):
     update_stdout()
     wrap_sys_excepthook()
     if frame is None:
         frame = sys._getframe().f_back
-    _init_pdb().set_trace(frame)
+    _init_pdb(context).set_trace(frame)
 
 
 def post_mortem(tb):
