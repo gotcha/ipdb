@@ -16,6 +16,7 @@ from inspect import getargspec
 import os
 import sys
 import traceback
+from pkg_resources import parse_version
 
 from IPython.terminal.ipapp import load_default_config
 from contextlib import contextmanager
@@ -41,7 +42,7 @@ def import_module(possible_modules, needed_module):
             if count == 0:
                 raise
 
-if IPython.__version__ > '0.10.2':
+if parse_version(IPython.__version__) > parse_version('0.10.2'):
     from IPython.core.debugger import Pdb, BdbQuit_excepthook
 
     possible_modules = ['IPython.terminal.ipapp',           # Newer IPython

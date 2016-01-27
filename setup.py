@@ -52,6 +52,7 @@ setup(name='ipdb',
       test_suite='tests',
       install_requires=[
           'ipython >= 0.10',
+          'setuptools'
       ],
       entry_points={
           'console_scripts': ['%s = ipdb.__main__:main' % console_script]
