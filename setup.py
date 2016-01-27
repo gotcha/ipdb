@@ -46,12 +46,13 @@ setup(name='ipdb',
       author_email='gotcha@bubblenet.be',
       url='https://github.com/gotcha/ipdb',
       license='GPL',
-      packages=find_packages(exclude=['ez_setup', 'examples', 'tests', 'setuptools']),
+      packages=find_packages(exclude=['ez_setup', 'examples', 'tests']),
       include_package_data=True,
       zip_safe=True,
       test_suite='tests',
       install_requires=[
           'ipython >= 0.10',
+          'setuptools'
       ],
       entry_points={
           'console_scripts': ['%s = ipdb.__main__:main' % console_script]
