@@ -4,7 +4,9 @@ Changelog
 0.8.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Disable IPython history in the debugger, fixing "ProgrammingError: SQLite
+  objects created in a thread can only be used in that same thread."
+  [sunew]
 
 
 0.8.1 (2015-06-03)
@@ -74,7 +76,7 @@ Changelog
 ----------------
 
 - Add setuptools ``console_scripts`` entry point.
-  [akrito, gotcha] 
+  [akrito, gotcha]
 
 - Nose support.
   Closes https://github.com/gotcha/ipdb/issues/8
@@ -95,12 +97,12 @@ Changelog
   Closes https://github.com/gotcha/ipdb/issues/1
   [gotcha]
 
-- Fixed errors when exiting with "q". 
+- Fixed errors when exiting with "q".
   [gotcha]
 
 - Allow use of ``python -m ipdb mymodule.py``.
-  Python 2.7 only. 
-  Closes https://github.com/gotcha/ipdb/issues/3 
+  Python 2.7 only.
+  Closes https://github.com/gotcha/ipdb/issues/3
   [gotcha]
 
 - Fixed post_mortem when the traceback is None.
