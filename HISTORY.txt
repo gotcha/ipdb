@@ -4,7 +4,16 @@ Changelog
 0.8.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fix lexical comparison for version numbers.
+  [sas23]
+
+- Allow configuring how many lines of code context are displayed
+  by `set_trace`
+  [JamshedVesuna]
+
+- If an instance of IPython is already running its configuration will be
+  loaded.
+  [IxDay]
 
 
 0.8.1 (2015-06-03)
