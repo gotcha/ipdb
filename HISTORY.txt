@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.8.2 (unreleased)
+0.8.2 (2016-02-15)
 ------------------
 
 - Fix lexical comparison for version numbers.
