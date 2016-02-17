@@ -63,7 +63,7 @@ if parse_version(IPython.__version__) > parse_version('0.10.2'):
         ipapp = TerminalIPythonApp()
         # Avoid output (banner, prints)
         ipapp.interact = False
-        ipapp.initialize()
+        ipapp.initialize([])
         def_colors = ipapp.shell.colors
     else:
         # If an instance of IPython is already running try to get an instance
