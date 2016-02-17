@@ -4,7 +4,8 @@ Changelog
 0.8.3 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Don't pass sys.argv to IPython for configuration.
+  [emulbreh]
 
 
 0.8.2 (2016-02-15)
