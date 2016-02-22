@@ -4,8 +4,9 @@ Changelog
 0.8.4 (unreleased)
 ------------------
 
-- Nothing changed yet.
-
+- Switch to MIT license (with approval of all contributors).
+  Closes https://github.com/gotcha/ipdb/issues/68
+  [lebedov]
 
 0.8.3 (2016-02-17)
 ------------------

@@ -1,15 +1,8 @@
-# Copyright (c) 2011 Godefroid Chapelle
+# Copyright (c) 2011-2015 Godefroid Chapelle
 # 
 # This file is part of ipdb.
-# GNU package is free software: you can redistribute it and/or modify it under
-# the terms of the GNU General Public License as published by the Free 
-# Software Foundation, either version 2 of the License, or (at your option) 
-# any later version.
-#
-# GNU package is distributed in the hope that it will be useful, but 
-# WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
-# or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
-# for more details.
+# Redistributable under the MIT License
+# https://opensource.org/licenses/MIT
 
 def output(arg):
     print("MANUAL: arg=%s" % arg)
