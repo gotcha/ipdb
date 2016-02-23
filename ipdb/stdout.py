@@ -13,6 +13,8 @@ def update_stdout():
 
 def sset_trace(frame=None, context=3):
     update_stdout()
+    if frame is None:
+        frame = sys._getframe().f_back
     set_trace(frame, context)
 
 
