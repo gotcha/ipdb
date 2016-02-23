@@ -80,11 +80,11 @@ explicitely ask for ``stdout`` fiddling by using ``ipdb`` like this
 ::
 
         import ipdb
-        ipdb.s_set_trace()
-        ipdb.s_pm()
+        ipdb.sset_trace()
+        ipdb.spm()
 
-        from ipdb import s_launch_ipdb_on_exception
-        with s_launch_ipdb_on_exception():
+        from ipdb import slaunch_ipdb_on_exception
+        with slaunch_ipdb_on_exception():
             [...]
 
 
