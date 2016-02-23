@@ -13,3 +13,10 @@ runcall                  # please pyflakes
 runeval                  # please pyflakes
 set_trace                # please pyflakes
 launch_ipdb_on_exception # please pyflakes
+
+from ipdb.sdout import sset_trace, spost_mortem, spm, slaunch_ipdb_on_exception
+
+spm                       # please pyflakes
+spost_mortem              # please pyflakes
+sset_trace                # please pyflakes
+slaunch_ipdb_on_exception # please pyflakes

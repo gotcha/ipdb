@@ -7,7 +7,7 @@ IPython `pdb`
 Use
 ---
 
-ipdb exports functions to access the IPython_ debugger, which features 
+ipdb exports functions to access the IPython_ debugger, which features
 tab completion, syntax highlighting, better tracebacks, better introspection
 with the same interface as the `pdb` module.
 
@@ -23,7 +23,7 @@ Example usage:
         result = ipdb.runcall(function, arg0, arg1, kwarg='foo')
         result = ipdb.runeval('f(1,2) - 3')
 
-The post-mortem function, ``ipdb.pm()``, is equivalent to the magic function 
+The post-mortem function, ``ipdb.pm()``, is equivalent to the magic function
 ``%debug``.
 
 .. _IPython: http://ipython.org
@@ -65,6 +65,29 @@ You can also enclose code with the ``with`` statement to launch ipdb if an excep
    Using ``from future import print_function`` for Python 3 compat implies dropping Python 2.5 support.
    Use ``ipdb<=0.8`` with 2.5.
 
+Issues with sdout
+-----------------
+
+Some tools, like `nose` fiddle with `stdout`.
+
+Until `ipdb==0.9.0`, we tried to guess when we should also
+fiddle with `stdout` to support those tools.
+However, all strategies tried until 0.9.0 have proven brittle.
+
+If you use `nose` or another tool that fiddles with `stdout`, you should
+explicitely ask for `stdout` fiddling by using `ipdb` like this
+
+::
+
+        import ipdb
+        ipdb.s_set_trace()
+        ipdb.s_pm()
+
+        from ipdb import s_launch_ipdb_on_exception
+        with s_launch_ipdb_on_exception():
+            [...]
+
+
 Development
 -----------
 
@@ -78,7 +101,7 @@ Third-party support
 Products.PDBDebugMode
 +++++++++++++++++++++
 
-Zope2 Products.PDBDebugMode_ uses ``ipdb``, if available, in place of ``pdb``. 
+Zope2 Products.PDBDebugMode_ uses ``ipdb``, if available, in place of ``pdb``.
 
 .. _Products.PDBDebugMode: http://pypi.python.org/pypi/Products.PDBDebugMode
 
