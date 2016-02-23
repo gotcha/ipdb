@@ -65,17 +65,17 @@ You can also enclose code with the ``with`` statement to launch ipdb if an excep
    Using ``from future import print_function`` for Python 3 compat implies dropping Python 2.5 support.
    Use ``ipdb<=0.8`` with 2.5.
 
-Issues with `stdout`
---------------------
+Issues with ``stdout``
+----------------------
 
-Some tools, like `nose` fiddle with `stdout`.
+Some tools, like ``nose`` fiddle with ``stdout``.
 
-Until `ipdb==0.9.0`, we tried to guess when we should also
-fiddle with `stdout` to support those tools.
+Until ``ipdb==0.9.0``, we tried to guess when we should also
+fiddle with ``stdout`` to support those tools.
 However, all strategies tried until 0.9.0 have proven brittle.
 
-If you use `nose` or another tool that fiddles with `stdout`, you should
-explicitely ask for `stdout` fiddling by using `ipdb` like this
+If you use ``nose`` or another tool that fiddles with ``stdout``, you should
+explicitely ask for ``stdout`` fiddling by using ``ipdb`` like this
 
 ::
 
