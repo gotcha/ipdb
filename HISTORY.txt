@@ -4,7 +4,12 @@ Changelog
 0.9.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Stop trying to magically guess when stdout needs to be captured.
+  Like needed by `nose`.
+  Rather, provide a set of function that can be called explicitely when needed.
+  [gotcha]
+
+- drop support of IPython before 0.10.2
 
 
 0.9.0 (2016-02-22)

@@ -35,79 +35,46 @@ def import_module(possible_modules, needed_module):
             if count == 0:
                 raise
 
-if parse_version(IPython.__version__) > parse_version('0.10.2'):
-    from IPython.core.debugger import Pdb, BdbQuit_excepthook
+from IPython.core.debugger import Pdb, BdbQuit_excepthook
 
-    possible_modules = ['IPython.terminal.ipapp',           # Newer IPython
-                        'IPython.frontend.terminal.ipapp']  # Older IPython
+possible_modules = ['IPython.terminal.ipapp',           # Newer IPython
+                    'IPython.frontend.terminal.ipapp']  # Older IPython
 
-    app = import_module(possible_modules, "TerminalIPythonApp")
-    TerminalIPythonApp = app.TerminalIPythonApp
+app = import_module(possible_modules, "TerminalIPythonApp")
+TerminalIPythonApp = app.TerminalIPythonApp
 
-    possible_modules = ['IPython.terminal.embed',           # Newer IPython
-                        'IPython.frontend.terminal.embed']  # Older IPython
-    embed = import_module(possible_modules, "InteractiveShellEmbed")
-    InteractiveShellEmbed = embed.InteractiveShellEmbed
-    try:
-        get_ipython
-    except NameError:
-        # Build a terminal app in order to force ipython to load the
-        # configuration
-        ipapp = TerminalIPythonApp()
-        # Avoid output (banner, prints)
-        ipapp.interact = False
-        ipapp.initialize([])
-        def_colors = ipapp.shell.colors
-    else:
-        # If an instance of IPython is already running try to get an instance
-        # of the application. If there is no TerminalIPythonApp instanciated
-        # the instance method will create a new one without loading the config.
-        # i.e: if we are in an embed instance we do not want to load the config.
-        ipapp = TerminalIPythonApp.instance()
-        shell = get_ipython()
-        def_colors = shell.colors
-
-        # Detect if embed shell or not and display a message
-        if isinstance(shell, InteractiveShellEmbed):
-            shell.write_err(
-                "\nYou are currently into an embedded ipython shell,\n"
-                "the configuration will not be loaded.\n\n"
-            )
-
-
-
-    def_exec_lines = [line + '\n' for line in ipapp.exec_lines]
-
-    from IPython.utils import io
-
-    if 'nose' in sys.modules.keys():
-        def update_stdout():
-            # setup stdout to ensure output is available with nose
-            io.stdout = sys.stdout = sys.__stdout__
-    else:
-        def update_stdout():
-            pass
+possible_modules = ['IPython.terminal.embed',           # Newer IPython
+                    'IPython.frontend.terminal.embed']  # Older IPython
+embed = import_module(possible_modules, "InteractiveShellEmbed")
+InteractiveShellEmbed = embed.InteractiveShellEmbed
+try:
+    get_ipython
+except NameError:
+    # Build a terminal app in order to force ipython to load the
+    # configuration
+    ipapp = TerminalIPythonApp()
+    # Avoid output (banner, prints)
+    ipapp.interact = False
+    ipapp.initialize([])
+    def_colors = ipapp.shell.colors
 else:
-    from IPython.Debugger import Pdb, BdbQuit_excepthook
-    from IPython.Shell import IPShell
-    from IPython import ipapi
+    # If an instance of IPython is already running try to get an instance
+    # of the application. If there is no TerminalIPythonApp instanciated
+    # the instance method will create a new one without loading the config.
+    # i.e: if we are in an embed instance we do not want to load the config.
+    ipapp = TerminalIPythonApp.instance()
+    shell = get_ipython()
+    def_colors = shell.colors
 
-    ip = ipapi.get()
-    if ip is None:
-        IPShell(argv=[''])
-        ip = ipapi.get()
-    def_colors = ip.options.colors
-    def_exec_lines = []
+    # Detect if embed shell or not and display a message
+    if isinstance(shell, InteractiveShellEmbed):
+        shell.write_err(
+            "\nYou are currently into an embedded ipython shell,\n"
+            "the configuration will not be loaded.\n\n"
+        )
 
-    from IPython.Shell import Term
+def_exec_lines = [line + '\n' for line in ipapp.exec_lines]
 
-    if 'nose' in sys.modules.keys():
-        def update_stdout():
-            # setup stdout to ensure output is available with nose
-            Term.cout = sys.stdout = sys.__stdout__
-    else:
-        def update_stdout():
-            pass
 
 def _init_pdb(context=3):
     if 'context' in getargspec(Pdb.__init__)[0]:
@@ -116,6 +83,7 @@ def _init_pdb(context=3):
         p = Pdb(def_colors)
     p.rcLines += def_exec_lines
     return p
+
 
 def wrap_sys_excepthook():
     # make sure we wrap it only once or we would end up with a cycle
@@ -126,7 +94,6 @@ def wrap_sys_excepthook():
 
 
 def set_trace(frame=None, context=3):
-    update_stdout()
     wrap_sys_excepthook()
     if frame is None:
         frame = sys._getframe().f_back
@@ -134,7 +101,6 @@ def set_trace(frame=None, context=3):
 
 
 def post_mortem(tb):
-    update_stdout()
     wrap_sys_excepthook()
     p = _init_pdb()
     p.reset()

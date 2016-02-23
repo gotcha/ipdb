@@ -46,7 +46,7 @@ setup(name='ipdb',
       zip_safe=True,
       test_suite='tests',
       install_requires=[
-          'ipython >= 0.10',
+          'ipython >= 0.10.2',
           'setuptools'
       ],
       entry_points={
