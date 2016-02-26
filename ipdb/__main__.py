@@ -11,7 +11,6 @@ import sys
 import traceback
 from pkg_resources import parse_version
 
-from IPython.terminal.ipapp import load_default_config
 from contextlib import contextmanager
 
 try:
