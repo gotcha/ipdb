@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.9.1 (unreleased)
+0.9.1 (2016-04-12)
 ------------------
 
 - Reset ``sys.modules['__main__']`` to original value.
