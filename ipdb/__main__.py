@@ -73,8 +73,6 @@ if parse_version(IPython.__version__) > parse_version('0.10.2'):
                 "the configuration will not be loaded.\n\n"
             )
 
-
-
     def_exec_lines = [line + '\n' for line in ipapp.exec_lines]
 
     from IPython.utils import io
@@ -108,6 +106,7 @@ else:
         def update_stdout():
             pass
 
+
 def _init_pdb(context=3):
     if 'context' in getargspec(Pdb.__init__)[0]:
         p = Pdb(def_colors, context=context)
@@ -115,6 +114,7 @@ def _init_pdb(context=3):
         p = Pdb(def_colors)
     p.rcLines += def_exec_lines
     return p
+
 
 def wrap_sys_excepthook():
     # make sure we wrap it only once or we would end up with a cycle
@@ -129,7 +129,8 @@ def set_trace(frame=None, context=3):
     wrap_sys_excepthook()
     if frame is None:
         frame = sys._getframe().f_back
-    _init_pdb(context).set_trace(frame)
+    p = _init_pdb(context).set_trace(frame)
+    p.shell.restore_sys_module_state()
 
 
 def post_mortem(tb):

@@ -4,6 +4,10 @@ Changelog
 0.9.1 (unreleased)
 ------------------
 
+- Reset ``sys.modules['__main__']`` to original value.
+  Closes https://github.com/gotcha/ipdb/issues/85
+  [gotcha]
+
 - Fix support of IPython versions 0.x
   [asivokon]
 
