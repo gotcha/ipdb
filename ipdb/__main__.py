@@ -133,14 +133,18 @@ def set_trace(frame=None, context=3):
     p.shell.restore_sys_module_state()
 
 
-def post_mortem(tb):
+def post_mortem(tb=None):
     update_stdout()
     wrap_sys_excepthook()
     p = _init_pdb()
     p.reset()
     if tb is None:
-        return
-    p.interaction(None, tb)
+        # sys.exc_info() returns (type, value, traceback) if an exception is
+        # being handled, otherwise it returns None
+        tb = sys.exc_info()[2]
+
+    if tb:
+        p.interaction(None, tb)
 
 
 def pm():
