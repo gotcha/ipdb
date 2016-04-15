@@ -130,7 +130,8 @@ def set_trace(frame=None, context=3):
     if frame is None:
         frame = sys._getframe().f_back
     p = _init_pdb(context).set_trace(frame)
-    p.shell.restore_sys_module_state()
+    if p and hasattr(p, 'shell'):
+        p.shell.restore_sys_module_state()
 
 
 def post_mortem(tb):
