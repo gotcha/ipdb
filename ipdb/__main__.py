@@ -143,7 +143,6 @@ def post_mortem(tb=None):
         # sys.exc_info() returns (type, value, traceback) if an exception is
         # being handled, otherwise it returns None
         tb = sys.exc_info()[2]
-
     if tb:
         p.interaction(None, tb)
 
