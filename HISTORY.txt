@@ -4,7 +4,8 @@ Changelog
 0.9.4 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fix Restart error when using `python -m ipdb`
+  [gotcha]
 
 
 0.9.3 (2016-04-15)
