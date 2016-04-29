@@ -70,9 +70,9 @@ Issues with ``stdout``
 
 Some tools, like ``nose`` fiddle with ``stdout``.
 
-Until ``ipdb==0.9.0``, we tried to guess when we should also
+Until ``ipdb==0.9.4``, we tried to guess when we should also
 fiddle with ``stdout`` to support those tools.
-However, all strategies tried until 0.9.0 have proven brittle.
+However, all strategies tried until 0.9.4 have proven brittle.
 
 If you use ``nose`` or another tool that fiddles with ``stdout``, you should
 explicitely ask for ``stdout`` fiddling by using ``ipdb`` like this
