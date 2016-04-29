@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.9.1 (unreleased)
+0.10 (unreleased)
 ------------------
 
 - Stop trying to magically guess when stdout needs to be captured.
@@ -10,6 +10,39 @@ Changelog
   [gotcha]
 
 - drop support of IPython before 0.10.2
+
+
+0.9.4 (2016-04-29)
+------------------
+
+- Fix Restart error when using `python -m ipdb`
+  Closes https://github.com/gotcha/ipdb/issues/93.
+  [gotcha]
+
+
+0.9.3 (2016-04-15)
+------------------
+
+- Don't require users to pass a traceback to post_mortem.
+  [Wilfred]
+
+
+0.9.2 (2016-04-15)
+------------------
+
+- Closes https://github.com/gotcha/ipdb/issues/93.
+  [gotcha]
+
+
+0.9.1 (2016-04-12)
+------------------
+
+- Reset ``sys.modules['__main__']`` to original value.
+  Closes https://github.com/gotcha/ipdb/issues/85
+  [gotcha]
+
+- Fix support of IPython versions 0.x
+  [asivokon]
 
 
 0.9.0 (2016-02-22)

@@ -18,7 +18,7 @@ def sset_trace(frame=None, context=3):
     set_trace(frame, context)
 
 
-def spost_mortem(tb):
+def spost_mortem(tb=None):
     update_stdout()
     post_mortem(tb)
 

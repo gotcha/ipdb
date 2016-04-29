@@ -8,19 +8,8 @@ from __future__ import print_function
 from inspect import getargspec
 import os
 import sys
-import traceback
-from pkg_resources import parse_version
 
-from IPython.terminal.ipapp import load_default_config
 from contextlib import contextmanager
-
-try:
-    from pdb import Restart
-except ImportError:
-    class Restart(Exception):
-        pass
-
-import IPython
 
 
 def import_module(possible_modules, needed_module):
@@ -97,16 +86,21 @@ def set_trace(frame=None, context=3):
     wrap_sys_excepthook()
     if frame is None:
         frame = sys._getframe().f_back
-    _init_pdb(context).set_trace(frame)
+    p = _init_pdb(context).set_trace(frame)
+    if p and hasattr(p, 'shell'):
+        p.shell.restore_sys_module_state()
 
 
-def post_mortem(tb):
+def post_mortem(tb=None):
     wrap_sys_excepthook()
     p = _init_pdb()
     p.reset()
     if tb is None:
-        return
-    p.interaction(None, tb)
+        # sys.exc_info() returns (type, value, traceback) if an exception is
+        # being handled, otherwise it returns None
+        tb = sys.exc_info()[2]
+    if tb:
+        p.interaction(None, tb)
 
 
 def pm():
@@ -138,6 +132,14 @@ def launch_ipdb_on_exception():
 
 
 def main():
+    import traceback
+    import sys
+    try:
+        from pdb import Restart
+    except ImportError:
+        class Restart(Exception):
+            pass
+
     if not sys.argv[1:] or sys.argv[1] in ("--help", "-h"):
         print("usage: ipdb.py scriptfile [arg] ...")
         sys.exit(2)
