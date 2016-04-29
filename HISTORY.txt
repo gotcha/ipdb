@@ -11,6 +11,7 @@ Changelog
 ------------------
 
 - Fix Restart error when using `python -m ipdb`
+  Closes https://github.com/gotcha/ipdb/issues/93.
   [gotcha]
 
 
