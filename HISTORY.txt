@@ -1,8 +1,8 @@
 Changelog
 =========
 
-0.10 (unreleased)
-------------------
+0.10.0 (2016-04-29)
+-------------------
 
 - Stop trying to magically guess when stdout needs to be captured.
   Like needed by `nose`.
