@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.9.4 (unreleased)
+0.9.4 (2016-04-29)
 ------------------
 
 - Fix Restart error when using `python -m ipdb`
