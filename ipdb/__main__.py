@@ -8,16 +8,9 @@ from __future__ import print_function
 from inspect import getargspec
 import os
 import sys
-import traceback
 from pkg_resources import parse_version
 
 from contextlib import contextmanager
-
-try:
-    from pdb import Restart
-except ImportError:
-    class Restart(Exception):
-        pass
 
 import IPython
 
@@ -176,6 +169,14 @@ def launch_ipdb_on_exception():
 
 
 def main():
+    import traceback
+    import sys
+    try:
+        from pdb import Restart
+    except ImportError:
+        class Restart(Exception):
+            pass
+
     if not sys.argv[1:] or sys.argv[1] in ("--help", "-h"):
         print("usage: ipdb.py scriptfile [arg] ...")
         sys.exit(2)
