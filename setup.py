@@ -7,7 +7,7 @@
 from setuptools import setup, find_packages
 from sys import version_info
 
-version = '0.10.0'
+version = '0.10.1.dev0'
 
 long_description = (open('README.rst').read() +
     '\n\n' + open('HISTORY.txt').read())
