@@ -12,7 +12,8 @@ tab completion, syntax highlighting, better tracebacks, better introspection
 with the same interface as the `pdb` module.
 
 Example usage:
-::
+
+.. code-block:: python
 
         import ipdb
         ipdb.set_trace()
@@ -49,7 +50,7 @@ Alternatively with Python 2.7 only, you can also use
 
 You can also enclose code with the ``with`` statement to launch ipdb if an exception is raised:
 
-::
+.. code-block:: python
 
         from ipdb import launch_ipdb_on_exception
 
@@ -77,7 +78,7 @@ However, all strategies tried until 0.9.4 have proven brittle.
 If you use ``nose`` or another tool that fiddles with ``stdout``, you should
 explicitely ask for ``stdout`` fiddling by using ``ipdb`` like this
 
-::
+.. code-block:: python
 
         import ipdb
         ipdb.sset_trace()
