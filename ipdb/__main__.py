@@ -25,8 +25,44 @@ def import_module(possible_modules, needed_module):
                 raise
 try:
     # IPython 5.0 and newer
-    from IPython.terminal.debugger import TerminalPdb as Pdb
+    from IPython.terminal.debugger import TerminalPdb
     from IPython.core.debugger import BdbQuit_excepthook
+
+    from IPython.paths import locate_profile
+    try:
+        history_path = os.path.join(locate_profile(), 'ipdb_history')
+    except (IOError, OSError):
+        history_path = os.path.join(os.path.expanduser('~'), '.ipdb_history')
+
+    class Pdb(TerminalPdb):
+        def __init__(self,
+                     color_scheme='NoColor',
+                     completekey=None,
+                     stdin=None,
+                     stdout=None,
+                     context=5):
+            """Init pdb and load the history file if present"""
+            super(Pdb, self).__init__(color_scheme, completekey, stdin, stdout,
+                                      context)
+            try:
+                with open(history_path, 'r') as f:
+                    self.shell.debugger_history.strings = [
+                        unicode(line.replace(os.linesep, ''))
+                        for line in f.readlines()
+                    ]
+            except IOError:
+                pass
+
+        def parseline(self, line):
+            """Append the line in the history file before parsing"""
+            if 'EOF' != line != '':
+                try:
+                    with open(history_path, 'a') as f:
+                        f.write(line + os.linesep)
+                except IOError:
+                    pass
+            return super(Pdb, self).parseline(line)
+
 except ImportError:
     from IPython.core.debugger import Pdb, BdbQuit_excepthook
 
