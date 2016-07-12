@@ -16,6 +16,8 @@ from IPython import get_ipython
 from IPython.core.debugger import BdbQuit_excepthook
 from IPython.terminal.ipapp import TerminalIPythonApp
 from IPython.terminal.embed import InteractiveShellEmbed
+from IPython.paths import locate_profile
+
 try:
     import configparser
 except:
@@ -46,12 +48,47 @@ else:
 # This is especially important for tools that fiddle with stdout
 debugger_cls = shell.debugger_cls
 
+try:
+    history_path = os.path.join(locate_profile(), 'ipdb_history')
+except (IOError, OSError):
+    history_path = os.path.join(os.path.expanduser('~'), '.ipdb_history')
+
+
+class Pdb(debugger_cls):
+    def __init__(self,
+                 color_scheme='NoColor',
+                 completekey=None,
+                 stdin=None,
+                 stdout=None,
+                 context=5):
+        """Init pdb and load the history file if present"""
+        super(Pdb, self).__init__(color_scheme, completekey, stdin, stdout,
+                                  context)
+        try:
+            with open(history_path, 'r') as f:
+                self.shell.debugger_history.strings = [
+                    unicode(line.replace(os.linesep, ''))
+                    for line in f.readlines()
+                ]
+        except IOError:
+            pass
+
+    def parseline(self, line):
+        """Append the line in the history file before parsing"""
+        if 'EOF' != line != '':
+            try:
+                with open(history_path, 'a') as f:
+                    f.write(line + os.linesep)
+            except IOError:
+                pass
+        return super(Pdb, self).parseline(line)
+
 
 def _init_pdb(context=3, commands=[]):
     try:
-        p = debugger_cls(context=context)
+        p = Pdb(context=context)
     except TypeError:
-        p = debugger_cls()
+        p = Pdb()
     p.rcLines.extend(commands)
     return p
 
