@@ -1,4 +1,4 @@
-# Copyright (c) 2011-2016 Godefroid Chapelle and ipdb development team
+# Copyright (c) 2011-2020 Godefroid Chapelle and ipdb development team
 #
 # This file is part of ipdb.
 # Redistributable under the revised BSD license
@@ -73,9 +73,20 @@ class Pdb(debugger_cls):
         except IOError:
             pass
 
+        # remember the last history entry if present
+        if len(self.shell.debugger_history.strings) > 0:
+            self.history_last = self.shell.debugger_history.strings[-1]
+        else:
+            self.history_last = None
+
     def parseline(self, line):
         """Append the line in the history file before parsing"""
-        if 'EOF' != line != '':
+        # the line has to be different from the last history entry and not
+        # void or equal to EOF
+        if line not in (self.history_last, 'EOF', ''):
+            # update the last history entry
+            self.history_last = line
+            # write the line in the history file
             try:
                 with open(history_path, 'a') as f:
                     f.write(line + os.linesep)
