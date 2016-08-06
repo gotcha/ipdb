@@ -23,14 +23,16 @@ def import_module(possible_modules, needed_module):
             count -= 1
             if count == 0:
                 raise
+
+from IPython import version_info as ipython_version
+from IPython.terminal.interactiveshell import TerminalInteractiveShell
+
 try:
     # IPython 5.0 and newer
+    from IPython.terminal.debugger import TerminalPdb as Pdb
     from IPython.core.debugger import BdbQuit_excepthook
-    from IPython.terminal.interactiveshell import TerminalInteractiveShell
-    debugger_cls = TerminalInteractiveShell().debugger_cls
 except ImportError:
     from IPython.core.debugger import Pdb, BdbQuit_excepthook
-    debugger_cls = Pdb
 
 possible_modules = ['IPython.terminal.ipapp',           # Newer IPython
                     'IPython.frontend.terminal.ipapp']  # Older IPython
@@ -71,7 +73,14 @@ else:
 def_exec_lines = [line + '\n' for line in ipapp.exec_lines]
 
 
+def _get_debugger_cls():
+    if ipython_version < (5, 0, 0):
+        return Pdb
+    return TerminalInteractiveShell().debugger_cls
+
+
 def _init_pdb(context=3):
+    debugger_cls = _get_debugger_cls()
     if 'context' in getargspec(debugger_cls.__init__)[0]:
         p = debugger_cls(def_colors, context=context)
     else:
