@@ -25,10 +25,12 @@ def import_module(possible_modules, needed_module):
                 raise
 try:
     # IPython 5.0 and newer
-    from IPython.terminal.debugger import TerminalPdb as Pdb
     from IPython.core.debugger import BdbQuit_excepthook
+    from IPython.terminal.interactiveshell import TerminalInteractiveShell
+    debugger_cls = TerminalInteractiveShell().debugger_cls
 except ImportError:
     from IPython.core.debugger import Pdb, BdbQuit_excepthook
+    debugger_cls = Pdb
 
 possible_modules = ['IPython.terminal.ipapp',           # Newer IPython
                     'IPython.frontend.terminal.ipapp']  # Older IPython
@@ -70,10 +72,10 @@ def_exec_lines = [line + '\n' for line in ipapp.exec_lines]
 
 
 def _init_pdb(context=3):
-    if 'context' in getargspec(Pdb.__init__)[0]:
-        p = Pdb(def_colors, context=context)
+    if 'context' in getargspec(debugger_cls.__init__)[0]:
+        p = debugger_cls(def_colors, context=context)
     else:
-        p = Pdb(def_colors)
+        p = debugger_cls(def_colors)
     p.rcLines += def_exec_lines
     return p
 
