@@ -19,6 +19,7 @@ Example usage:
         ipdb.set_trace()
         ipdb.set_trace(context=5)  # will show five lines of code
                                    # instead of the default three lines
+                                   # Or you can set it using IPDB_CONTEXT_SIZE env variable.
         ipdb.pm()
         ipdb.run('x[0] = 3')
         result = ipdb.runcall(function, arg0, arg1, kwarg='foo')
