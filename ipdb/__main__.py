@@ -24,11 +24,11 @@ def import_module(possible_modules, needed_module):
             if count == 0:
                 raise
 try:
-    # IPython 5.0 and newer
+    from IPython.core.debugger import Pdb, BdbQuit_excepthook
+except ImportError:
+    # For some versions of IPython 5.x
     from IPython.terminal.debugger import TerminalPdb as Pdb
     from IPython.core.debugger import BdbQuit_excepthook
-except ImportError:
-    from IPython.core.debugger import Pdb, BdbQuit_excepthook
 
 possible_modules = ['IPython.terminal.ipapp',           # Newer IPython
                     'IPython.frontend.terminal.ipapp']  # Older IPython
