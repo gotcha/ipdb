@@ -87,6 +87,12 @@ def wrap_sys_excepthook():
 
 
 def set_trace(frame=None, context=3):
+    try:
+        # Try to get and redeclare env variable with value of context
+        context = os.environ['IPDB_CONTEXT_SIZE']
+    except KeyError:
+        pass
+
     wrap_sys_excepthook()
     if frame is None:
         frame = sys._getframe().f_back
