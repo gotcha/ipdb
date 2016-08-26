@@ -24,11 +24,11 @@ def import_module(possible_modules, needed_module):
             if count == 0:
                 raise
 try:
-    from IPython.core.debugger import Pdb, BdbQuit_excepthook
-except ImportError:
     # For some versions of IPython 5.x
     from IPython.terminal.debugger import TerminalPdb as Pdb
     from IPython.core.debugger import BdbQuit_excepthook
+except ImportError:
+    from IPython.core.debugger import Pdb, BdbQuit_excepthook
 
 possible_modules = ['IPython.terminal.ipapp',           # Newer IPython
                     'IPython.frontend.terminal.ipapp']  # Older IPython
@@ -70,9 +70,9 @@ def_exec_lines = [line + '\n' for line in ipapp.exec_lines]
 
 
 def _init_pdb(context=3):
-    if 'context' in getargspec(Pdb.__init__)[0]:
+    try:
         p = Pdb(def_colors, context=context)
-    else:
+    except TypeError:
         p = Pdb(def_colors)
     p.rcLines += def_exec_lines
     return p
