@@ -2,8 +2,8 @@ from __future__ import print_function
 import sys
 from contextlib import contextmanager
 from IPython.utils import io
-from __main__ import set_trace
-from __main__ import post_mortem
+from ipdb.__main__ import set_trace
+from ipdb.__main__ import post_mortem
 
 
 def update_stdout():
