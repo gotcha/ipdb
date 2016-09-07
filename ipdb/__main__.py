@@ -86,12 +86,13 @@ def wrap_sys_excepthook():
         sys.excepthook = BdbQuit_excepthook
 
 
-def set_trace(frame=None, context=3):
-    try:
-        # Try to get and redeclare context with value of env variabe
-        context = os.environ['IPDB_CONTEXT_SIZE']
-    except KeyError:
+def set_trace(frame=None, context=None):
+    if context:
         pass
+    elif os.getenv('IPDB_CONTEXT_SIZE'):
+        context = int(os.environ['IPDB_CONTEXT_SIZE'])
+    else:
+        context = 3
 
     wrap_sys_excepthook()
     if frame is None:

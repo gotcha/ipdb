@@ -1,9 +1,6 @@
 IPython `pdb`
 =============
 
-(fork repo with fixed context and context receiving from env variable)
----
-
 .. image:: https://travis-ci.org/gotcha/ipdb.png?branch=master
   :target: https://travis-ci.org/gotcha/ipdb
 
