@@ -35,15 +35,9 @@ try:
         history_path = os.path.join(os.path.expanduser('~'), '.ipdb_history')
 
     class Pdb(TerminalPdb):
-        def __init__(self,
-                     color_scheme='NoColor',
-                     completekey=None,
-                     stdin=None,
-                     stdout=None,
-                     context=5):
+        def __init__(self, *args, **kwargs):
             """Init pdb and load the history file if present"""
-            super(Pdb, self).__init__(color_scheme, completekey, stdin, stdout,
-                                      context)
+            super(Pdb, self).__init__(*args, **kwargs)
             try:
                 with open(history_path, 'r') as f:
                     self.shell.debugger_history.strings = [
