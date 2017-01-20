@@ -70,9 +70,9 @@ def_exec_lines = [line + '\n' for line in ipapp.exec_lines]
 
 
 def _init_pdb(context=3):
-    if 'context' in getargspec(Pdb.__init__)[0]:
+    try:
         p = Pdb(def_colors, context=context)
-    else:
+    except TypeError:
         p = Pdb(def_colors)
     p.rcLines += def_exec_lines
     return p
@@ -90,6 +90,7 @@ def set_trace(frame=None, context=3):
     wrap_sys_excepthook()
     if frame is None:
         frame = sys._getframe().f_back
+
     p = _init_pdb(context).set_trace(frame)
     if p and hasattr(p, 'shell'):
         p.shell.restore_sys_module_state()
