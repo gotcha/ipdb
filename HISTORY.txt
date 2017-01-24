@@ -4,7 +4,9 @@ Changelog
 0.10.2 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- ipdb.set_trace() does not ignore context arg anymore.
+  Closes https://github.com/gotcha/ipdb/issues/93.
+  [gnebehay, Garrett-R]
 
 
 0.10.1 (2016-06-14)
