@@ -27,8 +27,13 @@ try:
     # IPython 5.0 and newer
     from IPython.terminal.debugger import TerminalPdb as Pdb
     from IPython.core.debugger import BdbQuit_excepthook
+    from IPython.terminal.interactiveshell import TerminalInteractiveShell
+    # Let IPython decide about which debugger class to use
+    # This is especially important for tools that fiddle with stdout
+    debugger_cls = TerminalInteractiveShell().debugger_cls
 except ImportError:
     from IPython.core.debugger import Pdb, BdbQuit_excepthook
+    debugger_cls = Pdb
 
 possible_modules = ['IPython.terminal.ipapp',           # Newer IPython
                     'IPython.frontend.terminal.ipapp']  # Older IPython
@@ -68,12 +73,11 @@ else:
 
 def_exec_lines = [line + '\n' for line in ipapp.exec_lines]
 
-
 def _init_pdb(context=3):
     try:
-        p = Pdb(def_colors, context=context)
+        p = debugger_cls(def_colors, context=context)
     except TypeError:
-        p = Pdb(def_colors)
+        p = debugger_cls(def_colors)
     p.rcLines += def_exec_lines
     return p
 
@@ -90,7 +94,6 @@ def set_trace(frame=None, context=3):
     wrap_sys_excepthook()
     if frame is None:
         frame = sys._getframe().f_back
-
     p = _init_pdb(context).set_trace(frame)
     if p and hasattr(p, 'shell'):
         p.shell.restore_sys_module_state()
