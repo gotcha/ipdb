@@ -4,6 +4,9 @@ Changelog
 0.10.2 (unreleased)
 -------------------
 
+- Ask IPython which debugger class to use.
+  Closes https://github.com/gotcha/ipdb/issues/105
+
 - ipdb.set_trace() does not ignore context arg anymore.
   Closes https://github.com/gotcha/ipdb/issues/93.
   [gnebehay, Garrett-R]
