@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.10.2 (unreleased)
+0.10.2 (2017-01-25)
 -------------------
 
 - Ask IPython which debugger class to use.
