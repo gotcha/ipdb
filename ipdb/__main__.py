@@ -72,12 +72,13 @@ else:
 
 def_exec_lines = [line + '\n' for line in ipapp.exec_lines]
 
-def _init_pdb(context=3):
+def _init_pdb(context=3, commands=[]):
     try:
         p = debugger_cls(def_colors, context=context)
     except TypeError:
         p = debugger_cls(def_colors)
     p.rcLines += def_exec_lines
+    p.rcLines.extend(commands)
     return p
 
 
@@ -138,20 +139,46 @@ def launch_ipdb_on_exception():
         pass
 
 
+_usage = """\
+usage: python -m ipdb [-c command] ... pyfile [arg] ...
+
+Debug the Python program given by pyfile.
+
+Initial commands are read from .pdbrc files in your home directory
+and in the current directory, if they exist.  Commands supplied with
+-c are executed after commands from .pdbrc files.
+
+To let the script run until an exception occurs, use "-c continue".
+To let the script run up to a given line X in the debugged file, use
+"-c 'until X'"."""
+
+
 def main():
     import traceback
     import sys
+    import getopt
+
     try:
         from pdb import Restart
     except ImportError:
         class Restart(Exception):
             pass
+    
+    opts, args = getopt.getopt(sys.argv[1:], 'hc:', ['--help', '--command='])
 
-    if not sys.argv[1:] or sys.argv[1] in ("--help", "-h"):
-        print("usage: ipdb.py scriptfile [arg] ...")
+    if not args:
+        print(_usage)
         sys.exit(2)
+    
+    commands = []
+    for opt, optarg in opts:
+        if opt in ['-h', '--help']:
+            print(_usage)
+            sys.exit()
+        elif opt in ['-c', '--command']:
+            commands.append(optarg)
 
-    mainpyfile = sys.argv[1]     # Get script filename
+    mainpyfile = args[0]     # Get script filename
     if not os.path.exists(mainpyfile):
         print('Error:', mainpyfile, 'does not exist')
         sys.exit(1)
@@ -165,7 +192,7 @@ def main():
     # modified by the script being debugged. It's a bad idea when it was
     # changed by the user from the command line. There is a "restart" command
     # which allows explicit specification of command line arguments.
-    pdb = _init_pdb()
+    pdb = _init_pdb(commands=commands)
     while 1:
         try:
             pdb._runscript(mainpyfile)
