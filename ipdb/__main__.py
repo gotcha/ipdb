@@ -183,7 +183,7 @@ def main():
         print('Error:', mainpyfile, 'does not exist')
         sys.exit(1)
 
-    del sys.argv[0]         # Hide "pdb.py" from argument list
+    sys.argv[1:] = args     # Hide "pdb.py" from argument list
 
     # Replace pdb's dir with script's dir in front of module search path.
     sys.path[0] = os.path.dirname(mainpyfile)
