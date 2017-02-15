@@ -4,7 +4,8 @@ Changelog
 0.10.3 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Command line usage consistent with pdb - Add argument commands
+  [zvodd]
 
 
 0.10.2 (2017-01-25)
