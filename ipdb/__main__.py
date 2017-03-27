@@ -5,10 +5,12 @@
 # https://opensource.org/licenses/BSD-3-Clause
 
 from __future__ import print_function
+
 import os
 import sys
-
 from contextlib import contextmanager
+
+from prompt_toolkit.shortcuts import create_eventloop
 
 
 def import_module(possible_modules, needed_module):
@@ -69,6 +71,10 @@ else:
             "\nYou are currently into an embedded ipython shell,\n"
             "the configuration will not be loaded.\n\n"
         )
+
+# Manually create eventloop if ipython does not provides one
+if not hasattr(shell, '_eventloop'):
+    shell._eventloop = create_eventloop()
 
 def_exec_lines = [line + '\n' for line in ipapp.exec_lines]
 
@@ -163,13 +169,13 @@ def main():
     except ImportError:
         class Restart(Exception):
             pass
-    
+
     opts, args = getopt.getopt(sys.argv[1:], 'hc:', ['--help', '--command='])
 
     if not args:
         print(_usage)
         sys.exit(2)
-    
+
     commands = []
     for opt, optarg in opts:
         if opt in ['-h', '--help']:
