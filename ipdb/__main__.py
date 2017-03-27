@@ -71,10 +71,9 @@ else:
             "\nYou are currently into an embedded ipython shell,\n"
             "the configuration will not be loaded.\n\n"
         )
-
-# Manually create eventloop if ipython does not provides one
-if not hasattr(shell, '_eventloop'):
-    shell._eventloop = create_eventloop()
+    # Manually create eventloop if ipython does not provides one
+    if not hasattr(shell, '_eventloop'):
+        shell._eventloop = create_eventloop()
 
 def_exec_lines = [line + '\n' for line in ipapp.exec_lines]
 
