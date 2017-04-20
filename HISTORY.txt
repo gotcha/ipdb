@@ -4,6 +4,8 @@ Changelog
 0.10.3 (unreleased)
 -------------------
 
+- For users using python < 3.3, do not install IPython >= 6.0.0.
+  [vphilippon]
 - Command line usage consistent with pdb - Add argument commands
   [zvodd]
 

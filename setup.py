@@ -46,9 +46,12 @@ setup(name='ipdb',
       zip_safe=True,
       test_suite='tests',
       install_requires=[
-          'ipython >= 0.10.2',
           'setuptools'
       ],
+      extras_require={
+          ':python_version < "3.3"': ['ipython >= 0.10.2, < 6.0.0'],
+          ':python_version >= "3.3"': ['ipython >= 0.10.2'],
+      },
       entry_points={
           'console_scripts': ['%s = ipdb.__main__:main' % console_script]
       },
