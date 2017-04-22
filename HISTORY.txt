@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.10.3 (unreleased)
+0.10.3 (2017-04-22)
 -------------------
 
 - For users using python 2.6, do not install IPython >= 2.0.0.
