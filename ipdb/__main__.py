@@ -149,6 +149,7 @@ Initial commands are read from .pdbrc files in your home directory
 and in the current directory, if they exist.  Commands supplied with
 -c are executed after commands from .pdbrc files.
 
+To let the script run until an exception occurs, use "-c continue".
 To let the script run up to a given line X in the debugged file, use
 "-c 'until X'"
 ipdb version {}.""".format(__version__)
