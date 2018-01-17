@@ -10,6 +10,7 @@ import sys
 
 from contextlib import contextmanager
 
+__version__= "0.10.3"
 
 def import_module(possible_modules, needed_module):
     """Make it more resilient to different versions of IPython and try to
@@ -148,9 +149,9 @@ Initial commands are read from .pdbrc files in your home directory
 and in the current directory, if they exist.  Commands supplied with
 -c are executed after commands from .pdbrc files.
 
-To let the script run until an exception occurs, use "-c continue".
 To let the script run up to a given line X in the debugged file, use
-"-c 'until X'"."""
+"-c 'until X'"
+ipdb version {}.""".format(__version__)
 
 
 def main():
