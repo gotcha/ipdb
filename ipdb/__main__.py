@@ -152,7 +152,7 @@ and in the current directory, if they exist.  Commands supplied with
 To let the script run until an exception occurs, use "-c continue".
 To let the script run up to a given line X in the debugged file, use
 "-c 'until X'"
-ipdb version {}.""".format(__version__)
+ipdb version %s.""" % __version__
 
 
 def main():
