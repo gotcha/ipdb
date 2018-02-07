@@ -24,10 +24,8 @@ setup(name='ipdb',
       description="IPython-enabled pdb",
       long_description=long_description,
       classifiers=[
-        'Programming Language :: Python :: 2.6',
         'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.2',
         'Programming Language :: Python :: 3.3',
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
@@ -45,6 +43,7 @@ setup(name='ipdb',
       include_package_data=True,
       zip_safe=True,
       test_suite='tests',
+      python_requires=">=2.7",
       install_requires=[
           'setuptools'
       ],
