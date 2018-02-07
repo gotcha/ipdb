@@ -27,14 +27,9 @@ if shell is None:
     # Avoid output (banner, prints)
     ipapp.interact = False
     ipapp.initialize([])
-    # Let IPython decide about which debugger class to use
-    # This is especially important for tools that fiddle with stdout
-    debugger_cls = ipapp.shell.debugger_cls
-    def_colors = ipapp.shell.colors
+    shell = ipapp.shell
 else:
     # Running inside IPython
-    debugger_cls = shell.debugger_cls
-    def_colors = shell.colors
 
     # Detect if embed shell or not and display a message
     if isinstance(shell, InteractiveShellEmbed):
@@ -42,6 +37,11 @@ else:
             "\nYou are currently into an embedded ipython shell,\n"
             "the configuration will not be loaded.\n\n"
         )
+
+# Let IPython decide about which debugger class to use
+# This is especially important for tools that fiddle with stdout
+debugger_cls = shell.debugger_cls
+def_colors = shell.colors
 
 def _init_pdb(context=3, commands=[]):
     try:
