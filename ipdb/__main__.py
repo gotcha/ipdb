@@ -12,66 +12,40 @@ from contextlib import contextmanager
 
 __version__= "0.10.3"
 
-def import_module(possible_modules, needed_module):
-    """Make it more resilient to different versions of IPython and try to
-    find a module."""
-    count = len(possible_modules)
-    for module in possible_modules:
-        try:
-            return __import__(module, fromlist=[needed_module])
-        except ImportError:
-            count -= 1
-            if count == 0:
-                raise
-try:
-    # IPython 5.0 and newer
-    from IPython.terminal.debugger import TerminalPdb as Pdb
-    from IPython.core.debugger import BdbQuit_excepthook
-    from IPython.terminal.interactiveshell import TerminalInteractiveShell
-    # Let IPython decide about which debugger class to use
-    # This is especially important for tools that fiddle with stdout
-    debugger_cls = TerminalInteractiveShell().debugger_cls
-except ImportError:
-    from IPython.core.debugger import Pdb, BdbQuit_excepthook
-    debugger_cls = Pdb
+from IPython import get_ipython
+from IPython.core.debugger import BdbQuit_excepthook
+from IPython.terminal.ipapp import TerminalIPythonApp
+from IPython.terminal.embed import InteractiveShellEmbed
 
-possible_modules = ['IPython.terminal.ipapp',           # Newer IPython
-                    'IPython.frontend.terminal.ipapp']  # Older IPython
 
-app = import_module(possible_modules, "TerminalIPythonApp")
-TerminalIPythonApp = app.TerminalIPythonApp
-
-possible_modules = ['IPython.terminal.embed',           # Newer IPython
-                    'IPython.frontend.terminal.embed']  # Older IPython
-embed = import_module(possible_modules, "InteractiveShellEmbed")
-InteractiveShellEmbed = embed.InteractiveShellEmbed
-try:
-    get_ipython
-except NameError:
+shell = get_ipython()
+if shell is None:
+    # Not inside IPython
     # Build a terminal app in order to force ipython to load the
     # configuration
     ipapp = TerminalIPythonApp()
     # Avoid output (banner, prints)
     ipapp.interact = False
     ipapp.initialize([])
+    # Let IPython decide about which debugger class to use
+    # This is especially important for tools that fiddle with stdout
+    debugger_cls = ipapp.shell.debugger_cls
     def_colors = ipapp.shell.colors
+    def_exec_lines = [line + '\n' for line in ipapp.exec_lines]
 else:
-    # If an instance of IPython is already running try to get an instance
-    # of the application. If there is no TerminalIPythonApp instanciated
-    # the instance method will create a new one without loading the config.
-    # i.e: if we are in an embed instance we do not want to load the config.
-    ipapp = TerminalIPythonApp.instance()
+    # Running inside IPython
     shell = get_ipython()
+    debugger_cls = shell.debugger_cls
     def_colors = shell.colors
 
     # Detect if embed shell or not and display a message
     if isinstance(shell, InteractiveShellEmbed):
-        shell.write_err(
+        sys.stderr.write(
             "\nYou are currently into an embedded ipython shell,\n"
             "the configuration will not be loaded.\n\n"
         )
 
-def_exec_lines = [line + '\n' for line in ipapp.exec_lines]
+    def_exec_lines = []
 
 def _init_pdb(context=3, commands=[]):
     try:
