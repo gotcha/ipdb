@@ -31,7 +31,6 @@ if shell is None:
     # This is especially important for tools that fiddle with stdout
     debugger_cls = ipapp.shell.debugger_cls
     def_colors = ipapp.shell.colors
-    def_exec_lines = [line + '\n' for line in ipapp.exec_lines]
 else:
     # Running inside IPython
     debugger_cls = shell.debugger_cls
@@ -44,14 +43,11 @@ else:
             "the configuration will not be loaded.\n\n"
         )
 
-    def_exec_lines = []
-
 def _init_pdb(context=3, commands=[]):
     try:
         p = debugger_cls(def_colors, context=context)
     except TypeError:
         p = debugger_cls(def_colors)
-    p.rcLines += def_exec_lines
     p.rcLines.extend(commands)
     return p
 
