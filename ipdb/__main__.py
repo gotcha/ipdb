@@ -34,7 +34,6 @@ if shell is None:
     def_exec_lines = [line + '\n' for line in ipapp.exec_lines]
 else:
     # Running inside IPython
-    shell = get_ipython()
     debugger_cls = shell.debugger_cls
     def_colors = shell.colors
 
