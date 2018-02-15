@@ -1,8 +1,8 @@
 Changelog
 =========
 
-0.10.4 (unreleased)
--------------------
+0.11 (2018-02-15)
+-----------------
 
 - Simplify loading IPython and getting information from it.
   Drop support for python 2.6
