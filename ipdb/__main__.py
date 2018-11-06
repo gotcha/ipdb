@@ -17,6 +17,7 @@ from IPython.core.debugger import BdbQuit_excepthook
 from IPython.terminal.ipapp import TerminalIPythonApp
 from IPython.terminal.embed import InteractiveShellEmbed
 
+default_context = 3
 
 shell = get_ipython()
 if shell is None:
@@ -43,7 +44,7 @@ else:
 debugger_cls = shell.debugger_cls
 def_colors = shell.colors
 
-def _init_pdb(context=3, commands=[]):
+def _init_pdb(context=default_context, commands=[]):
     try:
         p = debugger_cls(def_colors, context=context)
     except TypeError:
@@ -60,7 +61,7 @@ def wrap_sys_excepthook():
         sys.excepthook = BdbQuit_excepthook
 
 
-def set_trace(frame=None, context=3):
+def set_trace(frame=None, context=default_context):
     wrap_sys_excepthook()
     if frame is None:
         frame = sys._getframe().f_back
@@ -135,19 +136,22 @@ def main():
         class Restart(Exception):
             pass
     
-    opts, args = getopt.getopt(sys.argv[1:], 'hc:', ['help', 'command='])
+    opts, args = getopt.getopt(sys.argv[1:], 'hc:C:', ['help', 'command=', 'context='])
 
     if not args:
         print(_usage)
         sys.exit(2)
     
     commands = []
+    context = default_context
     for opt, optarg in opts:
         if opt in ['-h', '--help']:
             print(_usage)
             sys.exit()
         elif opt in ['-c', '--command']:
             commands.append(optarg)
+        elif opt in ['-C', '--context']:
+            context = int(optarg)
 
     mainpyfile = args[0]     # Get script filename
     if not os.path.exists(mainpyfile):
@@ -163,7 +167,7 @@ def main():
     # modified by the script being debugged. It's a bad idea when it was
     # changed by the user from the command line. There is a "restart" command
     # which allows explicit specification of command line arguments.
-    pdb = _init_pdb(commands=commands)
+    pdb = _init_pdb(commands=commands, context=context)
     while 1:
         try:
             pdb._runscript(mainpyfile)
