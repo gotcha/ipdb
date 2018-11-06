@@ -135,7 +135,7 @@ def main():
         class Restart(Exception):
             pass
     
-    opts, args = getopt.getopt(sys.argv[1:], 'hc:', ['--help', '--command='])
+    opts, args = getopt.getopt(sys.argv[1:], 'hc:', ['help', 'command='])
 
     if not args:
         print(_usage)
