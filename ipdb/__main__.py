@@ -26,7 +26,7 @@ if shell is None:
     ipapp = TerminalIPythonApp()
     # Avoid output (banner, prints)
     ipapp.interact = False
-    ipapp.initialize([])
+    ipapp.initialize(['--no-term-title'])
     shell = ipapp.shell
 else:
     # Running inside IPython
