@@ -41,13 +41,12 @@ else:
 # Let IPython decide about which debugger class to use
 # This is especially important for tools that fiddle with stdout
 debugger_cls = shell.debugger_cls
-def_colors = shell.colors
 
 def _init_pdb(context=3, commands=[]):
     try:
-        p = debugger_cls(def_colors, context=context)
+        p = debugger_cls(context=context)
     except TypeError:
-        p = debugger_cls(def_colors)
+        p = debugger_cls()
     p.rcLines.extend(commands)
     return p
 
