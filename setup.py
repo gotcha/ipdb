@@ -47,9 +47,9 @@ setup(name='ipdb',
           'setuptools'
       ],
       extras_require={
-          ':python_version == "2.7"': ['ipython >= 5.0.0, < 6.0.0'],
+          ':python_version == "2.7"': ['ipython >= 5.1.0, < 6.0.0'],
           # No support for python 3.0, 3.1, 3.2.
-          ':python_version >= "3.4"': ['ipython >= 5.0.0'],
+          ':python_version >= "3.4"': ['ipython >= 5.1.0'],
       },
       entry_points={
           'console_scripts': ['%s = ipdb.__main__:main' % console_script]
