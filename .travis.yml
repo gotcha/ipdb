@@ -11,9 +11,11 @@ python:
 before_install:
   # Update pip and setuptools to the latest.
   - pip install --upgrade pip setuptools
+  - pip install codecov
 install:
   # Install ipdb, which will install the right IPython version for the current python.
   - pip install -e .
-script: 
-  - python setup.py test
+script:
+  - coverage run setup.py test
+  - codecov
 sudo: false
