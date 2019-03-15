@@ -26,7 +26,6 @@ setup(name='ipdb',
       classifiers=[
         'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.3',
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
         'Operating System :: MacOS :: MacOS X',
@@ -50,7 +49,7 @@ setup(name='ipdb',
       extras_require={
           ':python_version == "2.7"': ['ipython >= 5.0.0, < 6.0.0'],
           # No support for python 3.0, 3.1, 3.2.
-          ':python_version >= "3.3"': ['ipython >= 5.0.0'],
+          ':python_version >= "3.4"': ['ipython >= 5.0.0'],
       },
       entry_points={
           'console_scripts': ['%s = ipdb.__main__:main' % console_script]
