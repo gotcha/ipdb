@@ -1,8 +1,8 @@
 Changelog
 =========
 
-0.11.1 (unreleased)
--------------------
+0.12 (2019-03-20)
+-----------------
 
 - Drop support for Python 3.3.x
 - Stop deprecation warnings from being raised when IPython >= 5.1 is used.
