@@ -136,10 +136,6 @@ def main():
     
     opts, args = getopt.getopt(sys.argv[1:], 'hc:', ['help', 'command='])
 
-    if not args:
-        print(_usage)
-        sys.exit(2)
-    
     commands = []
     for opt, optarg in opts:
         if opt in ['-h', '--help']:
@@ -148,6 +144,10 @@ def main():
         elif opt in ['-c', '--command']:
             commands.append(optarg)
 
+    if not args:
+        print(_usage)
+        sys.exit(2)
+    
     mainpyfile = args[0]     # Get script filename
     if not os.path.exists(mainpyfile):
         print('Error:', mainpyfile, 'does not exist')
