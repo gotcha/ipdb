@@ -4,7 +4,8 @@ Changelog
 0.12.2 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Avoid emitting term-title bytes
+  [steinnes]
 
 
 0.12.1 (2019-07-26)
