@@ -54,6 +54,5 @@ setup(name='ipdb',
       },
       entry_points={
           'console_scripts': ['%s = ipdb.__main__:main' % console_script]
-      },
-      use_2to3=True,
+      }
 )
