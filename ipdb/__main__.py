@@ -10,7 +10,7 @@ import sys
 
 from contextlib import contextmanager
 
-__version__= "0.10.3"
+__version__ = "0.10.3"
 
 from IPython import get_ipython
 from IPython.core.debugger import BdbQuit_excepthook
@@ -41,6 +41,7 @@ else:
 # Let IPython decide about which debugger class to use
 # This is especially important for tools that fiddle with stdout
 debugger_cls = shell.debugger_cls
+
 
 def _init_pdb(context=3, commands=[]):
     try:
@@ -133,7 +134,7 @@ def main():
     except ImportError:
         class Restart(Exception):
             pass
-    
+
     opts, args = getopt.getopt(sys.argv[1:], 'hc:', ['help', 'command='])
 
     commands = []
@@ -147,7 +148,7 @@ def main():
     if not args:
         print(_usage)
         sys.exit(2)
-    
+
     mainpyfile = args[0]     # Get script filename
     if not os.path.exists(mainpyfile):
         print('Error:', mainpyfile, 'does not exist')
@@ -184,6 +185,7 @@ def main():
             pdb.interaction(None, t)
             print("Post mortem debugger finished. The " + mainpyfile +
                   " will be restarted")
+
 
 if __name__ == '__main__':
     main()
