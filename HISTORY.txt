@@ -4,7 +4,8 @@ Changelog
 0.12.3 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Fix version in usage
+  [gotcha]
 
 
 0.12.2 (2019-07-30)

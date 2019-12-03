@@ -6,8 +6,13 @@
 
 from setuptools import setup, find_packages
 from sys import version_info
+import re
+import io
 
-version = '0.12.3.dev0'
+version = re.search(
+    r'__version__\s*=\s*[\'"]([^\'"]*)[\'"]',  # It excludes inline comment too
+    io.open('ipdb/__main__.py', encoding='utf_8_sig').read()
+    ).group(1)
 
 long_description = (open('README.rst').read() +
     '\n\n' + open('HISTORY.txt').read())
