@@ -78,7 +78,7 @@ fiddle with ``stdout`` to support those tools.
 However, all strategies tried until 0.9.4 have proven brittle.
 
 If you use ``nose`` or another tool that fiddles with ``stdout``, you should
-explicitely ask for ``stdout`` fiddling by using ``ipdb`` like this
+explicitly ask for ``stdout`` fiddling by using ``ipdb`` like this
 
 .. code-block:: python
 
