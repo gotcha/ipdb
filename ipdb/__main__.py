@@ -16,6 +16,10 @@ from IPython import get_ipython
 from IPython.core.debugger import BdbQuit_excepthook
 from IPython.terminal.ipapp import TerminalIPythonApp
 from IPython.terminal.embed import InteractiveShellEmbed
+try:
+    import configparser
+except:
+    import ConfigParser as configparser
 
 
 shell = get_ipython()
@@ -60,13 +64,53 @@ def wrap_sys_excepthook():
         sys.excepthook = BdbQuit_excepthook
 
 
-def set_trace(frame=None, context=3):
+def set_trace(frame=None, context=None):
     wrap_sys_excepthook()
+    if not context:
+        context = os.environ.get(
+            "IPDB_CONTEXT_SIZE", get_config().get("ipdb", "context", fallback=3)
+        )
     if frame is None:
         frame = sys._getframe().f_back
     p = _init_pdb(context).set_trace(frame)
     if p and hasattr(p, 'shell'):
         p.shell.restore_sys_module_state()
+
+
+def get_config():
+    """
+    Get ipdb config file settings.
+    All available config files are read.  If settings are in multiple configs,
+    the last value encountered wins.  Values specified on the command-line take
+    precedence over all config file settings.
+    Returns: A ConfigParser object.
+    """
+    parser = configparser.ConfigParser()
+
+    filepaths = []
+
+    # Low priority (whenever user wants to set a specific path to config file)
+    env_filepath = os.getenv("IPDB_CONFIG")
+    if env_filepath and os.path.isfile(env_filepath):
+        filepaths.append(env_filepath)
+
+    # Medium priority (default files)
+    for cfg_file in ("setup.cfg"):
+        cwd_filepath = os.path.join(os.getcwd(), cfg_file)
+        if os.path.isfile(cwd_filepath):
+            filepaths.append(cwd_filepath)
+
+    if filepaths:
+        # Python 3 has parser.read_file(iterator) while Python2 has
+        # parser.readfp(obj_with_readline)
+        read_func = getattr(parser, 'read_file', getattr(parser, 'readfp'))
+        for filepath in filepaths:
+            # Users are expected to put an [ipdb] section
+            # only if they use setup.cfg
+            if filepath.endswith('setup.cfg'):
+                with open(filepath) as f:
+                    read_func(f)
+    return parser
 
 
 def post_mortem(tb=None):
