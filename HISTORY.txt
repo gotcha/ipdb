@@ -4,7 +4,8 @@ Changelog
 0.13.1 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Fix when no configuration file
+  [gotcha]
 
 
 0.13.0 (2020-02-28)

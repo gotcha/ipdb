@@ -68,13 +68,28 @@ def set_trace(frame=None, context=None):
     wrap_sys_excepthook()
     if not context:
         context = os.environ.get(
-            "IPDB_CONTEXT_SIZE", get_config().getint("ipdb", "context", fallback=3)
+            "IPDB_CONTEXT_SIZE", get_context_from_config()
         )
     if frame is None:
         frame = sys._getframe().f_back
     p = _init_pdb(context).set_trace(frame)
     if p and hasattr(p, 'shell'):
         p.shell.restore_sys_module_state()
+
+
+def get_context_from_config():
+    try:
+        parser = get_config()
+        print(parser.__dict__)
+        return parser.getint("ipdb", "context")
+    except (configparser.NoSectionError, configparser.NoOptionError):
+        return 3
+    except ValueError:
+        value = parser.get("ipdb", "context")
+        raise ValueError(
+            "In %s,  context value [%s] cannot be converted into an integer."
+            % (parser.filepath, value)
+        )
 
 
 class ConfigFile(object):
@@ -146,8 +161,12 @@ def get_config():
     if filepaths:
         # Python 3 has parser.read_file(iterator) while Python2 has
         # parser.readfp(obj_with_readline)
-        read_func = getattr(parser, 'read_file', getattr(parser, 'readfp'))
+        try:
+            read_func = parser.read_file
+        except AttributeError:
+            read_func = parser.readfp
         for filepath in filepaths:
+            parser.filepath = filepath
             # Users are expected to put an [ipdb] section
             # only if they use setup.cfg
             if filepath.endswith('setup.cfg'):
