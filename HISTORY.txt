@@ -1,15 +1,11 @@
 Changelog
 =========
 
-0.12.5 (unreleased)
--------------------
-
-- Nothing changed yet.
-
-0.12.4 (2020-02-28)
+0.12.4 (unreleased)
 -------------------
 
 - Add option to set context via environment variable or configuration file.
+  [alexandrebarbaruiva]
 
 
 0.12.3 (2019-12-03)
