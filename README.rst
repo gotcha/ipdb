@@ -21,10 +21,17 @@ Example usage:
         ipdb.set_trace()
         ipdb.set_trace(context=5)  # will show five lines of code
                                    # instead of the default three lines
+                                   # or you can set it via IPDB_CONTEXT_SIZE env variable
+                                   # or setup.cfg file
         ipdb.pm()
         ipdb.run('x[0] = 3')
         result = ipdb.runcall(function, arg0, arg1, kwarg='foo')
         result = ipdb.runeval('f(1,2) - 3')
+
+It's possible to set up context using a `.ipdb` file on your home folder or `setup.cfg`
+on your project folder. You can also set your file location via env var `$IPDB_CONFIG`.
+Your environment variable has priority over the home configuration file,
+which in turn has priority over the setup config file.
 
 The post-mortem function, ``ipdb.pm()``, is equivalent to the magic function
 ``%debug``.
