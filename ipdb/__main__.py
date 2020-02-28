@@ -68,13 +68,49 @@ def set_trace(frame=None, context=None):
     wrap_sys_excepthook()
     if not context:
         context = os.environ.get(
-            "IPDB_CONTEXT_SIZE", get_config().get("ipdb", "context", fallback=3)
+            "IPDB_CONTEXT_SIZE", get_config().getint("ipdb", "context", fallback=3)
         )
     if frame is None:
         frame = sys._getframe().f_back
     p = _init_pdb(context).set_trace(frame)
     if p and hasattr(p, 'shell'):
         p.shell.restore_sys_module_state()
+
+
+class ConfigFile(object):
+    """
+    Filehandle wrapper that adds a "[ipdb]" section to the start of a config
+    file so that users don't actually have to manually add a [ipdb] section.
+    Works with configparser versions from both Python 2 and 3
+    """
+
+    def __init__(self, filepath):
+        self.first = True
+        with open(filepath) as f:
+            self.lines = f.readlines()
+
+    # Python 2.7 (Older dot versions)
+    def readline(self):
+        try:
+            return self.__next__()
+        except StopIteration:
+            return ''
+
+    # Python 2.7 (Newer dot versions)
+    def next(self):
+        return self.__next__()
+
+    # Python 3
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        if self.first:
+            self.first = False
+            return "[ipdb]\n"
+        if self.lines:
+            return self.lines.pop(0)
+        raise StopIteration
 
 
 def get_config():
@@ -89,16 +125,23 @@ def get_config():
 
     filepaths = []
 
-    # Low priority (whenever user wants to set a specific path to config file)
-    env_filepath = os.getenv("IPDB_CONFIG")
-    if env_filepath and os.path.isfile(env_filepath):
-        filepaths.append(env_filepath)
-
-    # Medium priority (default files)
-    for cfg_file in ("setup.cfg"):
+    # Low priority goes first in the list
+    for cfg_file in ("setup.cfg", ".ipdb"):
         cwd_filepath = os.path.join(os.getcwd(), cfg_file)
         if os.path.isfile(cwd_filepath):
             filepaths.append(cwd_filepath)
+
+    # Medium priority (whenever user wants to set a specific path to config file)
+    home = os.getenv("HOME")
+    if home:
+        default_filepath = os.path.join(home, ".ipdb")
+        if os.path.isfile(default_filepath):
+            filepaths.append(default_filepath)
+
+    # High priority (default files)
+    env_filepath = os.getenv("IPDB_CONFIG")
+    if env_filepath and os.path.isfile(env_filepath):
+        filepaths.append(env_filepath)
 
     if filepaths:
         # Python 3 has parser.read_file(iterator) while Python2 has
@@ -110,6 +153,8 @@ def get_config():
             if filepath.endswith('setup.cfg'):
                 with open(filepath) as f:
                     read_func(f)
+            else:
+                read_func(ConfigFile(filepath))
     return parser
 
 
