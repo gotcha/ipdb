@@ -54,24 +54,25 @@ except (IOError, OSError):
     history_path = os.path.join(os.path.expanduser('~'), '.ipdb_history')
 
 
-class Pdb(debugger_cls):
-    def __init__(self, *args, **kwargs):
+class Pdb(debugger_cls, object):
+
+    def pt_init(self):
         """Init pdb and load the history file if present"""
-        super(Pdb, self).__init__(*args, **kwargs)
         try:
+            history = self.shell.debugger_history
             with open(history_path, 'r') as f:
-                self.shell.debugger_history.strings = [
-                    unicode(line.replace(os.linesep, ''))
-                    for line in f.readlines()
-                ]
+                for line in f.readlines():
+                    history.append(unicode(line.replace(os.linesep, '')))
         except IOError:
             pass
 
         # remember the last history entry if present
-        if len(self.shell.debugger_history.strings) > 0:
-            self.history_last = self.shell.debugger_history.strings[-1]
+        if len(self.shell.debugger_history) > 0:
+            self.history_last = self.shell.debugger_history[-1]
         else:
             self.history_last = None
+
+        super(Pdb, self).pt_init()
 
     def parseline(self, line):
         """Append the line in the history file before parsing"""
