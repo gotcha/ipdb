@@ -80,7 +80,6 @@ def set_trace(frame=None, context=None):
 def get_context_from_config():
     try:
         parser = get_config()
-        print(parser.__dict__)
         return parser.getint("ipdb", "context")
     except (configparser.NoSectionError, configparser.NoOptionError):
         return 3
