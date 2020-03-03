@@ -74,8 +74,9 @@ class Pdb(debugger_cls, object):
 
         super(Pdb, self).pt_init()
 
-    def parseline(self, line):
-        """Append the line in the history file before parsing"""
+    def _update_history(self, line):
+        if not hasattr(self, 'history_last'):
+            return
         # the line has to be different from the last history entry and not
         # void or equal to EOF
         if line not in (self.history_last, 'EOF', ''):
@@ -87,6 +88,10 @@ class Pdb(debugger_cls, object):
                     f.write(line + os.linesep)
             except IOError:
                 pass
+
+    def parseline(self, line):
+        """Append the line in the history file before parsing"""
+        self._update_history(line)
         return super(Pdb, self).parseline(line)
 
 
