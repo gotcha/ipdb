@@ -4,7 +4,8 @@ Changelog
 0.13.3 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Share history between sessions
+  [michelesr, gotcha]
 
 
 0.13.2 (2020-03-03)
