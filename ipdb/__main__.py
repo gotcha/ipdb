@@ -64,17 +64,18 @@ def wrap_sys_excepthook():
         sys.excepthook = BdbQuit_excepthook
 
 
-def set_trace(frame=None, context=None):
-    wrap_sys_excepthook()
-    if not context:
-        context = os.environ.get(
-            "IPDB_CONTEXT_SIZE", get_context_from_config()
-        )
-    if frame is None:
-        frame = sys._getframe().f_back
-    p = _init_pdb(context).set_trace(frame)
-    if p and hasattr(p, 'shell'):
-        p.shell.restore_sys_module_state()
+def set_trace(frame=None, context=None, cond=True):
+    if cond:
+        wrap_sys_excepthook()
+        if not context:
+            context = os.environ.get(
+                "IPDB_CONTEXT_SIZE", get_context_from_config()
+            )
+        if frame is None:
+            frame = sys._getframe().f_back
+        p = _init_pdb(context).set_trace(frame)
+        if p and hasattr(p, 'shell'):
+            p.shell.restore_sys_module_state()
 
 
 def get_context_from_config():
