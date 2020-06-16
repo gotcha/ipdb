@@ -4,7 +4,7 @@ Changelog
 0.13.3 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Add condition argument to set_trace
 
 
 0.13.2 (2020-03-03)
@@ -24,7 +24,7 @@ Changelog
 0.13.0 (2020-02-28)
 -------------------
 
-- Add option to set context via environment variable or configuration file.
+- Add option to set context via environment variable or configuration file
   [alexandrebarbaruiva]
 
 
