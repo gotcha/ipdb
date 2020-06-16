@@ -28,6 +28,13 @@ Example usage:
         result = ipdb.runcall(function, arg0, arg1, kwarg='foo')
         result = ipdb.runeval('f(1,2) - 3')
 
+Arguments for `set_trace`
++++++++++++++++++++++++++
+
+The `set_trace` function accepts `context` which will show as many lines of code as defined,
+and `cond`, which accepts boolean values (such as `abc == 17`) and will start ipdb's
+interface whenever `cond` equals to `True`.
+
 Using configuration file
 ++++++++++++++++++++++++
 
