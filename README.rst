@@ -28,6 +28,7 @@ Example usage:
         result = ipdb.runcall(function, arg0, arg1, kwarg='foo')
         result = ipdb.runeval('f(1,2) - 3')
 
+
 Arguments for `set_trace`
 +++++++++++++++++++++++++
 
@@ -45,15 +46,19 @@ which in turn has priority over the setup config file. Currently, only context s
 is available.
 
 A valid setup.cfg is as follows
-```
-[ipdb]
-context=5
-```
+
+::
+
+        [ipdb]
+        context=5
+
 
 A valid .ipdb is as follows
-```
-context=5
-```
+
+::
+
+        context=5
+
 
 The post-mortem function, ``ipdb.pm()``, is equivalent to the magic function
 ``%debug``.
