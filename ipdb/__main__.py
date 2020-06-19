@@ -47,7 +47,9 @@ else:
 debugger_cls = shell.debugger_cls
 
 
-def _init_pdb(context=3, commands=[]):
+def _init_pdb(context=None, commands=[]):
+    if context is None:
+        context = os.getenv("IPDB_CONTEXT_SIZE", get_context_from_config())
     try:
         p = debugger_cls(context=context)
     except TypeError:
@@ -68,10 +70,6 @@ def set_trace(frame=None, context=None, cond=True):
     if not cond:
         return
     wrap_sys_excepthook()
-    if not context:
-        context = os.environ.get(
-            "IPDB_CONTEXT_SIZE", get_context_from_config()
-        )
     if frame is None:
         frame = sys._getframe().f_back
     p = _init_pdb(context).set_trace(frame)
