@@ -66,7 +66,9 @@ def wrap_sys_excepthook():
         sys.excepthook = BdbQuit_excepthook
 
 
-def set_trace(frame=None, context=None):
+def set_trace(frame=None, context=None, cond=True):
+    if not cond:
+        return
     wrap_sys_excepthook()
     if frame is None:
         frame = sys._getframe().f_back
