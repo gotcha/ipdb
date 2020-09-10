@@ -60,6 +60,9 @@ setup(name='ipdb',
           # No support for python 3.0, 3.1, 3.2.
           ':python_version >= "3.4"': ['ipython >= 5.1.0'],
       },
+      tests_require=[
+          'mock'
+      ],
       entry_points={
           'console_scripts': ['%s = ipdb.__main__:main' % console_script]
       }
