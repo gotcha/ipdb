@@ -39,11 +39,11 @@ interface whenever `cond` equals to `True`.
 Using configuration file
 ++++++++++++++++++++++++
 
-It's possible to set up context using a `.ipdb` file on your home folder or `setup.cfg`
-on your project folder. You can also set your file location via env var `$IPDB_CONFIG`.
-Your environment variable has priority over the home configuration file,
-which in turn has priority over the setup config file. Currently, only context setting
-is available.
+It's possible to set up context using a `.ipdb` file on your home folder, `setup.cfg`
+or `pyproject.toml` on your project folder. You can also set your file location via
+env var `$IPDB_CONFIG`. Your environment variable has priority over the home
+configuration file, which in turn has priority over the setup config file.
+Currently, only context setting is available.
 
 A valid setup.cfg is as follows
 
@@ -57,6 +57,14 @@ A valid .ipdb is as follows
 
 ::
 
+        context=5
+
+
+A valid pyproject.toml is as follows
+
+::
+
+        [tool.ipdb]
         context=5
 
 
