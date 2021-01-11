@@ -170,8 +170,10 @@ def get_config():
             # only if they use setup.cfg
             if filepath.endswith('setup.cfg') or filepath.endswith('pyproject.toml'):
                 with open(filepath) as f:
+                    parser.remove_section("ipdb")
                     read_func(f)
             else:
+                parser.remove_section("tool.ipdb")
                 read_func(ConfigFile(filepath))
     return parser
 
