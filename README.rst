@@ -140,12 +140,20 @@ Development
 
 Pull requests should take care of updating the changelog ``HISTORY.txt``.
 
+Under the unreleased section, add your changes and your username.
+
 Manual testing
 ++++++++++++++
 
 To test your changes, make use of ``manual_test.py``. Create a virtual environment,
 install IPython and run ``python manual_test.py`` and check if your changes are in effect.
 If possible, create automated tests for better behaviour control.
+
+Automated testing
++++++++++++++++++
+
+To run automated tests locally, create a virtual environment, install `coverage`
+and run `coverage run setup.py test`.
 
 Third-party support
 -------------------
