@@ -4,7 +4,8 @@ Changelog
 0.13.5 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Add support for pyproject.toml as configuration file
+  [alexandrebarbaruiva]
 
 
 0.13.4 (2020-10-01)
