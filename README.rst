@@ -117,7 +117,7 @@ explicitly ask for ``stdout`` fiddling by using ``ipdb`` like this
 .. code-block:: python
 
         import ipdb
-        ipdb.sset_trace()
+        ipdb.set_trace()
         ipdb.spm()
 
         from ipdb import slaunch_ipdb_on_exception
