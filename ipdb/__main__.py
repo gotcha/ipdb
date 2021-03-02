@@ -168,12 +168,16 @@ def get_config():
             parser.filepath = filepath
             # Users are expected to put an [ipdb] section
             # only if they use setup.cfg
-            if filepath.endswith('setup.cfg') or filepath.endswith('pyproject.toml'):
+            if filepath.endswith('setup.cfg'):
                 with open(filepath) as f:
                     parser.remove_section("ipdb")
                     read_func(f)
+            # To use on pyproject.toml, put [tool.ipdb] section
+            elif filepath.endswith('pyproject.toml'):
+                import toml
+                toml_file = toml.load(filepath)
+                parser["ipdb"] = toml_file["tool"].get("ipdb")
             else:
-                parser.remove_section("tool.ipdb")
                 read_func(ConfigFile(filepath))
     return parser
 
