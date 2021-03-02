@@ -80,11 +80,11 @@ def set_trace(frame=None, context=None, cond=True):
 def get_context_from_config():
     try:
         parser = get_config()
-        return parser.getint("tool.ipdb", "context", fallback=parser.getint("ipdb", "context"))
+        return parser.getint("ipdb", "context")
     except (configparser.NoSectionError, configparser.NoOptionError):
         return 3
     except ValueError:
-        value = parser.get("tool.ipdb", "context", fallback=parser.get("ipdb", "context"))
+        value = parser.get("ipdb", "context")
         raise ValueError(
             "In %s,  context value [%s] cannot be converted into an integer."
             % (parser.filepath, value)
