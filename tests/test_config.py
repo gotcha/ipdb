@@ -114,9 +114,9 @@ class ConfigTest(unittest.TestCase):
         os.remove(self.setup_filename)
         with ModifiedEnvironment(IPDB_CONFIG=None, HOME=self.tmpd):
             cfg = get_config()
-            self.assertEqual(["tool.ipdb"], cfg.sections())
-            self.assertEqual(self.pyproject_context, cfg.getint("tool.ipdb", "context"))
-            self.assertRaises(configparser.NoOptionError, cfg.get, "tool.ipdb", "version")
+            self.assertEqual(["ipdb"], cfg.sections())
+            self.assertEqual(self.pyproject_context, cfg.getint("ipdb", "context"))
+            self.assertRaises(configparser.NoOptionError, cfg.get, "ipdb", "version")
 
     def test_env_nodef_setup_pyproject(self):
         """
@@ -153,9 +153,9 @@ class ConfigTest(unittest.TestCase):
         os.unlink(self.default_filename)
         with ModifiedEnvironment(IPDB_CONFIG=None, HOME=self.tmpd):
             cfg = get_config()
-            self.assertEqual(["tool.ipdb"], cfg.sections())
-            self.assertEqual(self.pyproject_context, cfg.getint("tool.ipdb", "context"))
-            self.assertRaises(configparser.NoOptionError, cfg.get, "tool.ipdb", "version")
+            self.assertEqual(["ipdb"], cfg.sections())
+            self.assertEqual(self.pyproject_context, cfg.getint("ipdb", "context"))
+            self.assertRaises(configparser.NoOptionError, cfg.get, "ipdb", "version")
 
     def test_noenv_def_setup_pyproject(self):
         """
