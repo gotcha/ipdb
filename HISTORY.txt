@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.13.5 (unreleased)
+0.13.5 (2021-03-02)
 -------------------
 
 - Add support for pyproject.toml as configuration file
