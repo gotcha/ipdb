@@ -4,6 +4,9 @@ Changelog
 0.13.5 (unreleased)
 -------------------
 
+- Add support for pyproject.toml as configuration file
+  [alexandrebarbaruiva]
+
 - For users using python 3.4, install 6.0.0 <= IPython < 7.0.0,
   for users using python 3.5, install 7.0.0 <= IPython < 7.10.0,
   for users using python 3.6, install 7.10.0 <= IPython < 7.17.0,

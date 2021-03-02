@@ -93,14 +93,91 @@ class ConfigTest(unittest.TestCase):
                 "context = {}".format(str(self.setup_context)),
             ],
         )
+        self.pyproject_filename = os.path.join(cwd_dir, "pyproject.toml")
+        self.pyproject_context = 30
+        self._write_file(
+            self.pyproject_filename,
+            [
+                "[tool.ipdb]",
+                "context = {}".format(str(self.pyproject_context)),
+            ],
+        )
+
+    def test_noenv_nodef_nosetup_pyproject(self):
+        """
+        Setup: $IPDB_CONFIG unset, $HOME/.ipdb does not exist,
+            setup.cfg does not exist, pyproject.toml exists
+        Result: load pyproject.toml
+        """
+        os.unlink(self.env_filename)
+        os.unlink(self.default_filename)
+        os.remove(self.setup_filename)
+        with ModifiedEnvironment(IPDB_CONFIG=None, HOME=self.tmpd):
+            cfg = get_config()
+            self.assertEqual(["tool.ipdb"], cfg.sections())
+            self.assertEqual(self.pyproject_context, cfg.getint("tool.ipdb", "context"))
+            self.assertRaises(configparser.NoOptionError, cfg.get, "tool.ipdb", "version")
+
+    def test_env_nodef_setup_pyproject(self):
+        """
+        Setup: $IPDB_CONFIG is set, $HOME/.ipdb does not exist,
+            setup.cfg exists, pyproject.toml exists
+        Result: load $IPDB_CONFIG
+        """
+        os.unlink(self.default_filename)
+        with ModifiedEnvironment(IPDB_CONFIG=self.env_filename, HOME=self.tmpd):
+            cfg = get_config()
+            self.assertEqual(["ipdb"], cfg.sections())
+            self.assertEqual(self.env_context, cfg.getint("ipdb", "context"))
+            self.assertRaises(configparser.NoOptionError, cfg.get, "ipdb", "version")
+
+    def test_env_def_setup_pyproject(self):
+        """
+        Setup: $IPDB_CONFIG is set, $HOME/.ipdb exists,
+            setup.cfg exists, pyproject.toml exists
+        Result: load $IPDB_CONFIG
+        """
+        with ModifiedEnvironment(IPDB_CONFIG=self.env_filename, HOME=self.tmpd):
+            cfg = get_config()
+            self.assertEqual(["ipdb"], cfg.sections())
+            self.assertEqual(self.env_context, cfg.getint("ipdb", "context"))
+            self.assertRaises(configparser.NoOptionError, cfg.get, "ipdb", "version")
+
+    def test_noenv_nodef_setup_pyproject(self):
+        """
+        Setup: $IPDB_CONFIG unset, $HOME/.ipdb does not exist,
+            setup.cfg exists, pyproject.toml exists
+        Result: load pyproject.toml
+        """
+        os.unlink(self.env_filename)
+        os.unlink(self.default_filename)
+        with ModifiedEnvironment(IPDB_CONFIG=None, HOME=self.tmpd):
+            cfg = get_config()
+            self.assertEqual(["tool.ipdb"], cfg.sections())
+            self.assertEqual(self.pyproject_context, cfg.getint("tool.ipdb", "context"))
+            self.assertRaises(configparser.NoOptionError, cfg.get, "tool.ipdb", "version")
+
+    def test_noenv_def_setup_pyproject(self):
+        """
+        Setup: $IPDB_CONFIG unset, $HOME/.ipdb exists,
+            setup.cfg exists, pyproject.toml exists
+        Result: load .ipdb
+        """
+        os.unlink(self.env_filename)
+        with ModifiedEnvironment(IPDB_CONFIG=None, HOME=self.tmpd):
+            cfg = get_config()
+            self.assertEqual(["ipdb"], cfg.sections())
+            self.assertEqual(self.default_context, cfg.getint("ipdb", "context"))
+            self.assertRaises(configparser.NoOptionError, cfg.get, "ipdb", "version")
 
     def test_env_nodef_nosetup(self):
         """
         Setup: $IPDB_CONFIG is set, $HOME/.ipdb does not exist,
-            setup.cfg does not exist
+            setup.cfg does not exist, pyproject.toml does not exist
         Result: load $IPDB_CONFIG
         """
         os.unlink(self.default_filename)
+        os.unlink(self.pyproject_filename)
         os.remove(self.setup_filename)
         with ModifiedEnvironment(IPDB_CONFIG=self.env_filename,
                                  HOME=self.tmpd):
@@ -112,10 +189,11 @@ class ConfigTest(unittest.TestCase):
     def test_noenv_def_nosetup(self):
         """
         Setup: $IPDB_CONFIG unset, $HOME/.ipdb exists,
-            setup.cfg does not exist
+            setup.cfg does not exist, pyproject.toml does not exist
         Result: load $HOME/.ipdb
         """
         os.unlink(self.env_filename)
+        os.unlink(self.pyproject_filename)
         os.remove(self.setup_filename)
         with ModifiedEnvironment(IPDB_CONFIG=None, HOME=self.tmpd):
             cfg = get_config()
@@ -126,11 +204,12 @@ class ConfigTest(unittest.TestCase):
     def test_noenv_nodef_nosetup(self):
         """
         Setup: $IPDB_CONFIG unset, $HOME/.ipdb does not
-            exist, setup.cfg does not exist
+            exist, setup.cfg does not exist, pyproject.toml does not exist
         Result: load nothing
         """
         os.unlink(self.env_filename)
         os.unlink(self.default_filename)
+        os.unlink(self.pyproject_filename)
         os.remove(self.setup_filename)
         with ModifiedEnvironment(IPDB_CONFIG=None, HOME=self.tmpd):
             cfg = get_config()
@@ -139,10 +218,11 @@ class ConfigTest(unittest.TestCase):
     def test_env_cwd(self):
         """
         Setup: $IPDB_CONFIG is set, .ipdb in local dir,
-            setup.cfg does not exist
+            setup.cfg does not exist, pyproject.toml does not exist
         Result: load .ipdb
         """
         os.chdir(self.tmpd)  # setUp is already set to restore us to our pre-testing cwd
+        os.unlink(self.pyproject_filename)
         os.remove(self.setup_filename)
         with ModifiedEnvironment(IPDB_CONFIG=self.env_filename,
                                  HOME=self.tmpd):
@@ -154,9 +234,10 @@ class ConfigTest(unittest.TestCase):
     def test_env_def_nosetup(self):
         """
         Setup: $IPDB_CONFIG is set, $HOME/.ipdb exists,
-            setup.cfg does not exist
+            setup.cfg does not exist, pyproject.toml does not exist
         Result: load $IPDB_CONFIG
         """
+        os.unlink(self.pyproject_filename)
         os.remove(self.setup_filename)
         with ModifiedEnvironment(IPDB_CONFIG=self.env_filename,
                                  HOME=self.tmpd):
@@ -168,10 +249,11 @@ class ConfigTest(unittest.TestCase):
     def test_noenv_def_setup(self):
         """
         Setup: $IPDB_CONFIG unset, $HOME/.ipdb exists,
-            setup.cfg exists
+            setup.cfg exists, pyproject.toml does not exist
         Result: load $HOME/.ipdb
         """
         os.unlink(self.env_filename)
+        os.unlink(self.pyproject_filename)
         with ModifiedEnvironment(IPDB_CONFIG=None, HOME=self.tmpd):
             cfg = get_config()
             self.assertEqual(["ipdb"], cfg.sections())
@@ -181,11 +263,12 @@ class ConfigTest(unittest.TestCase):
     def test_noenv_nodef_setup(self):
         """
         Setup: $IPDB_CONFIG unset, $HOME/.ipdb does not exist,
-            setup.cfg exists
+            setup.cfg exists, pyproject.toml does not exist
         Result: load setup
         """
         os.unlink(self.env_filename)
         os.unlink(self.default_filename)
+        os.unlink(self.pyproject_filename)
         with ModifiedEnvironment(IPDB_CONFIG=None, HOME=self.tmpd):
             cfg = get_config()
             self.assertEqual(["ipdb"], cfg.sections())
@@ -195,9 +278,10 @@ class ConfigTest(unittest.TestCase):
     def test_env_def_setup(self):
         """
         Setup: $IPDB_CONFIG is set, $HOME/.ipdb exists,
-            setup.cfg exists
+            setup.cfg exists, pyproject.toml does not exist
         Result: load $IPDB_CONFIG
         """
+        os.unlink(self.pyproject_filename)
         with ModifiedEnvironment(IPDB_CONFIG=self.env_filename,
                                  HOME=self.tmpd):
             cfg = get_config()
@@ -208,10 +292,11 @@ class ConfigTest(unittest.TestCase):
     def test_env_nodef_setup(self):
         """
         Setup: $IPDB_CONFIG is set, $HOME/.ipdb does not
-            exist, setup.cfg exists
+            exist, setup.cfg exists, pyproject.toml does not exist
         Result: load $IPDB_CONFIG
         """
         os.unlink(self.default_filename)
+        os.unlink(self.pyproject_filename)
         with ModifiedEnvironment(IPDB_CONFIG=self.env_filename,
                                  HOME=self.tmpd):
             cfg = get_config()
@@ -222,10 +307,11 @@ class ConfigTest(unittest.TestCase):
     def test_noenv_def_setup(self):
         """
         Setup: $IPDB_CONFIG unset, $HOME/.ipdb exists,
-            setup.cfg exists
+            setup.cfg exists, pyproject.toml does not exist
         Result: load $HOME/.ipdb
         """
         os.unlink(self.env_filename)
+        os.unlink(self.pyproject_filename)
         with ModifiedEnvironment(IPDB_CONFIG=None, HOME=self.tmpd):
             cfg = get_config()
             self.assertEqual(["ipdb"], cfg.sections())
