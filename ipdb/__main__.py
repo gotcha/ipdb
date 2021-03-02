@@ -176,7 +176,8 @@ def get_config():
             elif filepath.endswith('pyproject.toml'):
                 import toml
                 toml_file = toml.load(filepath)
-                parser["ipdb"] = toml_file["tool"].get("ipdb")
+                if "ipdb" in toml_file["tool"]:
+                    parser["ipdb"] = toml_file["tool"]["ipdb"]
             else:
                 read_func(ConfigFile(filepath))
     return parser
