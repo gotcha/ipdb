@@ -67,7 +67,7 @@ setup(name='ipdb',
           ':python_version > "3.6"': ['ipython >= 7.17.0', 'toml >= 0.10.2'],
       },
       tests_require=[
-          'mock'
+          'mock; python_version<"3"'
       ],
       entry_points={
           'console_scripts': ['%s = ipdb.__main__:main' % console_script]
