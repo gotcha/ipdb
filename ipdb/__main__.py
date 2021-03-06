@@ -177,7 +177,10 @@ def get_config():
                 import toml
                 toml_file = toml.load(filepath)
                 if "ipdb" in toml_file["tool"]:
-                    parser["ipdb"] = toml_file["tool"]["ipdb"]
+                    if not parser.has_section("ipdb"):
+                        parser.add_section("ipdb")
+                    for key, value in toml_file["tool"]["ipdb"].items():
+                        parser.set("ipdb", key, str(value))
             else:
                 read_func(ConfigFile(filepath))
     return parser
