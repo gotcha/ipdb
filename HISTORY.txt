@@ -4,7 +4,8 @@ Changelog
 0.13.6 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Fix broken parsing of pyproject.toml
+  [alexandrebarbaruiva]
 
 
 0.13.5 (2021-03-02)
