@@ -22,34 +22,36 @@ except:
     import ConfigParser as configparser
 
 
-shell = get_ipython()
-if shell is None:
-    # Not inside IPython
-    # Build a terminal app in order to force ipython to load the
-    # configuration
-    ipapp = TerminalIPythonApp()
-    # Avoid output (banner, prints)
-    ipapp.interact = False
-    ipapp.initialize(['--no-term-title'])
-    shell = ipapp.shell
-else:
-    # Running inside IPython
+def _get_debugger_cls():
+    shell = get_ipython()
+    if shell is None:
+        # Not inside IPython
+        # Build a terminal app in order to force ipython to load the
+        # configuration
+        ipapp = TerminalIPythonApp()
+        # Avoid output (banner, prints)
+        ipapp.interact = False
+        ipapp.initialize(["--no-term-title"])
+        shell = ipapp.shell
+    else:
+        # Running inside IPython
 
-    # Detect if embed shell or not and display a message
-    if isinstance(shell, InteractiveShellEmbed):
-        sys.stderr.write(
-            "\nYou are currently into an embedded ipython shell,\n"
-            "the configuration will not be loaded.\n\n"
-        )
+        # Detect if embed shell or not and display a message
+        if isinstance(shell, InteractiveShellEmbed):
+            sys.stderr.write(
+                "\nYou are currently into an embedded ipython shell,\n"
+                "the configuration will not be loaded.\n\n"
+            )
 
-# Let IPython decide about which debugger class to use
-# This is especially important for tools that fiddle with stdout
-debugger_cls = shell.debugger_cls
+    # Let IPython decide about which debugger class to use
+    # This is especially important for tools that fiddle with stdout
+    return shell.debugger_cls
 
 
 def _init_pdb(context=None, commands=[]):
     if context is None:
         context = os.getenv("IPDB_CONTEXT_SIZE", get_context_from_config())
+    debugger_cls = _get_debugger_cls()
     try:
         p = debugger_cls(context=context)
     except TypeError:
