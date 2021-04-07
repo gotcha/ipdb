@@ -10,10 +10,11 @@ import unittest
 class ImportTest(unittest.TestCase):
 
     def test_import(self):
-        from ipdb import set_trace, post_mortem, pm, run, runcall, runeval
+        from ipdb import set_trace, post_mortem, pm, iex, run, runcall, runeval
         set_trace  # please pyflakes
         post_mortem  # please pyflakes
         pm  # please pyflakes
+        iex # please pyflakes
         run  # please pyflakes
         runcall  # please pyflakes
         runeval  # please pyflakes
