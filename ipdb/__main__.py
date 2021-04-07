@@ -228,6 +228,29 @@ def launch_ipdb_on_exception():
         pass
 
 
+class Decontext(object):
+    """
+    Makes a context manager also act as decorator.
+    """
+    def __init__(self, context_manager):
+        self._cm = context_manager
+
+    def __enter__(self):
+        return self._cm.__enter__()
+
+    def __exit__(self, *args, **kwds):
+        return self._cm.__exit__(*args, **kwds)
+
+    def __call__(self, func):
+        def wrapper(*args, **kwds):
+            with self:
+                return func(*args, **kwds)
+        return wrapper
+
+
+iex = Decontext(launch_ipdb_on_exception())
+
+
 _usage = """\
 usage: python -m ipdb [-m] [-c command] ... pyfile [arg] ...
 
