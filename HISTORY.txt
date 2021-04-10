@@ -4,7 +4,8 @@ Changelog
 0.13.8 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Add the convenience function ``iex()``.
+  [alanbernstein]
 
 
 0.13.7 (2021-03-16)
