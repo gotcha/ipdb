@@ -4,6 +4,9 @@ Changelog
 0.13.8 (unreleased)
 -------------------
 
+- Fix when `pyproject.toml` does not contain `tool` section.
+  [anjos]
+
 - Add the convenience function ``iex()``.
   [alanbernstein]
 
