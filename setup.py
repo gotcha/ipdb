@@ -61,6 +61,7 @@ setup(name='ipdb',
               'toml >= 0.10.2'
           ],
           # No support for python 3.0, 3.1, 3.2.
+          # decorator is also a dependency of Ipython.
           ':python_version == "3.4"': ['ipython >= 6.0.0, < 7.0.0', 'toml >= 0.10.2', 'decorator < 5.0.0'],
           ':python_version == "3.5"': ['ipython >= 7.0.0, < 7.10.0', 'toml >= 0.10.2'],
           ':python_version == "3.6"': ['ipython >= 7.10.0, < 7.17.0', 'toml >= 0.10.2'],
