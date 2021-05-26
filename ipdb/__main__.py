@@ -10,7 +10,7 @@ import sys
 
 from decorator import contextmanager
 
-__version__ = '0.13.8'
+__version__ = '0.13.9.dev0'
 
 from IPython import get_ipython
 from IPython.core.debugger import BdbQuit_excepthook
