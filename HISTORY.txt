@@ -4,7 +4,8 @@ Changelog
 0.13.9 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Fix again when `pyproject.toml` does not contain `tool` section.
+  [markab108]
 
 
 0.13.8 (2021-05-26)

@@ -178,7 +178,7 @@ def get_config():
             elif filepath.endswith('pyproject.toml'):
                 import toml
                 toml_file = toml.load(filepath)
-                if "ipdb" in toml_file.get("tool"):
+                if "tool" in toml_file and "ipdb" in toml_file["tool"]:
                     if not parser.has_section("ipdb"):
                         parser.add_section("ipdb")
                     for key, value in toml_file["tool"]["ipdb"].items():
