@@ -4,10 +4,11 @@
 # Redistributable under the revised BSD license
 # https://opensource.org/licenses/BSD-3-Clause
 
-from setuptools import setup, find_packages
-from sys import version_info
-import re
 import io
+import re
+from sys import version_info
+
+from setuptools import find_packages, setup
 
 version = re.search(
     r'__version__\s*=\s*[\'"]([^\'"]*)[\'"]',  # It excludes inline comment too
@@ -36,6 +37,7 @@ setup(name='ipdb',
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
+        'Programming Language :: Python :: 3.9',
         'Operating System :: MacOS :: MacOS X',
         'Operating System :: POSIX :: Linux',
         'Operating System :: Microsoft :: Windows',
