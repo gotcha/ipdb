@@ -4,7 +4,8 @@ Changelog
 0.13.11 (unreleased)
 --------------------
 
-- Nothing changed yet.
+- Better exception handling when looking for config.
+  [bignose-debian]
 
 
 0.13.10 (2022-12-13)
