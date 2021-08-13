@@ -12,7 +12,11 @@ import unittest
 import os
 import tempfile
 import shutil
-from ipdb.__main__ import get_config
+
+from ipdb.__main__ import (
+    get_config,
+    get_context_from_config,
+)
 
 
 class ModifiedEnvironment(object):
@@ -332,3 +336,48 @@ class ConfigTest(unittest.TestCase):
             self.assertEqual(["ipdb"], cfg.sections())
             self.assertEqual(self.default_context, cfg.getint("ipdb", "context"))
             self.assertRaises(configparser.NoOptionError, cfg.get, "ipdb", "version")
+
+
+class get_context_from_config_TestCase(unittest.TestCase):
+    """
+    Test cases for function `get_context_from_config`.
+    """
+
+    def setUp(self):
+        """
+        Set fixtures for this test case.
+        """
+        set_config_files_fixture(self)
+
+    def test_noenv_nodef_invalid_setup(self):
+        """
+        Setup: $IPDB_CONFIG unset, $HOME/.ipdb does not exist,
+            setup.cfg does not exist, pyproject.toml content is invalid.
+        Result: Propagate exception from `get_config`.
+        """
+        os.unlink(self.env_filename)
+        os.unlink(self.default_filename)
+        os.unlink(self.setup_filename)
+        write_lines_to_file(
+            self.pyproject_filename,
+            [
+                "[ipdb]",
+                "spam = abc",
+            ],
+        )
+
+        try:
+            from tomllib import TOMLDecodeError
+        except ImportError:
+            try:
+                from tomli import TOMLDecodeError
+            except ImportError:
+                from toml.decoder import TomlDecodeError as TOMLDecodeError
+
+        with ModifiedEnvironment(IPDB_CONFIG=None, HOME=self.tmpd):
+            try:
+                get_context_from_config()
+            except TOMLDecodeError:
+                pass
+            else:
+                self.fail("Expected TomlDecodeError from invalid config file")
