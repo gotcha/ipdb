@@ -54,6 +54,59 @@ def write_lines_to_file(path, lines):
     f.close()
 
 
+def set_config_files_fixture(testcase):
+    """
+    Set a data fixture of configuration files for `testcase`.
+    """
+    testcase.tmpd = tempfile.mkdtemp()
+    testcase.addCleanup(shutil.rmtree, testcase.tmpd)
+    # Set CWD to known empty directory so we don't pick up some other .ipdb
+    # file from the CWD tests are actually run from.
+    save_cwd = os.getcwd()
+    testcase.addCleanup(os.chdir, save_cwd)
+    cwd_dir = os.path.join(testcase.tmpd, "cwd")
+    os.mkdir(cwd_dir)
+    os.chdir(cwd_dir)
+    # This represents the $HOME config file, and doubles for the current
+    # working directory config file if we set CWD to testcase.tmpd
+    testcase.default_filename = os.path.join(testcase.tmpd, ".ipdb")
+    testcase.default_context = 10
+    write_lines_to_file(
+        testcase.default_filename,
+        [
+            "# this is a test config file for ipdb",
+            "context = {}".format(str(testcase.default_context)),
+        ],
+    )
+    testcase.env_filename = os.path.join(testcase.tmpd, "ipdb.env")
+    testcase.env_context = 20
+    write_lines_to_file(
+        testcase.env_filename,
+        [
+            "# this is a test config file for ipdb",
+            "context = {}".format(str(testcase.env_context)),
+        ],
+    )
+    testcase.setup_filename = os.path.join(cwd_dir, "setup.cfg")
+    testcase.setup_context = 25
+    write_lines_to_file(
+        testcase.setup_filename,
+        [
+            "[ipdb]",
+            "context = {}".format(str(testcase.setup_context)),
+        ],
+    )
+    testcase.pyproject_filename = os.path.join(cwd_dir, "pyproject.toml")
+    testcase.pyproject_context = 30
+    write_lines_to_file(
+        testcase.pyproject_filename,
+        [
+            "[tool.ipdb]",
+            "context = {}".format(str(testcase.pyproject_context)),
+        ],
+    )
+
+
 class ConfigTest(unittest.TestCase):
     """
     All variations of config file parsing works as expected.
@@ -61,55 +114,9 @@ class ConfigTest(unittest.TestCase):
 
     def setUp(self):
         """
-        Create all temporary config files for testing
+        Set fixtures for this test case.
         """
-        self.tmpd = tempfile.mkdtemp()
-        self.addCleanup(shutil.rmtree, self.tmpd)
-        # Set CWD to known empty directory so we don't pick up some other .ipdb
-        # file from the CWD tests are actually run from.
-        save_cwd = os.getcwd()
-        self.addCleanup(os.chdir, save_cwd)
-        cwd_dir = os.path.join(self.tmpd, "cwd")
-        os.mkdir(cwd_dir)
-        os.chdir(cwd_dir)
-        # This represents the $HOME config file, and doubles for the current
-        # working directory config file if we set CWD to self.tmpd
-        self.default_filename = os.path.join(self.tmpd, ".ipdb")
-        self.default_context = 10
-        write_lines_to_file(
-            self.default_filename,
-            [
-                "# this is a test config file for ipdb",
-                "context = {}".format(str(self.default_context)),
-            ],
-        )
-        self.env_filename = os.path.join(self.tmpd, "ipdb.env")
-        self.env_context = 20
-        write_lines_to_file(
-            self.env_filename,
-            [
-                "# this is a test config file for ipdb",
-                "context = {}".format(str(self.env_context)),
-            ],
-        )
-        self.setup_filename = os.path.join(cwd_dir, "setup.cfg")
-        self.setup_context = 25
-        write_lines_to_file(
-            self.setup_filename,
-            [
-                "[ipdb]",
-                "context = {}".format(str(self.setup_context)),
-            ],
-        )
-        self.pyproject_filename = os.path.join(cwd_dir, "pyproject.toml")
-        self.pyproject_context = 30
-        write_lines_to_file(
-            self.pyproject_filename,
-            [
-                "[tool.ipdb]",
-                "context = {}".format(str(self.pyproject_context)),
-            ],
-        )
+        set_config_files_fixture(self)
 
     def test_noenv_nodef_nosetup_pyproject(self):
         """
