@@ -41,15 +41,23 @@ class ModifiedEnvironment(object):
                 os.environ[k] = d[k]
 
 
+def write_lines_to_file(path, lines):
+    """
+    Write `lines` to file at `path`.
+
+    :param path: Filesystem path to write.
+    :param lines: Sequence of text lines, without line endings.
+    :return: None.
+    """
+    f = open(path, "w")
+    f.writelines([x + "\n" for x in lines])
+    f.close()
+
+
 class ConfigTest(unittest.TestCase):
     """
     All variations of config file parsing works as expected.
     """
-
-    def _write_file(self, path, lines):
-        f = open(path, "w")
-        f.writelines([x + "\n" for x in lines])
-        f.close()
 
     def setUp(self):
         """
@@ -68,7 +76,7 @@ class ConfigTest(unittest.TestCase):
         # working directory config file if we set CWD to self.tmpd
         self.default_filename = os.path.join(self.tmpd, ".ipdb")
         self.default_context = 10
-        self._write_file(
+        write_lines_to_file(
             self.default_filename,
             [
                 "# this is a test config file for ipdb",
@@ -77,7 +85,7 @@ class ConfigTest(unittest.TestCase):
         )
         self.env_filename = os.path.join(self.tmpd, "ipdb.env")
         self.env_context = 20
-        self._write_file(
+        write_lines_to_file(
             self.env_filename,
             [
                 "# this is a test config file for ipdb",
@@ -86,7 +94,7 @@ class ConfigTest(unittest.TestCase):
         )
         self.setup_filename = os.path.join(cwd_dir, "setup.cfg")
         self.setup_context = 25
-        self._write_file(
+        write_lines_to_file(
             self.setup_filename,
             [
                 "[ipdb]",
@@ -95,7 +103,7 @@ class ConfigTest(unittest.TestCase):
         )
         self.pyproject_filename = os.path.join(cwd_dir, "pyproject.toml")
         self.pyproject_context = 30
-        self._write_file(
+        write_lines_to_file(
             self.pyproject_filename,
             [
                 "[tool.ipdb]",
