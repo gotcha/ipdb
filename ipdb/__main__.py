@@ -4,7 +4,6 @@
 # Redistributable under the revised BSD license
 # https://opensource.org/licenses/BSD-3-Clause
 
-from __future__ import print_function
 import os
 import sys
 
@@ -16,10 +15,7 @@ from IPython import get_ipython
 from IPython.core.debugger import BdbQuit_excepthook
 from IPython.terminal.ipapp import TerminalIPythonApp
 from IPython.terminal.embed import InteractiveShellEmbed
-try:
-    import configparser
-except:
-    import ConfigParser as configparser
+import configparser
 
 
 def _get_debugger_cls():
@@ -93,7 +89,7 @@ def get_context_from_config():
         )
 
 
-class ConfigFile(object):
+class ConfigFile:
     """
     Filehandle wrapper that adds a "[ipdb]" section to the start of a config
     file so that users don't actually have to manually add a [ipdb] section.
@@ -255,11 +251,7 @@ def main():
     import sys
     import getopt
 
-    try:
-        from pdb import Restart
-    except ImportError:
-        class Restart(Exception):
-            pass
+    from pdb import Restart
 
     if sys.version_info >= (3, 7):
         opts, args = getopt.getopt(sys.argv[1:], 'mhc:', ['help', 'command='])
