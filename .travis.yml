@@ -1,6 +1,5 @@
 arch:
    - amd64
-   - ppc64le
 language: python
 python:
   - "2.7"
@@ -12,10 +11,6 @@ python:
   - "3.10"
   - "nightly"
   - "pypy"
-matrix:
-   exclude:
-      - python: "pypy"
-        arch: ppc64le
 before_install:
   # Update pip and setuptools to the latest.
   - pip install --upgrade pip setuptools
