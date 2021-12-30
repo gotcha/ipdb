@@ -15,7 +15,7 @@ import shutil
 from ipdb.__main__ import get_config
 
 
-class ModifiedEnvironment(object):
+class ModifiedEnvironment:
     """
     I am a context manager that sets up environment variables for a test case.
     """

@@ -5,10 +5,7 @@
 # https://opensource.org/licenses/BSD-3-Clause
 
 import unittest
-try:
-    from unittest.mock import patch
-except ImportError:
-    from mock import patch
+from unittest.mock import patch
 
 from getopt import GetoptError
 from ipdb.__main__ import main

@@ -4,7 +4,7 @@ Changelog
 0.13.10 (unreleased)
 --------------------
 
-- Nothing changed yet.
+- Drop Python 2.7 compatibility.
 
 
 0.13.9 (2021-06-02)
