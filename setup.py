@@ -59,13 +59,13 @@ setup(name='ipdb',
           'setuptools',
       ],
       extras_require={
-          ':python_version == "2.7"': ['ipython >= 5.1.0, < 6.0.0', 'toml >= 0.10.2', 'decorator < 5.0.0'],
+          ':python_version == "2.7"': ['ipython >= 5.11.0, < 6.0.0', 'toml >= 0.10.2', 'decorator < 5.0.0'],
           # No support for python 3.0, 3.1, 3.2.
           # FTR, `decorator` is also a dependency of Ipython.
           ':python_version == "3.4"': ['ipython >= 6.0.0, < 7.0.0', 'toml >= 0.10.2', 'decorator < 5.0.0'],
           ':python_version == "3.5"': ['ipython >= 7.0.0, < 7.10.0', 'toml >= 0.10.2', 'decorator'],
-          ':python_version == "3.6"': ['ipython >= 7.10.0, < 7.17.0', 'toml >= 0.10.2', 'decorator'],
-          ':python_version > "3.6"': ['ipython >= 7.17.0', 'toml >= 0.10.2', 'decorator'],
+          ':python_version == "3.6"': ['ipython >= 7.16.3, < 7.17.0', 'toml >= 0.10.2', 'decorator'],
+          ':python_version > "3.6"': ['ipython >= 7.31.1', 'toml >= 0.10.2', 'decorator'],
       },
       tests_require=[
           'mock; python_version<"3"'
