@@ -13,6 +13,11 @@ Changelog
 - 3.11 support for run as module and run as script.
   [nphilipp, gotcha]
 
+- Based on OSV:PYSEC-2022-12 change ipython dependencies,
+  for users using python 3.6, install 7.16.3 <= IPython < 7.17.0,
+  for users using python>3.6, install IPython >= 7.31.1.
+  [malkstar]
+
 
 0.13.9 (2021-06-02)
 -------------------

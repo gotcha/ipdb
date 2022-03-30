@@ -62,9 +62,9 @@ setup(name='ipdb',
           # FTR, `decorator` is also a dependency of Ipython.
           ':python_version == "3.4"': ['ipython >= 6.0.0, < 7.0.0', 'toml >= 0.10.2', 'decorator < 5.0.0'],
           ':python_version == "3.5"': ['ipython >= 7.0.0, < 7.10.0', 'toml >= 0.10.2', 'decorator'],
-          ':python_version == "3.6"': ['ipython >= 7.10.0, < 7.17.0', 'tomli', 'decorator'],
-          ':python_version > "3.6" and python_version < "3.11"': ['ipython >= 7.17.0', 'tomli', 'decorator'],
-          ':python_version >= "3.11"': ['ipython >= 7.17.0', 'decorator'],
+          ':python_version == "3.6"': ['ipython >= 7.16.3, < 7.17.0', 'tomli', 'decorator'],
+          ':python_version > "3.6" and python_version < "3.11"': ['ipython >= 7.31.1', 'tomli', 'decorator'],
+          ':python_version >= "3.11"': ['ipython >= 7.31.1', 'decorator'],
       },
       tests_require=[
           'mock; python_version<"3"'
