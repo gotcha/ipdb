@@ -5,7 +5,6 @@ Changelog
 --------------------
 
 - Based on OSV:PYSEC-2022-12 change ipython dependencies,
-  for users using python 2.7, install 5.11 <= IPython < 6.0.0,
   for users using python 3.6, install 7.16.3 <= IPython < 7.17.0,
   for users using python>3.6, install IPython >= 7.31.1.
 
