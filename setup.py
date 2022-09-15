@@ -55,9 +55,6 @@ setup(name='ipdb',
       zip_safe=True,
       test_suite='tests',
       python_requires=">=2.7",
-      install_requires=[
-          'setuptools',
-      ],
       extras_require={
           ':python_version == "2.7"': ['ipython >= 5.1.0, < 6.0.0', 'toml >= 0.10.2', 'decorator < 5.0.0'],
           # No support for python 3.0, 3.1, 3.2.
