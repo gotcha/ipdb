@@ -4,11 +4,14 @@ Changelog
 0.13.10 (unreleased)
 --------------------
 
-- Better toml support (use tomlib for 3.11, tomli for 3.6 to 3.10)
+- Better toml support (use tomlib for 3.11, tomli for 3.6 to 3.10).
   [salty-horse, mgorny]
 
-- Minimal PEP 517 support
+- Minimal PEP 517 support.
   [cpcloud]
+
+- 3.11 support for run as module and run as script.
+  [nphilipp, gotcha]
 
 
 0.13.9 (2021-06-02)

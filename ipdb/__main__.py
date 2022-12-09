@@ -308,10 +308,18 @@ def main():
     pdb = _init_pdb(commands=commands)
     while 1:
         try:
-            if run_as_module:
-                pdb._runmodule(mainpyfile)
+            import pdb as stdlib_pdb
+            if hasattr(stdlib_pdb, "_run"):
+                # Looks like Pdb from Python 3.11+
+                if run_as_module:
+                    pdb._run(stdlib_pdb._ModuleTarget(mainpyfile))
+                else:
+                    pdb._run(stdlib_pdb._ScriptTarget(mainpyfile))
             else:
-                pdb._runscript(mainpyfile)
+                if run_as_module:
+                    pdb._runmodule(mainpyfile)
+                else:
+                    pdb._runscript(mainpyfile)
             if pdb._user_requested_quit:
                 break
             print("The program finished and will be restarted")
