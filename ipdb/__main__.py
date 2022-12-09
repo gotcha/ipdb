@@ -299,10 +299,18 @@ def main():
     pdb = _init_pdb(commands=commands)
     while 1:
         try:
-            if run_as_module:
-                pdb._runmodule(mainpyfile)
+            if hasattr(pdb, "_run"):
+                # Looks like Pdb from Python 3.11+
+                pdb_module = sys.modules[pdb._run.__module__]
+                if run_as_module:
+                    pdb._run(pdb_module._ModuleTarget(mainpyfile))
+                else:
+                    pdb._run(pdb_module._ScriptTarget(mainpyfile))
             else:
-                pdb._runscript(mainpyfile)
+                if run_as_module:
+                    pdb._runmodule(mainpyfile)
+                else:
+                    pdb._runscript(mainpyfile)
             if pdb._user_requested_quit:
                 break
             print("The program finished and will be restarted")
