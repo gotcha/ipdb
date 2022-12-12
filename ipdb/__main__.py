@@ -176,8 +176,13 @@ def get_config():
                     read_func(f)
             # To use on pyproject.toml, put [tool.ipdb] section
             elif filepath.endswith('pyproject.toml'):
-                import toml
-                toml_file = toml.load(filepath)
+                try:
+                    import tomllib
+                    file_mode = "rb"
+                except ImportError:
+                    import toml as tomllib
+                    file_mode = "r"
+                toml_file = tomllib.load(open(filepath, file_mode))
                 if "tool" in toml_file and "ipdb" in toml_file["tool"]:
                     if not parser.has_section("ipdb"):
                         parser.add_section("ipdb")
