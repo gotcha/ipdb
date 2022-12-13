@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.13.10 (unreleased)
+0.13.10 (2022-12-13)
 --------------------
 
 - Better toml support (use tomlib for 3.11, tomli for 3.6 to 3.10).
