@@ -4,7 +4,8 @@ Changelog
 0.13.10 (unreleased)
 --------------------
 
-- Nothing changed yet.
+- Better toml support (use tomlib for 3.11, tomli for 3.6 to 3.10)
+  [salty-horse, mgorny]
 
 
 0.13.9 (2021-06-02)
