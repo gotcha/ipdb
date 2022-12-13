@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.13.11 (unreleased)
+0.13.11 (2022-12-13)
 --------------------
 
 - Better exception handling when looking for config.
