@@ -180,8 +180,12 @@ def get_config():
                     import tomllib
                     file_mode = "rb"
                 except ImportError:
-                    import toml as tomllib
-                    file_mode = "r"
+                    try:
+                        import tomli as tomllib
+                        file_mode = "rb"
+                    except ImportError:
+                        import toml as tomllib
+                        file_mode = "r"
                 toml_file = tomllib.load(open(filepath, file_mode))
                 if "tool" in toml_file and "ipdb" in toml_file["tool"]:
                     if not parser.has_section("ipdb"):
