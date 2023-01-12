@@ -309,7 +309,7 @@ def main():
     while 1:
         try:
             import pdb as stdlib_pdb
-            if hasattr(stdlib_pdb, "_run"):
+            if hasattr(stdlib_pdb.Pdb, "_run"):
                 # Looks like Pdb from Python 3.11+
                 if run_as_module:
                     pdb._run(stdlib_pdb._ModuleTarget(mainpyfile))
