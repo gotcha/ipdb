@@ -4,7 +4,8 @@ Changelog
 0.13.12 (unreleased)
 --------------------
 
-- Nothing changed yet.
+- Use context manager for opening toml config
+  [andrewzwicky]
 
 
 0.13.11 (2022-12-13)
