@@ -186,12 +186,13 @@ def get_config():
                     except ImportError:
                         import toml as tomllib
                         file_mode = "r"
-                toml_file = tomllib.load(open(filepath, file_mode))
-                if "tool" in toml_file and "ipdb" in toml_file["tool"]:
-                    if not parser.has_section("ipdb"):
-                        parser.add_section("ipdb")
-                    for key, value in toml_file["tool"]["ipdb"].items():
-                        parser.set("ipdb", key, str(value))
+                with open(filepath, file_mode) as f:
+                    toml_file = tomllib.load(f)
+                    if "tool" in toml_file and "ipdb" in toml_file["tool"]:
+                        if not parser.has_section("ipdb"):
+                            parser.add_section("ipdb")
+                        for key, value in toml_file["tool"]["ipdb"].items():
+                            parser.set("ipdb", key, str(value))
             else:
                 read_func(ConfigFile(filepath))
     return parser
