@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.13.12 (unreleased)
+0.13.12 (2023-03-09)
 --------------------
 
 - Modify tests to test 3.11 separately from earlier python versions.
