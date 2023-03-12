@@ -4,7 +4,7 @@ Changelog
 0.13.14 (unreleased)
 --------------------
 
-- Nothing changed yet.
+- Run ``black`` on ipdb-codebase with line-length 88. [WouterVH]
 
 
 0.13.13 (2023-03-09)
@@ -145,7 +145,7 @@ Changelog
 0.12.1 (2019-07-26)
 -------------------
 
-- Fix --help 
+- Fix --help
   [native-api]
 
 
@@ -185,7 +185,7 @@ Changelog
 
 - Ask IPython which debugger class to use.
   Closes https://github.com/gotcha/ipdb/issues/105
-  [gnebehay, JBKahn] 
+  [gnebehay, JBKahn]
 
 - ipdb.set_trace() does not ignore context arg anymore.
   Closes https://github.com/gotcha/ipdb/issues/93.
@@ -339,7 +339,7 @@ Changelog
 ----------------
 
 - Add setuptools ``console_scripts`` entry point.
-  [akrito, gotcha] 
+  [akrito, gotcha]
 
 - Nose support.
   Closes https://github.com/gotcha/ipdb/issues/8
@@ -360,12 +360,12 @@ Changelog
   Closes https://github.com/gotcha/ipdb/issues/1
   [gotcha]
 
-- Fixed errors when exiting with "q". 
+- Fixed errors when exiting with "q".
   [gotcha]
 
 - Allow use of ``python -m ipdb mymodule.py``.
-  Python 2.7 only. 
-  Closes https://github.com/gotcha/ipdb/issues/3 
+  Python 2.7 only.
+  Closes https://github.com/gotcha/ipdb/issues/3
   [gotcha]
 
 - Fixed post_mortem when the traceback is None.
