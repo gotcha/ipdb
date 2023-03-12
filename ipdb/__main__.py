@@ -10,12 +10,13 @@ import sys
 
 from decorator import contextmanager
 
-__version__ = '0.13.14.dev0'
+__version__ = "0.13.14.dev0"
 
 from IPython import get_ipython
 from IPython.core.debugger import BdbQuit_excepthook
 from IPython.terminal.ipapp import TerminalIPythonApp
 from IPython.terminal.embed import InteractiveShellEmbed
+
 try:
     import configparser
 except:
@@ -75,7 +76,7 @@ def set_trace(frame=None, context=None, cond=True):
     if frame is None:
         frame = sys._getframe().f_back
     p = _init_pdb(context).set_trace(frame)
-    if p and hasattr(p, 'shell'):
+    if p and hasattr(p, "shell"):
         p.shell.restore_sys_module_state()
 
 
@@ -110,7 +111,7 @@ class ConfigFile(object):
         try:
             return self.__next__()
         except StopIteration:
-            return ''
+            return ""
 
     # Python 2.7 (Newer dot versions)
     def next(self):
@@ -170,21 +171,24 @@ def get_config():
             parser.filepath = filepath
             # Users are expected to put an [ipdb] section
             # only if they use setup.cfg
-            if filepath.endswith('setup.cfg'):
+            if filepath.endswith("setup.cfg"):
                 with open(filepath) as f:
                     parser.remove_section("ipdb")
                     read_func(f)
             # To use on pyproject.toml, put [tool.ipdb] section
-            elif filepath.endswith('pyproject.toml'):
+            elif filepath.endswith("pyproject.toml"):
                 try:
                     import tomllib
+
                     file_mode = "rb"
                 except ImportError:
                     try:
                         import tomli as tomllib
+
                         file_mode = "rb"
                     except ImportError:
                         import toml as tomllib
+
                         file_mode = "r"
                 with open(filepath, file_mode) as f:
                     toml_file = tomllib.load(f)
@@ -242,7 +246,8 @@ def launch_ipdb_on_exception():
 iex = launch_ipdb_on_exception()
 
 
-_usage = """\
+_usage = (
+    """\
 usage: python -m ipdb [-m] [-c command] ... pyfile [arg] ...
 
 Debug the Python program given by pyfile.
@@ -257,7 +262,9 @@ To let the script run up to a given line X in the debugged file, use
 
 Option -m is available only in Python 3.7 and later.
 
-ipdb version %s.""" % __version__
+ipdb version %s."""
+    % __version__
+)
 
 
 def main():
@@ -268,35 +275,36 @@ def main():
     try:
         from pdb import Restart
     except ImportError:
+
         class Restart(Exception):
             pass
 
     if sys.version_info >= (3, 7):
-        opts, args = getopt.getopt(sys.argv[1:], 'mhc:', ['help', 'command='])
+        opts, args = getopt.getopt(sys.argv[1:], "mhc:", ["help", "command="])
     else:
-        opts, args = getopt.getopt(sys.argv[1:], 'hc:', ['help', 'command='])
+        opts, args = getopt.getopt(sys.argv[1:], "hc:", ["help", "command="])
 
     commands = []
     run_as_module = False
     for opt, optarg in opts:
-        if opt in ['-h', '--help']:
+        if opt in ["-h", "--help"]:
             print(_usage)
             sys.exit()
-        elif opt in ['-c', '--command']:
+        elif opt in ["-c", "--command"]:
             commands.append(optarg)
-        elif opt in ['-m']:
+        elif opt in ["-m"]:
             run_as_module = True
 
     if not args:
         print(_usage)
         sys.exit(2)
 
-    mainpyfile = args[0]     # Get script filename
+    mainpyfile = args[0]  # Get script filename
     if not run_as_module and not os.path.exists(mainpyfile):
-        print('Error:', mainpyfile, 'does not exist')
+        print("Error:", mainpyfile, "does not exist")
         sys.exit(1)
 
-    sys.argv = args     # Hide "pdb.py" from argument list
+    sys.argv = args  # Hide "pdb.py" from argument list
 
     # Replace pdb's dir with script's dir in front of module search path.
     if not run_as_module:
@@ -310,6 +318,7 @@ def main():
     while 1:
         try:
             import pdb as stdlib_pdb
+
             if hasattr(stdlib_pdb.Pdb, "_run"):
                 # Looks like Pdb from Python 3.11+
                 if run_as_module:
@@ -329,7 +338,7 @@ def main():
             print("\t" + " ".join(sys.argv[1:]))
         except SystemExit:
             # In most cases SystemExit does not warrant a post-mortem session.
-            print("The program exited via sys.exit(). Exit status: ", end='')
+            print("The program exited via sys.exit(). Exit status: ", end="")
             print(sys.exc_info()[1])
         except:
             traceback.print_exc()
@@ -337,9 +346,12 @@ def main():
             print("Running 'cont' or 'step' will restart the program")
             t = sys.exc_info()[2]
             pdb.interaction(None, t)
-            print("Post mortem debugger finished. The " + mainpyfile +
-                  " will be restarted")
+            print(
+                "Post mortem debugger finished. The "
+                + mainpyfile
+                + " will be restarted"
+            )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

@@ -17,10 +17,10 @@ from getopt import GetoptError
 from ipdb.__main__ import main
 
 
-@patch('ipdb.__main__._get_debugger_cls')
+@patch("ipdb.__main__._get_debugger_cls")
 class OptsTest(unittest.TestCase):
     def set_argv(self, *argv):
-        argv_patch = patch('ipdb.__main__.sys.argv', argv)
+        argv_patch = patch("ipdb.__main__.sys.argv", argv)
         argv_patch.start()
         self.addCleanup(argv_patch.stop)
 
@@ -28,10 +28,10 @@ class OptsTest(unittest.TestCase):
         sys.version_info[0] == 3 and sys.version_info[1] >= 11,
         ">3.11 requires different test",
     )
-    @patch('ipdb.__main__.sys.version_info', (3, 7))
+    @patch("ipdb.__main__.sys.version_info", (3, 7))
     def test_debug_module_script(self, get_debugger_cls):
-        module_name = 'my_buggy_module'
-        self.set_argv('ipdb', '-m', module_name)
+        module_name = "my_buggy_module"
+        self.set_argv("ipdb", "-m", module_name)
 
         main()
 
@@ -42,10 +42,10 @@ class OptsTest(unittest.TestCase):
         sys.version_info[0] == 3 and sys.version_info[1] >= 11,
         ">3.11 requires different test",
     )
-    @patch('ipdb.__main__.os.path.exists')
+    @patch("ipdb.__main__.os.path.exists")
     def test_debug_script(self, exists, get_debugger_cls):
-        script_name = 'my_buggy_script'
-        self.set_argv('ipdb', script_name)
+        script_name = "my_buggy_script"
+        self.set_argv("ipdb", script_name)
 
         main()
 
@@ -57,8 +57,8 @@ class OptsTest(unittest.TestCase):
         "<3.11 requires different test",
     )
     def test_debug_module_script_3_11(self, get_debugger_cls):
-        module_name = 'my_buggy_module_3_11'
-        self.set_argv('ipdb', '-m', module_name)
+        module_name = "my_buggy_module_3_11"
+        self.set_argv("ipdb", "-m", module_name)
 
         main()
 
@@ -69,10 +69,10 @@ class OptsTest(unittest.TestCase):
         sys.version_info[0] != 3 or sys.version_info[1] < 11,
         "<3.11 requires different test",
     )
-    @patch('ipdb.__main__.os.path.exists')
+    @patch("ipdb.__main__.os.path.exists")
     def test_debug_script_3_11(self, exists, get_debugger_cls):
-        script_name = 'my_buggy_script_3_11'
-        self.set_argv('ipdb', script_name)
+        script_name = "my_buggy_script_3_11"
+        self.set_argv("ipdb", script_name)
 
         main()
 
@@ -80,13 +80,13 @@ class OptsTest(unittest.TestCase):
         debugger._run.assert_called_once_with(os.path.join(os.getcwd(), script_name))
 
     def test_option_m_fallback_on_py36(self, get_debugger_cls):
-        self.set_argv('ipdb', '-m', 'my.module')
-        with patch('ipdb.__main__.sys.version_info', (3, 6)):
+        self.set_argv("ipdb", "-m", "my.module")
+        with patch("ipdb.__main__.sys.version_info", (3, 6)):
             with self.assertRaises(GetoptError):
                 main()
 
-        with patch('ipdb.__main__.sys.version_info', (3, 7)):
-            self.set_argv('ipdb', '-m', 'my.module')
+        with patch("ipdb.__main__.sys.version_info", (3, 7)):
+            self.set_argv("ipdb", "-m", "my.module")
             try:
                 main()
             except GetoptError:
