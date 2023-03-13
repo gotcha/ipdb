@@ -13,7 +13,10 @@ from decorator import contextmanager
 __version__ = "0.13.14.dev0"
 
 from IPython import get_ipython
+from IPython.core.application import ProfileDir
 from IPython.core.debugger import BdbQuit_excepthook
+from IPython.core.profiledir import ProfileDirError
+from IPython.paths import get_ipython_dir
 from IPython.terminal.ipapp import TerminalIPythonApp
 from IPython.terminal.embed import InteractiveShellEmbed
 
@@ -23,20 +26,30 @@ except:
     import ConfigParser as configparser
 
 
-def _get_debugger_cls():
+def _get_debugger_cls(ipython_profile="default"):
     shell = get_ipython()
     if shell is None:
         # Not inside IPython
         # Build a terminal app in order to force ipython to load the
         # configuration
-        ipapp = TerminalIPythonApp()
+        ipython_dir = get_ipython_dir()
+        try:
+            profile_dir = ProfileDir.find_profile_dir_by_name(
+                ipython_dir=ipython_dir,
+                name=ipython_profile,
+            )
+        except ProfileDirError:  # fallback to default-profile
+            profile_dir = ProfileDir.find_profile_dir_by_name(
+                ipython_dir=ipython_dir,
+            )
+        ipapp = TerminalIPythonApp(profile_dir=profile_dir)
+
         # Avoid output (banner, prints)
         ipapp.interact = False
         ipapp.initialize(["--no-term-title"])
         shell = ipapp.shell
     else:
         # Running inside IPython
-
         # Detect if embed shell or not and display a message
         if isinstance(shell, InteractiveShellEmbed):
             sys.stderr.write(
@@ -49,10 +62,17 @@ def _get_debugger_cls():
     return shell.debugger_cls
 
 
-def _init_pdb(context=None, commands=[]):
+def _init_pdb(context=None, ipython_profile=None, commands=[]):
     if context is None:
         context = os.getenv("IPDB_CONTEXT_SIZE", get_context_from_config())
-    debugger_cls = _get_debugger_cls()
+
+    if ipython_profile is None:
+        ipython_profile = os.getenv(
+            "IPDB_IPYTHON_PROFILE", get_ipython_profile_from_config()
+        )
+
+    debugger_cls = _get_debugger_cls(ipython_profile=ipython_profile)
+
     try:
         p = debugger_cls(context=context)
     except TypeError:
@@ -92,6 +112,14 @@ def get_context_from_config():
             "In %s,  context value [%s] cannot be converted into an integer."
             % (parser.filepath, value)
         )
+
+
+def get_ipython_profile_from_config():
+    parser = get_config()
+    try:
+        return parser.get("ipdb", "ipython_profile")
+    except (configparser.NoSectionError, configparser.NoOptionError):
+        return "default"
 
 
 class ConfigFile(object):
