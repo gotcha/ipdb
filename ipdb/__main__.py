@@ -13,9 +13,8 @@ from decorator import contextmanager
 __version__ = "0.13.14.dev0"
 
 from IPython import get_ipython
-from IPython.core.application import ProfileDir
 from IPython.core.debugger import BdbQuit_excepthook
-from IPython.core.profiledir import ProfileDirError
+from IPython.core.profiledir import ProfileDir, ProfileDirError
 from IPython.paths import get_ipython_dir
 from IPython.terminal.ipapp import TerminalIPythonApp
 from IPython.terminal.embed import InteractiveShellEmbed
@@ -33,15 +32,50 @@ def _get_debugger_cls(ipython_profile="default"):
         # Build a terminal app in order to force ipython to load the
         # configuration
         ipython_dir = get_ipython_dir()
+        profile_dir = None
+        
+        # First, try to find the requested profile
         try:
             profile_dir = ProfileDir.find_profile_dir_by_name(
                 ipython_dir=ipython_dir,
                 name=ipython_profile,
             )
-        except ProfileDirError:  # fallback to default-profile
-            profile_dir = ProfileDir.find_profile_dir_by_name(
-                ipython_dir=ipython_dir,
-            )
+        except ProfileDirError:
+            # Profile doesn't exist, try to create it
+            try:
+                profile_dir = ProfileDir.create_profile_dir_by_name(
+                    ipython_dir=ipython_dir,
+                    name=ipython_profile,
+                )
+            except (ProfileDirError, Exception):
+                # Creation failed, fallback to default profile
+                profile_dir = None
+        
+        # If we still don't have a profile_dir, try the default profile
+        if profile_dir is None:
+            try:
+                # Try to find default profile
+                profile_dir = ProfileDir.find_profile_dir_by_name(
+                    ipython_dir=ipython_dir,
+                    name='default',
+                )
+            except ProfileDirError:
+                # Default doesn't exist either, create it
+                try:
+                    profile_dir = ProfileDir.create_profile_dir_by_name(
+                        ipython_dir=ipython_dir,
+                        name='default',
+                    )
+                except (ProfileDirError, Exception):
+                    # Last resort: create profile without name
+                    profile_dir = ProfileDir.create_profile_dir_by_name(
+                        ipython_dir=ipython_dir,
+                    )
+        
+        # Ensure we have a profile_dir before creating TerminalIPythonApp
+        if profile_dir is None:
+            raise RuntimeError("Unable to create or find any IPython profile directory")
+        
         ipapp = TerminalIPythonApp(profile_dir=profile_dir)
 
         # Avoid output (banner, prints)
@@ -62,14 +96,19 @@ def _get_debugger_cls(ipython_profile="default"):
     return shell.debugger_cls
 
 
-def _init_pdb(context=None, ipython_profile=None, commands=[]):
+def _init_pdb(context=None, ipython_profile=None, commands=None):
+    if commands is None:
+        commands = []
+
     if context is None:
-        context = os.getenv("IPDB_CONTEXT_SIZE", get_context_from_config())
+        context = os.getenv("IPDB_CONTEXT_SIZE", None)
+        if context is None:
+            context = get_context_from_config()
 
     if ipython_profile is None:
-        ipython_profile = os.getenv(
-            "IPDB_IPYTHON_PROFILE", get_ipython_profile_from_config()
-        )
+        ipython_profile = os.getenv("IPDB_IPYTHON_PROFILE", None)
+        if ipython_profile is None:
+            ipython_profile = get_ipython_profile_from_config()
 
     debugger_cls = _get_debugger_cls(ipython_profile=ipython_profile)
 

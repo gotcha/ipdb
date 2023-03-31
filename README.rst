@@ -124,11 +124,11 @@ Or you can use ``iex`` as a function decorator to launch ipdb if an exception is
 Using a non-default ipython-profile
 -----------------------------------
 By default ``ipdb`` will instantiate an ipython-session loaded with the default profile called ``default``.
-You can set a non-default profile by setting the environment variable ``IPDB_IPYTON_PROFILE``:
+You can set a non-default profile by setting the environment variable ``IPDB_IPYTHON_PROFILE``:
 
 .. code-block:: bash
 
-        export IPDB_IPYTON_PROFILE="ipdb"
+        export IPDB_IPYTHON_PROFILE="ipdb"
 
 Or by setting in ``pyproject.toml``:
 
@@ -137,7 +137,7 @@ Or by setting in ``pyproject.toml``:
         [tool.ipdb]
         ipython_profile = "ipdb"
 
-This should correspond with a profile-directory ``profile_ipdb```in your ``IPYTHON_HOME``.
+This should correspond with a profile-directory ``profile_ipdb`` in your ``IPYTHON_HOME``.
 If this profile-directory does not exist, we fall back to the default profile.
 
 
