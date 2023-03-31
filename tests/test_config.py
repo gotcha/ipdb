@@ -412,27 +412,17 @@ class get_ipython_profile_from_config_TestCase(unittest.TestCase):
         """
         set_config_files_fixture(self)
 
-    def test_missing_key_setup(self):
+    def test_missing_profile_setup(self):
         """
-        Setup: $IPDB_CONFIG unset, $HOME/.ipdb does not exist,
-            setup.cfg does not exist, pyproject.toml content is invalid.
-        Result: Propagate exception from `get_config`.
+        Setup: pyproject.toml has no [tool.ipdb]-section.
         """
         os.unlink(self.env_filename)
         os.unlink(self.default_filename)
         os.unlink(self.setup_filename)
         write_lines_to_file(
             self.pyproject_filename,
-            ["[tool.ipdb]"],
+            ""
         )
-
-        try:
-            from tomllib import TOMLDecodeError
-        except ImportError:
-            try:
-                from tomli import TOMLDecodeError
-            except ImportError:
-                from toml.decoder import TomlDecodeError as TOMLDecodeError
 
         with ModifiedEnvironment(IPDB_CONFIG=None, HOME=self.tmpd):
             profile_name = get_ipython_profile_from_config()
@@ -440,9 +430,9 @@ class get_ipython_profile_from_config_TestCase(unittest.TestCase):
 
     def test_default_profile_setup(self):
         """
-        Setup: $IPDB_CONFIG unset, $HOME/.ipdb does not exist,
-            setup.cfg does not exist, pyproject.toml content is invalid.
-        Result: Propagate exception from `get_config`.
+        Setup: pyproject.toml has a [tool.ipdb]-section
+        with the ipython_profile explicitly set to 'default'.
+
         """
         os.unlink(self.env_filename)
         os.unlink(self.default_filename)
@@ -455,23 +445,14 @@ class get_ipython_profile_from_config_TestCase(unittest.TestCase):
             ],
         )
 
-        try:
-            from tomllib import TOMLDecodeError
-        except ImportError:
-            try:
-                from tomli import TOMLDecodeError
-            except ImportError:
-                from toml.decoder import TomlDecodeError as TOMLDecodeError
-
         with ModifiedEnvironment(IPDB_CONFIG=None, HOME=self.tmpd):
             profile_name = get_ipython_profile_from_config()
             assert profile_name == "default"
 
-    def test_non_existing_profile_setup(self):
+    def test_non_default_profile_setup(self):
         """
-        Setup: $IPDB_CONFIG unset, $HOME/.ipdb does not exist,
-            setup.cfg does not exist, pyproject.toml content is invalid.
-        Result: Propagate exception from `get_config`.
+        Setup: pyproject.toml has a [tool.ipdb]-section
+        with the ipython_profile explicitly set to a non-default.
         """
         os.unlink(self.env_filename)
         os.unlink(self.default_filename)
@@ -483,14 +464,6 @@ class get_ipython_profile_from_config_TestCase(unittest.TestCase):
                 "ipython_profile = 'foo'",
             ],
         )
-
-        try:
-            from tomllib import TOMLDecodeError
-        except ImportError:
-            try:
-                from tomli import TOMLDecodeError
-            except ImportError:
-                from toml.decoder import TomlDecodeError as TOMLDecodeError
 
         with ModifiedEnvironment(IPDB_CONFIG=None, HOME=self.tmpd):
             profile_name = get_ipython_profile_from_config()
