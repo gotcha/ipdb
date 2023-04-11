@@ -1,8 +1,8 @@
 IPython `pdb`
 =============
 
-.. image:: https://travis-ci.org/gotcha/ipdb.png?branch=master
-  :target: https://travis-ci.org/gotcha/ipdb
+.. image:: https://github.com/gotcha/ipdb/actions/workflows/tests.yml/badge.svg
+  :target: https://github.com/gotcha/ipdb/actions/workflows/tests.yml
 .. image:: https://codecov.io/gh/gotcha/ipdb/branch/master/graphs/badge.svg?style=flat
   :target: https://codecov.io/gh/gotcha/ipdb?branch=master
 
