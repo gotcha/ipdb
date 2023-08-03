@@ -191,3 +191,33 @@ instead of ``pdb``. (It does not depend on ``ipdb`` anymore).
 
 .. _ipdbplugin: http://pypi.python.org/pypi/ipdbplugin
 .. _nose: http://readthedocs.org/docs/nose
+
+
+pytest
++++++++
+pytest_ supports a ``--pdb`` option which can run ``ipdb`` /
+``IPython.terminal.debugger:Pdb`` on ``Exception`` and ``breakpoint()``:
+
+.. code:: bash
+
+    pytest --pdb --pdbcls=IPython.terminal.debugger:Pdb -v ./test_example.py
+
+You don't need to specify ``--pdbcls`` for every ``pytest`` invocation 
+if you add ``addopts`` to ``pytest.ini`` or ``pyproject.toml``.
+
+``pytest.ini``:
+
+.. code:: bash
+
+  [tool.pytest.ini_options]
+  addopts = "--pdbcls=IPython.terminal.debugger:Pdb"
+
+``pyproject.toml``:
+
+.. code:: yml
+
+  [tool.pytest.ini_options]
+  addopts = "--pdbcls=IPython.terminal.debugger:Pdb"
+
+
+.. _pytest: https://pypi.python.org/pypi/pytest
