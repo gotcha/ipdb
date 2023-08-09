@@ -4,6 +4,10 @@ Changelog
 0.13.14 (unreleased)
 --------------------
 
+- Add ipython_profile support. We can now run ipdb with a non-default
+  ipython-profile by setting an environment-variable ``IPDB_IPYTHON_PROFILE``
+  or by setting ``ipython_profile`` in the config. [WouterVH]
+
 - Run ``black`` on ipdb-codebase with line-length 88. [WouterVH]
 
 

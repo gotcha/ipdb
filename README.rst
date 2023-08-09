@@ -120,6 +120,27 @@ Or you can use ``iex`` as a function decorator to launch ipdb if an exception is
    Using ``from future import print_function`` for Python 3 compat implies dropping Python 2.5 support.
    Use ``ipdb<=0.8`` with 2.5.
 
+
+Using a non-default ipython-profile
+-----------------------------------
+By default ``ipdb`` will instantiate an ipython-session loaded with the default profile called ``default``.
+You can set a non-default profile by setting the environment variable ``IPDB_IPYTON_PROFILE``:
+
+.. code-block:: bash
+
+        export IPDB_IPYTON_PROFILE="ipdb"
+
+Or by setting in ``pyproject.toml``:
+
+.. code-block:: toml
+
+        [tool.ipdb]
+        ipython_profile = "ipdb"
+
+This should correspond with a profile-directory ``profile_ipdb```in your ``IPYTHON_HOME``.
+If this profile-directory does not exist, we fall back to the default profile.
+
+
 Issues with ``stdout``
 ----------------------
 

@@ -16,6 +16,7 @@ import shutil
 from ipdb.__main__ import (
     get_config,
     get_context_from_config,
+    get_ipython_profile_from_config,
 )
 
 
@@ -133,6 +134,22 @@ class ConfigTest(unittest.TestCase):
         os.remove(self.setup_filename)
         with ModifiedEnvironment(IPDB_CONFIG=None, HOME=self.tmpd):
             cfg = get_config()
+            self.assertEqual(["ipdb"], cfg.sections())
+            self.assertEqual(self.pyproject_context, cfg.getint("ipdb", "context"))
+            self.assertRaises(configparser.NoOptionError, cfg.get, "ipdb", "version")
+
+    def test_noenv_nodef_nosetup_pyproject(self):
+        """
+        Setup: $IPDB_CONFIG unset, $HOME/.ipdb does not exist,
+            setup.cfg does not exist, pyproject.toml exists
+        Result: load pyproject.toml
+        """
+        os.unlink(self.env_filename)
+        os.unlink(self.default_filename)
+        os.remove(self.setup_filename)
+        with ModifiedEnvironment(IPDB_CONFIG=None, HOME=self.tmpd):
+            cfg = get_config()
+            # breakpoint()
             self.assertEqual(["ipdb"], cfg.sections())
             self.assertEqual(self.pyproject_context, cfg.getint("ipdb", "context"))
             self.assertRaises(configparser.NoOptionError, cfg.get, "ipdb", "version")
@@ -382,3 +399,72 @@ class get_context_from_config_TestCase(unittest.TestCase):
                 pass
             else:
                 self.fail("Expected TomlDecodeError from invalid config file")
+
+
+class get_ipython_profile_from_config_TestCase(unittest.TestCase):
+    """
+    Test cases for function `get_ipython_profile_from_config`.
+    """
+
+    def setUp(self):
+        """
+        Set fixtures for this test case.
+        """
+        set_config_files_fixture(self)
+
+    def test_missing_profile_setup(self):
+        """
+        Setup: pyproject.toml has no [tool.ipdb]-section.
+        """
+        os.unlink(self.env_filename)
+        os.unlink(self.default_filename)
+        os.unlink(self.setup_filename)
+        write_lines_to_file(
+            self.pyproject_filename,
+            ""
+        )
+
+        with ModifiedEnvironment(IPDB_CONFIG=None, HOME=self.tmpd):
+            profile_name = get_ipython_profile_from_config()
+            assert profile_name == "default"
+
+    def test_default_profile_setup(self):
+        """
+        Setup: pyproject.toml has a [tool.ipdb]-section
+        with the ipython_profile explicitly set to 'default'.
+
+        """
+        os.unlink(self.env_filename)
+        os.unlink(self.default_filename)
+        os.unlink(self.setup_filename)
+        write_lines_to_file(
+            self.pyproject_filename,
+            [
+                "[tool.ipdb]",
+                "ipython_profile = 'default'",
+            ],
+        )
+
+        with ModifiedEnvironment(IPDB_CONFIG=None, HOME=self.tmpd):
+            profile_name = get_ipython_profile_from_config()
+            assert profile_name == "default"
+
+    def test_non_default_profile_setup(self):
+        """
+        Setup: pyproject.toml has a [tool.ipdb]-section
+        with the ipython_profile explicitly set to a non-default.
+        """
+        os.unlink(self.env_filename)
+        os.unlink(self.default_filename)
+        os.unlink(self.setup_filename)
+        write_lines_to_file(
+            self.pyproject_filename,
+            [
+                "[tool.ipdb]",
+                "ipython_profile = 'foo'",
+            ],
+        )
+
+        with ModifiedEnvironment(IPDB_CONFIG=None, HOME=self.tmpd):
+            profile_name = get_ipython_profile_from_config()
+            assert profile_name == "foo"
