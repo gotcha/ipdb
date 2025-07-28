@@ -168,6 +168,8 @@ and run `coverage run setup.py test`.
 Third-party support
 -------------------
 
+test keychain
+
 pytest
 +++++++
 pytest_ supports a ``--pdb`` option which can run ``ipdb`` /
