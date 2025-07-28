@@ -168,7 +168,7 @@ and run `coverage run setup.py test`.
 Third-party support
 -------------------
 
-test keychain
+test keychain again
 
 pytest
 +++++++
