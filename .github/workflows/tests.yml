@@ -15,25 +15,12 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
-        python-version: ["2.7", "3.5", "3.6", "3.7", "3.8", "3.9", "3.10", "3.11", "3.12"]
-        exclude:
-          # excludes 2.7 on windows as chocolatey does not support it anymore
-          - os: windows-latest
-            python-version: 2.7
-          - os: ubuntu-latest
-            python-version: 3.5
-          - os: ubuntu-latest
-            python-version: 3.6
-        include:
-          - os: ubuntu-20.04
-            python-version: 3.5
-          - os: ubuntu-20.04
-            python-version: 3.6
+        python-version: ["3.9", "3.10", "3.11", "3.12", "3.13", "3.14"]
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v5
       with:
         python-version: ${{ matrix.python-version }}
 
@@ -47,5 +34,5 @@ jobs:
         pip install -e .
     - name: run tests
       run: |
-        coverage run setup.py test
+        coverage run -m unittest discover tests
         codecov
