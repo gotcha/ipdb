@@ -12,6 +12,7 @@ from decorator import contextmanager
 
 __version__ = "0.13.14.dev0"
 
+from shutil import which
 from IPython import get_ipython
 from IPython.core.debugger import BdbQuit_excepthook
 from IPython.terminal.ipapp import TerminalIPythonApp
@@ -300,6 +301,11 @@ def main():
         sys.exit(2)
 
     mainpyfile = args[0]  # Get script filename
+
+    # a executable command in $PATH may be passed
+    if not os.path.exists(mainpyfile):
+        mainpyfile = which(mainpyfile)
+
     if not run_as_module and not os.path.exists(mainpyfile):
         print("Error:", mainpyfile, "does not exist")
         sys.exit(1)
