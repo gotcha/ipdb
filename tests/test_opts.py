@@ -4,6 +4,8 @@
 # Redistributable under the revised BSD license
 # https://opensource.org/licenses/BSD-3-Clause
 
+import contextlib
+import io
 import sys
 import unittest
 import os
@@ -78,6 +80,15 @@ class OptsTest(unittest.TestCase):
 
         debugger = get_debugger_cls.return_value.return_value
         debugger._run.assert_called_once_with(os.path.join(os.getcwd(), script_name))
+
+    def test_invalid_option_prints_usage_and_exits_2(self, get_debugger_cls):
+        self.set_argv("ipdb", "--bogus-option")
+        stderr = io.StringIO()
+        with contextlib.redirect_stderr(stderr):
+            with self.assertRaises(SystemExit) as ctx:
+                main()
+        self.assertEqual(ctx.exception.code, 2)
+        self.assertIn("usage:", stderr.getvalue())
 
     def test_option_m_fallback_on_py36(self, get_debugger_cls):
         self.set_argv("ipdb", "-m", "my.module")

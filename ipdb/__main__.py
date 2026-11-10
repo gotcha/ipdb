@@ -280,7 +280,18 @@ def main():
             pass
 
     if sys.version_info >= (3, 7):
-        opts, args = getopt.getopt(sys.argv[1:], "mhc:", ["help", "command="])
+        try:
+            opts, args = getopt.getopt(
+                sys.argv[1:], "mhc:", ["help", "command="]
+            )
+        except getopt.GetoptError as e:
+            # Invalid options (e.g. a typo'd flag) should print a clean
+            # error and usage instead of dumping a traceback.
+            # (On Python < 3.7 the GetoptError for -m stays uncaught,
+            # since -m is unsupported there.)
+            print(f"Error: {e}", file=sys.stderr)
+            print(_usage, file=sys.stderr)
+            sys.exit(2)
     else:
         opts, args = getopt.getopt(sys.argv[1:], "hc:", ["help", "command="])
 
